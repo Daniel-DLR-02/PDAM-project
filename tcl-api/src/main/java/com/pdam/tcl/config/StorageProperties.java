@@ -1,4 +1,4 @@
-package com.pdam.tcl.controller.config;
+package com.pdam.tcl.config;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.pdam.tcl.controller.config;
+package com.pdam.tcl.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

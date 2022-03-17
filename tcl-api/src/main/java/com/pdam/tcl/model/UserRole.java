@@ -1,2 +1,5 @@
-package com.pdam.tcl.model;public enum UserRole {
+package com.pdam.tcl.model;
+
+public enum UserRole {
+    USER
 }

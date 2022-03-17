@@ -1,4 +1,4 @@
-package com.pdam.tcl.model.dto;
+package com.pdam.tcl.model.dto.user;
 
 import lombok.*;
 
