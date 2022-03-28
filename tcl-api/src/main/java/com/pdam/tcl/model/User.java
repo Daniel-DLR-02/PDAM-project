@@ -55,7 +55,8 @@ public class User implements UserDetails {
 
     private String password;
 
-    private boolean perfilPublico;
+    @OneToMany(fetch=FetchType.LAZY)
+    private List<Ticket> tickets;
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
@@ -100,5 +101,10 @@ public class User implements UserDetails {
     public boolean isEnabled() {
 
         return true;
+    }
+
+    public void addTicket(Ticket ticket) {
+        ticket.setUser(null);
+        this.tickets.remove(ticket);
     }
 }

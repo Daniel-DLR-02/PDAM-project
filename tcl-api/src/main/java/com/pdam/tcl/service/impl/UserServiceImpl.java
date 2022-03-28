@@ -38,7 +38,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .email(createUsuarioDto.getEmail())
                 .fechaNacimiento(createUsuarioDto.getFechaNacimiento())
                 .password(passwordEncoder.encode(createUsuarioDto.getPassword()))
-                .perfilPublico(createUsuarioDto.isPublico())
                 .avatar(uri)
                 .role(UserRole.USER)
                 .build());
