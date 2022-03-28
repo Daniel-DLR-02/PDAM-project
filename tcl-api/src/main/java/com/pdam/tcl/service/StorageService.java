@@ -2,12 +2,12 @@ package com.pdam.tcl.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
+import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
-public interface FileManagerService {
+public interface StorageService {
 
     void init();
 

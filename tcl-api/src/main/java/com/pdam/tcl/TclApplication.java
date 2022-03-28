@@ -1,7 +1,7 @@
 package com.pdam.tcl;
 
 import com.pdam.tcl.config.StorageProperties;
-import com.pdam.tcl.service.FileManagerService;
+import com.pdam.tcl.service.StorageService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +17,7 @@ public class TclApplication {
 	}
 
 	@Bean
-	public CommandLineRunner init (FileManagerService fileManagerService){
+	public CommandLineRunner init (StorageService fileManagerService){
 		return args -> {
 			fileManagerService.deleteAll();
 			fileManagerService.init();
