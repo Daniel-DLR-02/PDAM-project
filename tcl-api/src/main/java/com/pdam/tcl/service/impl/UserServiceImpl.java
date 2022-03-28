@@ -4,7 +4,7 @@ import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.UserRole;
 import com.pdam.tcl.model.dto.user.CreateUserDto;
 import com.pdam.tcl.repository.UserRepository;
-import com.pdam.tcl.service.FileManagerService;
+import com.pdam.tcl.service.StorageService;
 import com.pdam.tcl.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final FileManagerService fileManagerService;
+    private final StorageService fileManagerService;
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
