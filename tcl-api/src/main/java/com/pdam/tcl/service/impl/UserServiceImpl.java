@@ -23,14 +23,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final StorageService fileManagerService;
+    private final StorageService storageService;
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
 
-        String filenameResized = fileManagerService.store(file);
+        String fileName = storageService.store(file);
 
-        String uri = fileManagerService.createUri(filenameResized);
+        String uri = storageService.createUri(fileName);
 
         return userRepository.save(User.builder()
                 .nombre(createUsuarioDto.getNombre())
