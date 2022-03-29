@@ -23,7 +23,5 @@ public class CreateUserDto {
 
     private LocalDate fechaNacimiento;
 
-    private boolean publico;
-
     private String role;
 }
