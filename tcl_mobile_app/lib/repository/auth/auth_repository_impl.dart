@@ -10,7 +10,7 @@ import '../../model/auth/login/login_dto.dart';
 import '../../model/auth/login/login_response.dart';
 import '../../model/auth/register/register_dto.dart';
 import '../../model/auth/register/register_response.dart';
-import '../constants.dart';
+import '../../constants.dart';
 import 'auth_repository.dart';
 
 class AuthRepositoryImpl extends AuthRepository {

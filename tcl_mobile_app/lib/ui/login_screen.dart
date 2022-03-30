@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcl_mobile_app/constants.dart';
 
 import '../bloc/auth/login/login_bloc.dart';
 import '../model/auth/login/login_dto.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
+
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({ Key? key }) : super(key: key);
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   late AuthRepository authRepository;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nickNameController = TextEditingController();
@@ -27,15 +28,19 @@ class _LoginScreenState extends State<LoginScreen> {
     authRepository = AuthRepositoryImpl();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
-    return Container(
-      
-    );
+    return BlocProvider(
+        create: (context) {
+          return LoginBloc(authRepository);
+        },
+        child: _createBody(context));
   }
+
   _createBody(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0x262626),
       body: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
@@ -89,12 +94,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Miarmapp',
-                            style: GoogleFonts.oleoScript(
-                              color: Colors.black,
+                            '¡Bienvenido de nuevo!',
+                            style: GoogleFonts.poppins(
+                              color: Colors.white,
                               textStyle: Theme.of(context).textTheme.headline4,
-                              fontSize: 40,
-                              fontWeight: FontWeight.w100,
+                              fontSize: 35,
+                              fontWeight: FontWeight.w400,
                               fontStyle: FontStyle.normal,
                             ),
                           ),
@@ -103,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             thickness: .1,
                             indent: 20,
                             endIndent: 20,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           Column(
                             children: [
@@ -113,13 +118,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 margin: const EdgeInsets.only(top: 0),
                                 width: deviceWidth - 100,
+                                decoration: const BoxDecoration(borderRadius: 
+                                BorderRadius.all(Radius.circular(5))
+                                ,color: Color.fromARGB(255, 62, 62, 62),),
                                 child: TextFormField(
                                   controller: nickNameController,
                                   decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
                                       suffixIcon: Icon(Icons.person),
                                       suffixIconColor: Colors.white,
-                                      hintText: 'Nick',
-                                      focusedBorder: UnderlineInputBorder(
+                                      hintText: 'Nombre de usuario',
+                                      focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.white))),
                                   onSaved: (String? value) {
@@ -128,27 +137,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                   },
                                 ),
                               ),
+                              const Padding(
+                                padding: EdgeInsets.all(20),
+                              ),
                               Container(
-                                margin: const EdgeInsets.only(top: 20),
+                                margin: const EdgeInsets.only(top: 0),
                                 width: deviceWidth - 100,
+                                decoration: const BoxDecoration(borderRadius: 
+                                BorderRadius.all(Radius.circular(5))
+                                ,color: Color.fromARGB(255, 62, 62, 62),),
                                 child: TextFormField(
-                                  controller: passwordController,
                                   obscureText: true,
+                                  controller: passwordController,
                                   decoration: const InputDecoration(
+                                      border: OutlineInputBorder(),
                                       suffixIcon: Icon(Icons.vpn_key),
                                       suffixIconColor: Colors.white,
                                       hintText: 'Password',
-                                      focusedBorder: UnderlineInputBorder(
+                                      focusedBorder: OutlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.white))),
                                   onSaved: (String? value) {
                                     // This optional block of code can be used to run
                                     // code when the user saves the form.
-                                  },
-                                  validator: (value) {
-                                    return (value == null || value.isEmpty)
-                                        ? 'Write a password'
-                                        : null;
                                   },
                                 ),
                               ),
@@ -169,31 +180,50 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                             mainAxisAlignment: MainAxisAlignment.center,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                final loginDto = LoginDto(
-                                    nickName: nickNameController.text,
-                                    password: passwordController.text);
-                                BlocProvider.of<LoginBloc>(context)
-                                    .add(DoLoginEvent(loginDto));
-                              }
-                            },
-                            child: Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: const EdgeInsets.only(
-                                    top: 100, left: 30, right: 30),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 50, vertical: 20),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.black, width: 2),
-                                    borderRadius: BorderRadius.circular(50)),
-                                child: Text(
+                          Row(
+                            children: [
+                              Container(
+
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 35, vertical: 25),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: Colors.black, width: 2),
+                                      borderRadius: BorderRadius.circular(50)),
+                                  child: Text(
+                                    'Sign In'.toUpperCase(),
+                                    style: const TextStyle(color: Colors.white),
+                                    textAlign: TextAlign.start,
+                                  )),
+                                   Padding(
+                                     padding: const EdgeInsets.only(left:100.0),
+                                     child: GestureDetector(
+
+                                      onTap: () {
+                                        if (_formKey.currentState!.validate()) {
+                                          final loginDto = LoginDto(
+                                              nickName: nickNameController.text,
+                                              password: passwordController.text);
+                                          BlocProvider.of<LoginBloc>(context)
+                                              .add(DoLoginEvent(loginDto));
+                                        }
+                                      },
+                                      child: Container(
+                                width: MediaQuery.of(context).size.width/4,
+
+                                decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color.fromARGB(255, 63, 82, 95)),
+                                
+                                child: Text( 
                                   'Sign In'.toUpperCase(),
-                                  style: const TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.white),
                                   textAlign: TextAlign.center,
                                 )),
+                                  ),
+                                   ),
+                          
+                            ],
                           )
                         ],
                       ),
