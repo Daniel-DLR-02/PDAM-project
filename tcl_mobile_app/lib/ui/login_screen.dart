@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _createBody(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0x262626),
+      backgroundColor: const Color.fromARGB(255,26,26,26),
       body: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
@@ -167,11 +167,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Row(
                             children: <Widget>[
-                              const Text('Not a member?'),
+                              const Text('¿No eres miembro aún?',style: TextStyle(color:Colors.white),),
                               TextButton(
                                 child: const Text(
-                                  'Register now',
-                                  style: TextStyle(fontSize: 12),
+                                  'Regístrate',
+                                  style: TextStyle(fontSize: 12,color: Colors.blue),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/register');
@@ -183,44 +183,47 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               Container(
-
+                                width: MediaQuery.of(context).size.width/2,
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 35, vertical: 25),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                          color: Colors.black, width: 2),
-                                      borderRadius: BorderRadius.circular(50)),
-                                  child: Text(
-                                    'Sign In'.toUpperCase(),
-                                    style: const TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.start,
+                                      horizontal: 40, vertical: 25),
+                                  child: SizedBox(
+                                    width: MediaQuery.of(context).size.width/2,
+                                    child: Text(
+                                      'Sign In'.toUpperCase(),
+                                      style: const TextStyle(color: Colors.white),
+                                      textAlign: TextAlign.start,
+                                    ),
                                   )),
+                                  
                                    Padding(
-                                     padding: const EdgeInsets.only(left:100.0),
-                                     child: GestureDetector(
+                                     padding: const EdgeInsets.only(left:50.0),
+                                     child: SizedBox(
+                                      child: ElevatedButton(
 
-                                      onTap: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          final loginDto = LoginDto(
-                                              nickName: nickNameController.text,
-                                              password: passwordController.text);
-                                          BlocProvider.of<LoginBloc>(context)
-                                              .add(DoLoginEvent(loginDto));
-                                        }
-                                      },
-                                      child: Container(
-                                width: MediaQuery.of(context).size.width/4,
+                                        child: const Icon(
+                                          Icons.arrow_forward_rounded,
+                                          color: Colors.white,
+                                          size: 24.0,
+                                          semanticLabel: 'Text to announce in accessibility modes',
+                                        ),
+                                        onPressed: () {                                        
+                                          if (_formKey.currentState!.validate()) {
+                                            final loginDto = LoginDto(
+                                                nickName: nickNameController.text,
+                                                password: passwordController.text);
+                                            BlocProvider.of<LoginBloc>(context)
+                                                .add(DoLoginEvent(loginDto));
+                                          }},
+                                          style: ElevatedButton.styleFrom(
+                                            fixedSize: const Size(50, 50),
+                                            shape: const CircleBorder(), 
+                                            primary: const Color.fromARGB(255, 26, 32, 38),
+                                            shadowColor: Colors.white,
+                                            
+                                          ),
+                                      ),
 
-                                decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color.fromARGB(255, 63, 82, 95)),
-                                
-                                child: Text( 
-                                  'Sign In'.toUpperCase(),
-                                  style: const TextStyle(color: Colors.white),
-                                  textAlign: TextAlign.center,
-                                )),
-                                  ),
+                                     ),
                                    ),
                           
                             ],
