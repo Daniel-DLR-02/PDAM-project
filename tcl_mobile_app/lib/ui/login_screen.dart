@@ -9,7 +9,6 @@ import '../model/auth/login/login_dto.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -40,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _createBody(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255,26,26,26),
+      backgroundColor: const Color.fromARGB(255, 26, 26, 26),
       body: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
@@ -118,9 +117,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 margin: const EdgeInsets.only(top: 0),
                                 width: deviceWidth - 100,
-                                decoration: const BoxDecoration(borderRadius: 
-                                BorderRadius.all(Radius.circular(5))
-                                ,color: Color.fromARGB(255, 62, 62, 62),),
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                  color: Color.fromARGB(255, 62, 62, 62),
+                                ),
                                 child: TextFormField(
                                   controller: nickNameController,
                                   decoration: const InputDecoration(
@@ -143,9 +144,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                 margin: const EdgeInsets.only(top: 0),
                                 width: deviceWidth - 100,
-                                decoration: const BoxDecoration(borderRadius: 
-                                BorderRadius.all(Radius.circular(5))
-                                ,color: Color.fromARGB(255, 62, 62, 62),),
+                                decoration: const BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                  color: Color.fromARGB(255, 62, 62, 62),
+                                ),
                                 child: TextFormField(
                                   obscureText: true,
                                   controller: passwordController,
@@ -167,11 +170,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           Row(
                             children: <Widget>[
-                              const Text('¿No eres miembro aún?',style: TextStyle(color:Colors.white),),
+                              const Text(
+                                '¿No eres miembro aún?',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               TextButton(
                                 child: const Text(
                                   'Regístrate',
-                                  style: TextStyle(fontSize: 12,color: Colors.blue),
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.blue),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/register');
@@ -183,49 +190,52 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                             children: [
                               Container(
-                                width: MediaQuery.of(context).size.width/2,
+                                  width: MediaQuery.of(context).size.width / 2,
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 40, vertical: 25),
                                   child: SizedBox(
-                                    width: MediaQuery.of(context).size.width/2,
+                                    width:
+                                        MediaQuery.of(context).size.width / 2,
                                     child: Text(
-                                      'Sign In'.toUpperCase(),
-                                      style: const TextStyle(color: Colors.white),
+                                      'Iniciar sesión'.toUpperCase(),
+                                      style:
+                                          const TextStyle(color: Colors.white),
                                       textAlign: TextAlign.start,
                                     ),
                                   )),
-                                  
-                                   Padding(
-                                     padding: const EdgeInsets.only(left:50.0),
-                                     child: SizedBox(
-                                      child: ElevatedButton(
-
-                                        child: const Icon(
-                                          Icons.arrow_forward_rounded,
-                                          color: Colors.white,
-                                          size: 24.0,
-                                          semanticLabel: 'Text to announce in accessibility modes',
-                                        ),
-                                        onPressed: () {                                        
-                                          if (_formKey.currentState!.validate()) {
-                                            final loginDto = LoginDto(
-                                                nickName: nickNameController.text,
-                                                password: passwordController.text);
-                                            BlocProvider.of<LoginBloc>(context)
-                                                .add(DoLoginEvent(loginDto));
-                                          }},
-                                          style: ElevatedButton.styleFrom(
-                                            fixedSize: const Size(50, 50),
-                                            shape: const CircleBorder(), 
-                                            primary: const Color.fromARGB(255, 26, 32, 38),
-                                            shadowColor: Colors.white,
-                                            
-                                          ),
-                                      ),
-
-                                     ),
-                                   ),
-                          
+                              Padding(
+                                padding: const EdgeInsets.only(left: 50.0),
+                                child: SizedBox(
+                                  child: ElevatedButton(
+                                    child: const Icon(
+                                      Icons.arrow_forward_rounded,
+                                      color: Colors.white,
+                                      size: 24.0,
+                                      semanticLabel:
+                                          'Text to announce in accessibility modes',
+                                    ),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        final loginDto = LoginDto(
+                                            nickName: nickNameController.text,
+                                            password: passwordController.text);
+                                        BlocProvider.of<LoginBloc>(context)
+                                            .add(DoLoginEvent(loginDto));
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      fixedSize: const Size(50, 50),
+                                      shape: const CircleBorder(),
+                                      primary:
+                                          const Color.fromARGB(255, 26, 32, 38),
+                                      shadowColor: Colors.white,
+                                      elevation: 5,
+                                      
+                                      
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           )
                         ],
