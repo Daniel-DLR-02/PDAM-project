@@ -52,7 +52,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   _createBody(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 26, 26, 26),
+      backgroundColor: const Color.fromARGB(255, 29, 29, 29),
       body: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
@@ -167,7 +167,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   controller: nickController,
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.person),
+                                      suffixIcon:
+                                          Icon(Icons.account_circle_sharp),
                                       suffixIconColor: Colors.white,
                                       hintText: 'Nick',
                                       focusedBorder: OutlineInputBorder(
@@ -300,15 +301,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           print(
                                               'PATH ${state.pickedFile.path}');
                                           filePath = state.pickedFile.path;
-                                          return Column(children: [
-                                            Image.file(
-                                              File(state.pickedFile.path),
-                                              height: 100,
-                                            )
-                                          ]);
+                                          return Row(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 40, right: 50.0),
+                                                child: Text(
+                                                  'Avatar:',
+                                                  style: GoogleFonts.poppins(
+                                                    color: Colors.white,
+                                                    textStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .headline4,
+                                                    fontSize: 15,
+                                                    fontWeight: FontWeight.w300,
+                                                    fontStyle: FontStyle.normal,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 75,
+                                                child: ClipOval(
+                                                  child: SizedBox.fromSize(
+                                                    size: const Size.fromRadius(
+                                                        40), // Image radius
+                                                    child: Image.file(
+                                                        File(state
+                                                            .pickedFile.path),
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          );
                                         }
-                                        return Center(
-                                            child: ElevatedButton(
+                                        return Row(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 40, right: 50.0),
+                                              child: Text(
+                                                'Avatar:',
+                                                style: GoogleFonts.poppins(
+                                                  color: Colors.white,
+                                                  textStyle: Theme.of(context)
+                                                      .textTheme
+                                                      .headline4,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w300,
+                                                  fontStyle: FontStyle.normal,
+                                                ),
+                                              ),
+                                            ),
+                                            ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
                                                   primary: Colors.black,
                                                 ),
@@ -322,7 +367,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                                   .gallery));
                                                 },
                                                 child: const Text(
-                                                    'Elegir avatar')));
+                                                    'Elegir avatar')),
+                                          ],
+                                        );
                                       }),
                                 ),
                               ),

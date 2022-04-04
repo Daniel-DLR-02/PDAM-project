@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   _createBody(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 26, 26, 26),
+      backgroundColor: const Color.fromARGB(255, 29, 29, 29),
       body: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
@@ -126,7 +126,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   controller: nickNameController,
                                   decoration: const InputDecoration(
                                       border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.person),
+                                      suffixIcon:
+                                          Icon(Icons.account_circle_sharp),
                                       suffixIconColor: Colors.white,
                                       hintText: 'Nombre de usuario',
                                       focusedBorder: OutlineInputBorder(
@@ -230,8 +231,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                           const Color.fromARGB(255, 26, 32, 38),
                                       shadowColor: Colors.white,
                                       elevation: 5,
-                                      
-                                      
                                     ),
                                   ),
                                 ),
