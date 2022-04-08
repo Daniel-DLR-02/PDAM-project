@@ -108,7 +108,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+
                         children: [
+                          Image.asset(
+                            'assets/img/logo.png',
+                            width: 150,
+                          ),
                           Text(
                             'Crear una cuenta',
                             style: GoogleFonts.poppins(
@@ -126,181 +132,216 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             endIndent: 20,
                             color: Colors.white,
                           ),
-                          Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
+                          Center(
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
                                 ),
-                                child: TextFormField(
-                                  controller: nombreController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.person),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Nombre',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    controller: nombreController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: Icon(Icons.person),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Nombre',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    controller: nickController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon:
+                                            Icon(Icons.account_circle_sharp),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Nick',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                  ),
                                 ),
-                                child: TextFormField(
-                                  controller: nickController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon:
-                                          Icon(Icons.account_circle_sharp),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Nick',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    controller: emailController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: Icon(Icons.email),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Email',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: Icon(Icons.vpn_key),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Password',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                    validator: (value) {
+                                      return (value == null || value.isEmpty)
+                                          ? 'Write a password'
+                                          : null;
+                                    },
+                                  ),
                                 ),
-                                child: TextFormField(
-                                  controller: emailController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.email),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Email',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
-                                ),
-                                child: TextFormField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.vpn_key),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Password',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
-                                  validator: (value) {
-                                    return (value == null || value.isEmpty)
-                                        ? 'Write a password'
-                                        : null;
-                                  },
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
-                                ),
-                                child: TextField(
-                                  controller: dateController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.calendar_today),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Fecha de nacimiento',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  readOnly: true,
-                                  onTap: () async {
-                                    DateTime? pickedDate = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2000),
-                                        lastDate: DateTime(2101));
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextField(
+                                    controller: dateController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: Icon(Icons.calendar_today),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Fecha de nacimiento',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide:
+                                                BorderSide(color: Colors.white))),
+                                    readOnly: true,
+                                    onTap: () async {
+                                      DateTime? pickedDate = await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(2000),
+                                          lastDate: DateTime(2101));
 
-                                    if (pickedDate != null) {
-                                      print(pickedDate);
-                                      String formattedDate =
-                                          DateFormat('yyyy-MM-dd')
-                                              .format(pickedDate);
-                                      print(formattedDate);
+                                      if (pickedDate != null) {
+                                        print(pickedDate);
+                                        String formattedDate =
+                                            DateFormat('yyyy-MM-dd')
+                                                .format(pickedDate);
+                                        print(formattedDate);
 
-                                      setState(() {
-                                        dateController.text = formattedDate;
-                                      });
-                                    } else {
-                                      print("Date is not selected");
-                                    }
-                                  },
+                                        setState(() {
+                                          dateController.text = formattedDate;
+                                        });
+                                      } else {
+                                        print("Date is not selected");
+                                      }
+                                    },
+                                  ),
                                 ),
-                              ),
-                              //avatar
-                              Container(
-                                margin: const EdgeInsets.only(top: 20),
-                                width: deviceWidth - 100,
-                                child: BlocProvider(
-                                  create: (context) {
-                                    return ImagePickBloc();
-                                  },
-                                  child: BlocConsumer<ImagePickBloc,
-                                          ImagePickState>(
-                                      listenWhen: (context, state) {
-                                        return state
-                                            is ImageSelectedSuccessState;
-                                      },
-                                      listener: (context, state) {},
-                                      buildWhen: (context, state) {
-                                        return state is ImagePickInitial ||
-                                            state is ImageSelectedSuccessState;
-                                      },
-                                      builder: (context, state) {
-                                        if (state
-                                            is ImageSelectedSuccessState) {
-                                          print(
-                                              'PATH ${state.pickedFile.path}');
-                                          filePath = state.pickedFile.path;
+                                //avatar
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  child: BlocProvider(
+                                    create: (context) {
+                                      return ImagePickBloc();
+                                    },
+                                    child: BlocConsumer<ImagePickBloc,
+                                            ImagePickState>(
+                                        listenWhen: (context, state) {
+                                          return state
+                                              is ImageSelectedSuccessState;
+                                        },
+                                        listener: (context, state) {},
+                                        buildWhen: (context, state) {
+                                          return state is ImagePickInitial ||
+                                              state is ImageSelectedSuccessState;
+                                        },
+                                        builder: (context, state) {
+                                          if (state
+                                              is ImageSelectedSuccessState) {
+                                            print(
+                                                'PATH ${state.pickedFile.path}');
+                                            filePath = state.pickedFile.path;
+                                            return Row(
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 40, right: 50.0),
+                                                  child: Text(
+                                                    'Avatar:',
+                                                    style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      textStyle: Theme.of(context)
+                                                          .textTheme
+                                                          .headline4,
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight.w300,
+                                                      fontStyle: FontStyle.normal,
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 75,
+                                                  child: ClipOval(
+                                                    child: SizedBox.fromSize(
+                                                      size: const Size.fromRadius(
+                                                          40), // Image radius
+                                                      child: Image.file(
+                                                          File(state
+                                                              .pickedFile.path),
+                                                          fit: BoxFit.cover),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
                                           return Row(
                                             children: [
                                               Padding(
@@ -319,61 +360,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   ),
                                                 ),
                                               ),
-                                              SizedBox(
-                                                height: 75,
-                                                child: ClipOval(
-                                                  child: SizedBox.fromSize(
-                                                    size: const Size.fromRadius(
-                                                        40), // Image radius
-                                                    child: Image.file(
-                                                        File(state
-                                                            .pickedFile.path),
-                                                        fit: BoxFit.cover),
+                                              ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary: Colors.black,
                                                   ),
-                                                ),
-                                              ),
+                                                  onPressed: () {
+                                                    BlocProvider.of<
+                                                                ImagePickBloc>(
+                                                            context)
+                                                        .add(
+                                                            const SelectImageEvent(
+                                                                ImageSource
+                                                                    .gallery));
+                                                  },
+                                                  child: const Text(
+                                                      'Elegir avatar')),
                                             ],
                                           );
-                                        }
-                                        return Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 40, right: 50.0),
-                                              child: Text(
-                                                'Avatar:',
-                                                style: GoogleFonts.poppins(
-                                                  color: Colors.white,
-                                                  textStyle: Theme.of(context)
-                                                      .textTheme
-                                                      .headline4,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.w300,
-                                                  fontStyle: FontStyle.normal,
-                                                ),
-                                              ),
-                                            ),
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                  primary: Colors.black,
-                                                ),
-                                                onPressed: () {
-                                                  BlocProvider.of<
-                                                              ImagePickBloc>(
-                                                          context)
-                                                      .add(
-                                                          const SelectImageEvent(
-                                                              ImageSource
-                                                                  .gallery));
-                                                },
-                                                child: const Text(
-                                                    'Elegir avatar')),
-                                          ],
-                                        );
-                                      }),
+                                        }),
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Row(
                             children: <Widget>[

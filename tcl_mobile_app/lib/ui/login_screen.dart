@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
       backgroundColor: const Color.fromARGB(255, 29, 29, 29),
       body: Center(
         child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: BlocConsumer<LoginBloc, LoginState>(
                 listenWhen: (context, state) {
               return state is LoginSuccessState || state is LoginErrorState;
@@ -91,7 +91,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Image.asset(
+                            'assets/img/logo.png',
+                            width: 150,
+                          ),
                           Text(
                             '¡Bienvenido de nuevo!',
                             style: GoogleFonts.poppins(
@@ -109,65 +114,67 @@ class _LoginScreenState extends State<LoginScreen> {
                             endIndent: 20,
                             color: Colors.white,
                           ),
-                          Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.all(20),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 0),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
+                          Center(
+                            child: Column(
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.all(20),
                                 ),
-                                child: TextFormField(
-                                  controller: nickNameController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon:
-                                          Icon(Icons.account_circle_sharp),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Nombre de usuario',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
+                                Container(
+                                  margin: const EdgeInsets.only(top: 0),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    controller: nickNameController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon:
+                                            Icon(Icons.account_circle_sharp),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Nombre de usuario',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                  ),
                                 ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(20),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 0),
-                                width: deviceWidth - 100,
-                                decoration: const BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(5)),
-                                  color: Color.fromARGB(255, 62, 62, 62),
+                                const Padding(
+                                  padding: EdgeInsets.all(20),
                                 ),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  controller: passwordController,
-                                  decoration: const InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      suffixIcon: Icon(Icons.vpn_key),
-                                      suffixIconColor: Colors.white,
-                                      hintText: 'Password',
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.white))),
-                                  onSaved: (String? value) {
-                                    // This optional block of code can be used to run
-                                    // code when the user saves the form.
-                                  },
+                                Container(
+                                  margin: const EdgeInsets.only(top: 0),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(5)),
+                                    color: Color.fromARGB(255, 62, 62, 62),
+                                  ),
+                                  child: TextFormField(
+                                    obscureText: true,
+                                    controller: passwordController,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(),
+                                        suffixIcon: Icon(Icons.vpn_key),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Password',
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                           Row(
                             children: <Widget>[
