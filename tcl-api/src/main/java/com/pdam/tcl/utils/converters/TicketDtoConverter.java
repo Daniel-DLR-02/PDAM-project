@@ -1,0 +1,22 @@
+package com.pdam.tcl.utils.converters;
+
+import com.pdam.tcl.model.Ticket;
+import com.pdam.tcl.model.dto.ticket.GetTicketDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+@Component
+@RequiredArgsConstructor
+public class TicketDtoConverter {
+
+    private final UserDtoConverter userDtoConverter;
+
+    public GetTicketDto ticketDtoToGetDtoConverter(Ticket ticket){
+        return GetTicketDto.builder()
+                .uuid(ticket.getUuid())
+                .user(userDtoConverter.userToGetUserDto(ticket.getUser()))
+                .session(ticket.getSession())
+                .seat(ticket.getSeat())
+                .build();
+    }
+}
