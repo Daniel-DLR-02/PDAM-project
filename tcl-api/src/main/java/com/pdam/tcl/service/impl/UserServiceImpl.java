@@ -50,6 +50,28 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findById(uuid);
     }
 
+    @Override
+    public User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception {
+        String fileName = storageService.store(file);
+
+        String uri = storageService.createUri(fileName);
+
+        return userRepository.save(User.builder()
+                .nombre(newUsuario.getNombre())
+                .nickname(newUsuario.getNickName())
+                .email(newUsuario.getEmail())
+                .fechaNacimiento(newUsuario.getFechaNacimiento())
+                .password(passwordEncoder.encode(newUsuario.getPassword()))
+                .avatar(uri)
+                .role(UserRole.ADMIN)
+                .build());
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return  userRepository.existsById(id);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {

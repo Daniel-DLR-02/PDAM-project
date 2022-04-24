@@ -17,4 +17,7 @@ public interface UserService {
 
     Optional<User> findUserByUuid(UUID uuid);
 
+    User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception;
+
+    boolean existsById(UUID id);
 }

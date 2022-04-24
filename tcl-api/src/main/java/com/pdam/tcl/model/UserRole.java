@@ -1,5 +1,5 @@
 package com.pdam.tcl.model;
 
 public enum UserRole {
-    USER
+    USER,ADMIN
 }

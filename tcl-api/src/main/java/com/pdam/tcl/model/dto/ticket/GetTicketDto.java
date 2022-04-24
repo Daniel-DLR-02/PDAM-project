@@ -15,5 +15,6 @@ public class GetTicketDto {
     private UUID uuid;
     private GetUserDto user;
     private Session session;
-    private String seat;
+    private int row;
+    private int column;
 }

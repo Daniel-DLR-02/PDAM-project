@@ -38,5 +38,8 @@ public class Ticket {
     @ManyToOne(fetch=FetchType.LAZY)
     private Session session;
 
-    private String seat;
+    private int hallRow;
+
+    private int hallColumn;
+
 }

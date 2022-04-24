@@ -1,5 +1,6 @@
 package com.pdam.tcl.service;
 
+import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.ticket.CreateTicketDto;
 import com.pdam.tcl.model.dto.ticket.GetTicketDto;
 
@@ -12,8 +13,7 @@ public interface TicketService {
 
     public GetTicketDto getTicket(UUID id);
 
-    public GetTicketDto createTicket(CreateTicketDto ticket);
+    public GetTicketDto createTicket(CreateTicketDto ticket, User user);
 
-
-
+    boolean existsById(UUID idTicket);
 }

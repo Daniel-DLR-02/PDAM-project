@@ -16,7 +16,8 @@ public class TicketDtoConverter {
                 .uuid(ticket.getUuid())
                 .user(userDtoConverter.userToGetUserDto(ticket.getUser()))
                 .session(ticket.getSession())
-                .seat(ticket.getSeat())
+                .row(ticket.getHallRow())
+                .column(ticket.getHallColumn())
                 .build();
     }
 }
