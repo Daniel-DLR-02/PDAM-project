@@ -1,6 +1,7 @@
 package com.pdam.tcl.service.impl;
 
 import com.pdam.tcl.model.Film;
+import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.film.CreateFilmDto;
 import com.pdam.tcl.model.dto.film.GetFilmDto;
 import com.pdam.tcl.repository.FilmRepository;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -55,7 +59,19 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public void delete(UUID id) throws IOException {
+
+        Optional<Film> peliculaABorrar = filmRepository.findById(id);
+
+        if((peliculaABorrar.isPresent()) &&
+                (peliculaABorrar.get().getPoster() != null)){
+
+            String filePathString = "./uploads/"+peliculaABorrar.get().getPoster().replace("http://localhost:8080/download/","");
+            Path path = Paths.get(filePathString);
+
+            storageService.deleteFile(path);
+        }
+
         filmRepository.deleteById(id);
     }
 

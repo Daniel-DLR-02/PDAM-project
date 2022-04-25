@@ -12,6 +12,7 @@ public class FilmDtoConverter {
     public GetFilmDto filmToGetFilmDto(Film film){
         return GetFilmDto.builder()
         .title(film.getTitle())
+                .uuid(film.getUuid())
                 .poster(film.getPoster())
                 .description(film.getDescription())
                 .duration(film.getDuration())

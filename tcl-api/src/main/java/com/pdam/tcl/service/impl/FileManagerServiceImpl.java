@@ -17,10 +17,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.stream.Stream;
 
 @Service
@@ -46,7 +43,7 @@ public class FileManagerServiceImpl implements StorageService {
 
     @Override
     public String store(MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        String filename = StringUtils.cleanPath(file.getOriginalFilename().replace(" ","_"));
         String newFilename = "";
 
         try {
@@ -143,19 +140,16 @@ public class FileManagerServiceImpl implements StorageService {
     @Override
     public void deleteFile(Path filePath) throws IOException {
 
-        MediaTypeUrlUtil mediaTypeUrlResource = new MediaTypeUrlUtil(filePath.toUri());
-
-        // Instancio como mediaTypeResource el path que me pasan por parámetro
-        // para comprobar si és válido y si no lanzar una excepción.
         try {
-            if (mediaTypeUrlResource.exists() || mediaTypeUrlResource.isReadable()) {
-                Files.delete(filePath);
-            } else {
-                throw new FileNotFoundException(
-                        "No se ha podido leer el archivo: " + filePath);
-            }
-        }catch (MalformedURLException e) {
-            throw new FileNotFoundException("No se ha podido leer el archivo: " + filePath, e);
+            // Delete file or directory
+            Files.delete(filePath);
+            System.out.println("File or directory deleted successfully");
+        } catch (NoSuchFileException ex) {
+            System.out.printf("No such file or directory: %s\n", filePath);
+        } catch (DirectoryNotEmptyException ex) {
+            System.out.printf("Directory %s is not empty\n", filePath);
+        } catch (IOException ex) {
+            System.out.println(ex);
         }
     }
 

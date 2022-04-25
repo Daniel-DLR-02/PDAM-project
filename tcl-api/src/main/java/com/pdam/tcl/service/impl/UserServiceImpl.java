@@ -14,6 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
+
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
@@ -48,6 +53,65 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<User> findUserByUuid(UUID uuid){
         return userRepository.findById(uuid);
+    }
+
+    @Override
+    public User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception {
+        String fileName = storageService.store(file);
+
+        String uri = storageService.createUri(fileName);
+
+        return userRepository.save(User.builder()
+                .nombre(newUsuario.getNombre())
+                .nickname(newUsuario.getNickName())
+                .email(newUsuario.getEmail())
+                .fechaNacimiento(newUsuario.getFechaNacimiento())
+                .password(passwordEncoder.encode(newUsuario.getPassword()))
+                .avatar(uri)
+                .role(UserRole.ADMIN)
+                .build());
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        return  userRepository.existsById(id);
+    }
+
+    @Override
+    public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
+        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+        String fileName = storageService.store(file);
+
+        String uri = storageService.createUri(fileName);
+
+        user.setNombre(userDto.getNombre());
+        user.setNickname(userDto.getNickName());
+        user.setEmail(userDto.getEmail());
+        user.setFechaNacimiento(userDto.getFechaNacimiento());
+        user.setPassword(userDto.getPassword());
+        user.setAvatar(uri);
+        user.setRole(UserRole.valueOf(userDto.getRole()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(UUID id) throws IOException {
+
+        Optional<User> usuarioABorrar = userRepository.findById(id);
+
+        if((usuarioABorrar.isPresent()) &&
+        (usuarioABorrar.get().getAvatar() != null)){
+
+            String filePathString = "./uploads/"+usuarioABorrar.get().getAvatar().replace("http://localhost:8080/download/","");
+            Path path = Paths.get(filePathString);
+
+            storageService.deleteFile(path);
+        }
+
+        userRepository.deleteById(id);
+
     }
 
 
