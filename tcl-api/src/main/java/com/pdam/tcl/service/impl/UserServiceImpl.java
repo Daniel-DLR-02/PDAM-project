@@ -72,6 +72,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return  userRepository.existsById(id);
     }
 
+    @Override
+    public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
+        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+        String fileName = storageService.store(file);
+
+        String uri = storageService.createUri(fileName);
+
+        user.setNombre(userDto.getNombre());
+        user.setNickname(userDto.getNickName());
+        user.setEmail(userDto.getEmail());
+        user.setFechaNacimiento(userDto.getFechaNacimiento());
+        user.setPassword(userDto.getPassword());
+        user.setAvatar(uri);
+        user.setRole(UserRole.valueOf(userDto.getRole()));
+
+        return userRepository.save(user);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {

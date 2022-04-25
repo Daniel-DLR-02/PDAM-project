@@ -81,6 +81,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(saved));
     }
 
+    @PutMapping("/user/{id}")
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(id,userDto,file)));
+    }
+
+    @PutMapping("/user")
+    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(currentUser.getUuid(),userDto,file)));
+    }
+
+    @GetMapping("/me")
     public ResponseEntity<GetUserDto> me(@AuthenticationPrincipal User currentUser){
         return ResponseEntity.ok(userDtoConverter.userToGetUserDto(currentUser));
     }

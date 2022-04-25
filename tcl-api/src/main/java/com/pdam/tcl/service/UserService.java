@@ -20,4 +20,6 @@ public interface UserService {
     User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception;
 
     boolean existsById(UUID id);
+
+    User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception;
 }
