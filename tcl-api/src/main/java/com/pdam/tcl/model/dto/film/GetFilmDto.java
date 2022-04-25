@@ -3,6 +3,8 @@ package com.pdam.tcl.model.dto.film;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.UUID;
+
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -10,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @Validated
 public class GetFilmDto {
+    private UUID uuid;
     private String title;
     private String poster;
     private String description;

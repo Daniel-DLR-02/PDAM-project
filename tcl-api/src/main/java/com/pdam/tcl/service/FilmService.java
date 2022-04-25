@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public interface FilmService {
 
     Film getFilm(UUID id);
 
-    void delete(UUID id);
+    void delete(UUID id) throws IOException;
 
     Film update(UUID id, CreateFilmDto createFilm, MultipartFile file) throws Exception;
 

@@ -14,6 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +28,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
+
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
@@ -89,6 +94,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(UUID id) throws IOException {
+
+        Optional<User> usuarioABorrar = userRepository.findById(id);
+
+        if((usuarioABorrar.isPresent()) &&
+        (usuarioABorrar.get().getAvatar() != null)){
+
+            String filePathString = "./uploads/"+usuarioABorrar.get().getAvatar().replace("http://localhost:8080/download/","");
+            Path path = Paths.get(filePathString);
+
+            storageService.deleteFile(path);
+        }
+
+        userRepository.deleteById(id);
+
     }
 
 

@@ -30,7 +30,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.getTicket(id));
     }
 
-    @PostMapping("/ticket")
+    @PostMapping("/")
     public ResponseEntity<GetTicketDto> buyTicket(@RequestBody CreateTicketDto newTicket,
                                                 @AuthenticationPrincipal User currentUser){
 
@@ -43,6 +43,8 @@ public class TicketController {
 
 
     }
+
+
 
     
 }

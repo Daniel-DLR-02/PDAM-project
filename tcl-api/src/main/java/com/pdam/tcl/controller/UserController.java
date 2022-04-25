@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -36,7 +36,7 @@ public class UserController {
     private final UserDtoConverter userDtoConverter;
     private final TicketService ticketService;
 
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<GetUserDto> doRegister(@RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
         User saved = userService.save(newUsuario,file);
@@ -47,7 +47,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(saved));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<UserLoggedResponse> doLogin(@RequestBody LoginDto loginDto){
         Authentication authentication =
                 authenticationManager.authenticate(
@@ -103,6 +103,16 @@ public class UserController {
         else
             throw new UsernameNotFoundException("Resquested user not found");
     }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") UUID id) throws IOException {
+        if(userService.existsById(id)){
+            userService.deleteUser(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }else
+            throw new UsernameNotFoundException("Resquested user not found");
+    }
+
 
 
     private UserLoggedResponse convertUserUserLoggedResponse(User user, String jwt) {
