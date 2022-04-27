@@ -7,12 +7,19 @@ import com.pdam.tcl.model.dto.session.GetSessionDto;
 import com.pdam.tcl.service.SessionService;
 import com.pdam.tcl.utils.converters.SessionDtoConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+@RestController
 @RequestMapping("/session")
 @RequiredArgsConstructor
 public class SessionController {
@@ -32,6 +39,16 @@ public class SessionController {
     @PostMapping("/")
     public ResponseEntity<GetSessionDto> createSession(@RequestBody CreateSessionDto createSessionDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(sessionDtoConverter.sessionToGetSessionDto(sessionService.save(createSessionDto)));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GetSessionDto> editSession(@PathVariable("id") UUID id, @RequestBody CreateSessionDto createSessionDto) {
+        return ResponseEntity.ok(sessionDtoConverter.sessionToGetSessionDto(sessionService.edit(id, createSessionDto)));
+    }
+
+    @GetMapping("/{filmId}")
+    public ResponseEntity<Page<GetSessionDto>> getSessionByFilmId(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request, @PathVariable("filmId") UUID filmId) {
+        return ResponseEntity.ok(sessionService.findSessionsByFilmId(filmId,pageable));
     }
 
     @DeleteMapping("/{id}")
