@@ -25,7 +25,7 @@ class AuthRepositoryImpl extends AuthRepository {
               'Content-Type': 'application/json',
             },
             body: jsonEncode(loginDto.toJson()));
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.statusCode == 200) {
       prefs.setString(
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       prefs.setString(

@@ -147,6 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: nombreController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.person),
@@ -171,6 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: nickController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon:
@@ -196,6 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: emailController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.email),
@@ -220,6 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: passwordController,
+                                    style: TextStyle(color: Colors.white),
                                     obscureText: true,
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
@@ -250,6 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextField(
                                     controller: dateController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.calendar_today),
@@ -353,7 +358,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, right: 50.0),
+                                                    left: 40, right: 45.0),
                                                 child: Text(
                                                   'Avatar:',
                                                   style: GoogleFonts.poppins(

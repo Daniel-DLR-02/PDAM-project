@@ -50,8 +50,8 @@ class _LoginScreenState extends State<LoginScreen> {
               if (state is LoginSuccessState) {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
-                //prefs.setString('token', state.loginResponse.token);
-                //prefs.setString('avatar', state.loginResponse.avatar);
+                prefs.setString('token', state.loginResponse.token);
+                prefs.setString('avatar', state.loginResponse.avatar);
                 Navigator.pushNamed(context, '/');
               } else if (state is LoginErrorState) {
                 _showSnackbar(context, state.message);
@@ -130,6 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: nickNameController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon:
@@ -159,6 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: TextFormField(
                                     obscureText: true,
                                     controller: passwordController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.vpn_key),
