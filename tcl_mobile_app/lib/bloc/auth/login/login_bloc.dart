@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../../model/auth/login/login_dto.dart';
-import '../../../model/auth/login/login_response.dart';
-import '../../../repository/auth/auth_repository.dart';
+import 'package:tcl_mobile_app/model/auth/login/login_dto.dart';
+import 'package:tcl_mobile_app/model/auth/login/login_response.dart';
+import 'package:tcl_mobile_app/repository/auth/auth_repository.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';

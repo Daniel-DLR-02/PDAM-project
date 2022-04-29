@@ -5,10 +5,9 @@ import 'dart:ui';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
-
-import '../../../model/auth/register/register_dto.dart';
-import '../../../model/auth/register/register_response.dart';
-import '../../../repository/auth/auth_repository.dart';
+import 'package:tcl_mobile_app/model/auth/register/register_dto.dart';
+import 'package:tcl_mobile_app/model/auth/register/register_response.dart';
+import 'package:tcl_mobile_app/repository/auth/auth_repository.dart';
 
 part 'register_event.dart';
 part 'register_state.dart';

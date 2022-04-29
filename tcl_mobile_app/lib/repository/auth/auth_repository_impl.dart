@@ -25,7 +25,7 @@ class AuthRepositoryImpl extends AuthRepository {
               'Content-Type': 'application/json',
             },
             body: jsonEncode(loginDto.toJson()));
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       prefs.setString(
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       prefs.setString(
@@ -61,8 +61,8 @@ class AuthRepositoryImpl extends AuthRepository {
       var response = await request.send();
 
       if (response.statusCode == 201) {
-        LoginDto loginDto =
-            LoginDto(nickName: registerDto.nickName, password: registerDto.password);
+        LoginDto loginDto = LoginDto(
+            nickName: registerDto.nickName, password: registerDto.password);
         login(loginDto);
         return RegisterResponse.fromJson(
             jsonDecode(await response.stream.bytesToString()));
