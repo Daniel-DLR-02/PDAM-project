@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Container(
                                   width: MediaQuery.of(context).size.width / 2,
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 40, vertical: 25),
+                                      horizontal: 35, vertical: 25),
                                   child: SizedBox(
                                     width:
                                         MediaQuery.of(context).size.width / 2,

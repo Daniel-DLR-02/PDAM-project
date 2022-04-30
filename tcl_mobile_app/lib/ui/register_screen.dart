@@ -22,6 +22,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late AuthRepository authRepository;
+  late DateTime _minDate,_maxDate;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nickController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
@@ -39,6 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     authRepository = AuthRepositoryImpl();
     super.initState();
+    _minDate=DateTime(1900,3,5,9,0,0);
+    _maxDate=DateTime.now();
   }
 
   @override
@@ -103,7 +106,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: SingleChildScrollView(
                 child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height - 90,
+                      minHeight: MediaQuery.of(context).size.height,
                     ),
                     child: Center(
                       child: Column(
@@ -269,8 +272,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime(2000),
-                                              lastDate: DateTime(2101));
+                                              firstDate: _minDate,
+                                              lastDate: _maxDate);
 
                                       if (pickedDate != null) {
                                         print(pickedDate);
@@ -344,10 +347,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                       size: const Size
                                                               .fromRadius(
                                                           40), // Image radius
-                                                      child: Image.file(
-                                                          File(state
-                                                              .pickedFile.path),
-                                                          fit: BoxFit.cover),
+                                                      child: InkWell(
+                                                        borderRadius: BorderRadius.circular(40),
+                                                        child: Image.file(
+                                                            File(state
+                                                                .pickedFile.path),
+                                                            fit: BoxFit.cover),
+                                                            onTap: () {
+                                                    BlocProvider.of<
+                                                                ImagePickBloc>(
+                                                            context)
+                                                        .add(
+                                                            const SelectImageEvent(
+                                                                ImageSource
+                                                                    .gallery));
+                                                  },
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
