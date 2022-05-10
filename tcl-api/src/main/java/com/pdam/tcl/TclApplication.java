@@ -16,13 +16,5 @@ public class TclApplication {
 		SpringApplication.run(TclApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner init (StorageService fileManagerService){
-		return args -> {
-			fileManagerService.deleteAll();
-			fileManagerService.init();
-
-		};
-	}
 
 }
