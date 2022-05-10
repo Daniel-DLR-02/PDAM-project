@@ -20,7 +20,7 @@ class FilmRepositoryImpl extends FilmRepository {
 
     String? token = prefs.getString('token');
     final response = await _client
-        .get(Uri.parse('${Constants.baseUrl}/film/current'), headers: {
+        .get(Uri.parse('${Constants.baseUrl}/films/active'), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader: "Bearer $token"
     });
