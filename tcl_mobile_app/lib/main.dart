@@ -15,10 +15,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TheCinemaLive',
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF263238)),
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       initialRoute: '/login',
       routes: {
         '/': (context) => const MenuScreen(),

@@ -49,13 +49,14 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget _buildBottomBar(avatar_url, token) {
     return Container(
         decoration: const BoxDecoration(
+          color: Color(0xFF1d1d1d),
             border: Border(
           top: BorderSide(
-            color: Color(0xfff1f1f1),
+            color: Color(0xFF1d1d1d),
             width: 1.0,
           ),
         )),
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 60.0),
         height: 70,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,7 +64,7 @@ class _MenuScreenState extends State<MenuScreen> {
             GestureDetector(
               child: Icon(Icons.home,
                   color: _currentIndex == 0
-                      ? Colors.black
+                      ? Colors.white
                       : const Color(0xff999999)),
               onTap: () {
                 setState(() {
@@ -72,9 +73,9 @@ class _MenuScreenState extends State<MenuScreen> {
               },
             ),
             GestureDetector(
-              child: Icon(Icons.search,
+              child: Icon(Icons.ballot,
                   color: _currentIndex == 1
-                      ? Colors.black
+                      ? Colors.white
                       : const Color(0xff999999)),
               onTap: () {
                 setState(() {
@@ -94,7 +95,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     borderRadius: BorderRadius.circular(100),
                     border: Border.all(
                         color: _currentIndex == 2
-                            ? Colors.black
+                            ? Colors.white
                             : Colors.transparent,
                         width: 3)),
                 child: ClipRRect(

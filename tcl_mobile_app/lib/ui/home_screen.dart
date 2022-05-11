@@ -74,30 +74,47 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(top: 20.0),
-              child: Text(
-                'En cartelera',
-                style: TextStyle(
-                    color: Colors.black.withOpacity(.8),
-                    fontWeight: FontWeight.w600,
-                    fontSize: 19),
+              padding: const EdgeInsets.only(top: 20.0,left:20),
+              child: Row(
+                children: [
+                  Text(
+                    'En ',
+                    style: TextStyle(
+                        color: Colors.white.withOpacity(1),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 19),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom:0.1),
+                    child: Text(
+                      'cartelera ',
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(1),
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
         ),
-        SizedBox(
-          height: contentHeight - 170,
-          width: contentWidth - 200,
-          child: ListView.separated(
-            itemBuilder: (BuildContext context, int index) {
-              return _createPublicViewItem(context, films[index]);
-            },
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (context, index) => const VerticalDivider(
-              color: Colors.transparent,
-              width: 20,
+        Padding(
+          padding: const EdgeInsets.only(top:20.0),
+          child: SizedBox(
+            height: contentHeight - 170,
+            width: contentWidth - 200,
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return _createPublicViewItem(context, films[index]);
+              },
+              scrollDirection: Axis.horizontal,
+              /*separatorBuilder: (context, index) => const VerticalDivider(
+                color: Colors.transparent,
+                width: 20,
+              ),*/
+              itemCount: films.length,
             ),
-            itemCount: films.length,
           ),
         ),
       ],
@@ -123,6 +140,7 @@ Widget _createPublicViewItem(
       Container(
         width: contentWidth,
         height: contentWidth+70,
+        margin: EdgeInsets.symmetric(horizontal:20),// add margin 
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),	
         ),
