@@ -57,7 +57,7 @@ class _MenuScreenState extends State<MenuScreen> {
           ),
         )),
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
-        height: 70,
+        height: 50,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

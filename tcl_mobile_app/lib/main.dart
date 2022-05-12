@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:tcl_mobile_app/ui/login_screen.dart';
 import 'package:tcl_mobile_app/ui/menu_screen.dart';
 import 'package:tcl_mobile_app/ui/register_screen.dart';
@@ -15,7 +16,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TheCinemaLive',
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF263238)),
+      theme: ThemeData(
+        scaffoldBackgroundColor: const Color(0xFF1d1d1d),
+      fontFamily: GoogleFonts.poppins().fontFamily),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {

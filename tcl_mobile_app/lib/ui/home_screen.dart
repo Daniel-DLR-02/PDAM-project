@@ -6,7 +6,8 @@ import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository_impl.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
-
+import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
+import 'package:coupon_uikit/coupon_uikit.dart';
 import '../constants.dart';
 import '../repository/preferences_utils.dart';
 
@@ -19,12 +20,19 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late FilmRepository filmRepository;
+  String? avatar_sin_formato;
+  String? avatar_url = "none";
+  String? token = "none";
 
   @override
   void initState() {
     super.initState();
     PreferenceUtils.init();
     filmRepository = FilmRepositoryImpl();
+    avatar_sin_formato = PreferenceUtils.getString("avatar");
+    avatar_url = avatar_sin_formato!
+        .replaceAll("http://localhost:8080", Constants.baseUrl);
+    token = PreferenceUtils.getString("token");
   }
 
   @override
@@ -38,7 +46,10 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) {
         return FilmsBloc(filmRepository)..add(const FetchFilm());
       },
-      child: Scaffold(body: _createSeeFilms(context)),
+      child: Scaffold(
+        body: _createSeeFilms(context),
+        appBar: const HomeAppBar(),
+      ),
     );
   }
 }
@@ -67,57 +78,194 @@ Widget _createSeeFilms(BuildContext context) {
 Widget _createPublicView(BuildContext context, List<Film> films) {
   final contentWidth = MediaQuery.of(context).size.width;
   final contentHeight = MediaQuery.of(context).size.height;
+  PreferenceUtils.init();
+  String? avatar_sin_formato = PreferenceUtils.getString("avatar");
+  String avatar_url = avatar_sin_formato!
+      .replaceAll("http://localhost:8080", Constants.baseUrl);
+  String? token = PreferenceUtils.getString("token");
+  String? nick = PreferenceUtils.getString("nick");
   return Scaffold(
-    body: ListView(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    body: Container(
+      color: const Color(0xFF263238),
+      child: SingleChildScrollView(
+        child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(top: 20.0,left:20),
-              child: Row(
-                children: [
-                  Text(
-                    'En ',
-                    style: TextStyle(
-                        color: Colors.white.withOpacity(1),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 19),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom:0.1),
-                    child: Text(
+            Container(
+                height: 120,
+                color: const Color(0xFF1d1d1d),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30.0, top: 20.0),
+                      child: Row(
+                        children: [
+                          const Text("Hola",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600)),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5.0),
+                            child: SizedBox(
+                              width: 100,
+                              child: Text(nick!,
+                                  style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300)),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 70.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                imageUrl: avatar_url,
+                                httpHeaders: {
+                                  "Authorization": "Bearer " + token!
+                                },
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
+            Container(
+              color: const Color(0xFF263238),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15.0, left: 30, bottom: 10),
+                child: Row(
+                  children: [
+                    Text(
+                      'En ',
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(1),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 24),
+                    ),
+                    Text(
                       'cartelera ',
                       style: TextStyle(
                           color: Colors.white.withOpacity(1),
                           fontWeight: FontWeight.w800,
-                          fontSize: 22),
+                          fontSize: 25),
                     ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              color: const Color(0xFF263238),
+              height: contentHeight * 0.4,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(10.0),
+                  itemBuilder: (BuildContext context, int index) {
+                    return _createPublicViewItem(context, films[index]);
+                  },
+                  scrollDirection: Axis.horizontal,
+                  itemCount: films.length,
+                ),
+              ),
+            ),
+            Container(
+              color: const Color(0xFF263238),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30.0, left: 0, bottom: 5),
+                child: Text(
+                  'Promo',
+                  style: TextStyle(
+                      color: Colors.white.withOpacity(1),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 23),
+                ),
+              ),
+            ),
+            
+            
+            Container(
+              height: 140,
+              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 7,
+                    offset: const Offset(1, 1), // changes position of shadow
                   ),
                 ],
               ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset("assets/img/promo/Promo1.jpg",
+                  width: contentWidth,
+                  height: contentHeight,
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
+            Container(
+              height: 140,
+              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 7,
+                    offset: const Offset(1, 1), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset("assets/img/promo/Promo2.png",
+                  width: contentWidth,
+                  height: contentHeight,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Container(
+              height: 140,
+              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 4,
+                    blurRadius: 7,
+                    offset: const Offset(1, 1), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(25),
+                child: Image.asset("assets/img/promo/Promo3.jpg",
+                  width: contentWidth,
+                  height: contentHeight,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.only(top:20.0),
-          child: SizedBox(
-            height: contentHeight - 170,
-            width: contentWidth - 200,
-            child: ListView.builder(
-              itemBuilder: (BuildContext context, int index) {
-                return _createPublicViewItem(context, films[index]);
-              },
-              scrollDirection: Axis.horizontal,
-              /*separatorBuilder: (context, index) => const VerticalDivider(
-                color: Colors.transparent,
-                width: 20,
-              ),*/
-              itemCount: films.length,
-            ),
-          ),
-        ),
-      ],
+      ),
     ),
   );
 }
@@ -126,39 +274,40 @@ Widget _createPublicViewItem(
   BuildContext context,
   Film film,
 ) {
-  final contentWidth = MediaQuery.of(context).size.width-150;
+  final contentWidth = MediaQuery.of(context).size.width - 180;
+  final contentHeight = MediaQuery.of(context).size.height;
 
   String? token = PreferenceUtils.getString("token");
+  String imageUrl =
+      film.poster.replaceAll("http://localhost:8080", Constants.baseUrl);
 
-  print(token);
-  String imageUrl = film.poster
-      .replaceAll("http://localhost:8080", Constants.baseUrl);
-
-
-  return Column(
-    children: <Widget>[
-      Container(
+  return Container(
+    width: contentWidth,
+    height: contentHeight,
+    margin: const EdgeInsets.symmetric(horizontal: 15), // add margin
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25),
+      boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.5),
+          spreadRadius: 4,
+          blurRadius: 7,
+          offset: const Offset(1, 1), // changes position of shadow
+        ),
+      ],
+    ),
+    child: ClipRRect(
+      borderRadius: BorderRadius.circular(25),
+      child: CachedNetworkImage(
+        placeholder: (context, url) => const Center(
+          child: CircularProgressIndicator(),
+        ),
+        imageUrl: imageUrl,
+        httpHeaders: {"Authorization": "Bearer " + token!},
         width: contentWidth,
-        height: contentWidth+70,
-        margin: EdgeInsets.symmetric(horizontal:20),// add margin 
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),	
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: CachedNetworkImage(
-            placeholder: (context, url) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            imageUrl: imageUrl,
-            httpHeaders: {"Authorization": "Bearer " + token!},
-            width: contentWidth,
-            height: double.infinity,
-            fit: BoxFit.cover,
-          ),
-        ),
+        height: contentHeight,
+        fit: BoxFit.cover,
       ),
-      
-    ],
+    ),
   );
 }
