@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/retry.dart';
 
 import '../../model/Films/film_response.dart';
+import '../../model/Films/single_film_response.dart';
 import '../../repository/films_repository/films_repository.dart';
 part 'films_event.dart';
 part 'films_state.dart';
@@ -16,6 +17,7 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
 
   FilmsBloc(this.filmRepository) : super(FilmsInitial()) {
     on<FetchFilm>(_filmsFetched);
+    on<GetFilmDetails>(_filmDetailsFetched);
   }
 
   void _filmsFetched(FetchFilm event, Emitter<FilmsState> emit) async {
@@ -27,4 +29,15 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       emit(FilmFetchError(e.toString()));
     }
   }
+
+  void _filmDetailsFetched(GetFilmDetails event, Emitter<FilmsState> emit) async {
+    try {
+      final film = await filmRepository.fetchFilmDetails(event.filmUuid);
+      emit(FilmSuccessFetched(film));
+      return;
+    } on Exception catch (e) {
+      emit(FilmErrorState(e.toString()));
+    }
+  }
+
 }

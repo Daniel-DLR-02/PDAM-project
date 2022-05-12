@@ -13,3 +13,10 @@ class FetchFilm extends FilmsEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetFilmDetails extends FilmsEvent {
+  final String filmUuid;
+
+  const GetFilmDetails(this.filmUuid);
+
+}

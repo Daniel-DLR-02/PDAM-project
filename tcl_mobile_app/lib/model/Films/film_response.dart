@@ -57,12 +57,14 @@ class FilmsReponse {
 
 class Film {
   Film({
+    required this.uuid,
     required this.title,
     required this.poster,
     required this.description,
     required this.duration,
     required this.genre,
   });
+  late final String uuid;
   late final String title;
   late final String poster;
   late final String description;
@@ -70,6 +72,7 @@ class Film {
   late final String genre;
   
   Film.fromJson(Map<String, dynamic> json){
+    uuid = json['uuid'];
     title = json['title'];
     poster = json['poster'];
     description = json['description'];
@@ -79,6 +82,7 @@ class Film {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
+    _data['uuid'] = uuid;
     _data['title'] = title;
     _data['poster'] = poster;
     _data['description'] = description;

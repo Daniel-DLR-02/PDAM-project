@@ -5,6 +5,7 @@ import 'package:tcl_mobile_app/bloc/films/films_bloc.dart';
 import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository_impl.dart';
+import 'package:tcl_mobile_app/ui/film_details.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
 import 'package:coupon_uikit/coupon_uikit.dart';
@@ -281,32 +282,40 @@ Widget _createPublicViewItem(
   String imageUrl =
       film.poster.replaceAll("http://localhost:8080", Constants.baseUrl);
 
-  return Container(
-    width: contentWidth,
-    height: contentHeight,
-    margin: const EdgeInsets.symmetric(horizontal: 15), // add margin
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(25),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.5),
-          spreadRadius: 4,
-          blurRadius: 7,
-          offset: const Offset(1, 1), // changes position of shadow
+  return InkWell(
+    onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FilmDetails(filmUuid: film.uuid),
+                ),
+          ),
+    child: Container(
+      width: contentWidth,
+      height: contentHeight,
+      margin: const EdgeInsets.symmetric(horizontal: 15), // add margin
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            spreadRadius: 4,
+            blurRadius: 7,
+            offset: const Offset(1, 1), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: CachedNetworkImage(
+          placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          imageUrl: imageUrl,
+          httpHeaders: {"Authorization": "Bearer " + token!},
+          width: contentWidth,
+          height: contentHeight,
+          fit: BoxFit.cover,
         ),
-      ],
-    ),
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(25),
-      child: CachedNetworkImage(
-        placeholder: (context, url) => const Center(
-          child: CircularProgressIndicator(),
-        ),
-        imageUrl: imageUrl,
-        httpHeaders: {"Authorization": "Bearer " + token!},
-        width: contentWidth,
-        height: contentHeight,
-        fit: BoxFit.cover,
       ),
     ),
   );

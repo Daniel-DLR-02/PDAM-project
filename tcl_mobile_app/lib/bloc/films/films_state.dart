@@ -25,3 +25,21 @@ class FilmFetchError extends FilmsState {
   @override
   List<Object> get props => [message];
 }
+
+class FilmSuccessFetched extends FilmsState {
+  final FilmResponse film;
+
+  const FilmSuccessFetched(this.film);
+
+  @override
+  List<Object> get props => [film];
+}
+
+class FilmErrorState extends FilmsState {
+  final String message;
+
+  const FilmErrorState(this.message);
+
+  @override
+  List<Object> get props => [message];
+}
