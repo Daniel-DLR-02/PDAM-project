@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TheCinemaLive',
       theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFF1d1d1d),
-      fontFamily: GoogleFonts.poppins().fontFamily),
+          scaffoldBackgroundColor: const Color(0xFF1d1d1d),
+          fontFamily: GoogleFonts.poppins().fontFamily),
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {

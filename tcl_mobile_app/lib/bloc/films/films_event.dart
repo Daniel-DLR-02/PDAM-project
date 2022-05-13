@@ -18,5 +18,4 @@ class GetFilmDetails extends FilmsEvent {
   final String filmUuid;
 
   const GetFilmDetails(this.filmUuid);
-
 }

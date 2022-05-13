@@ -13,8 +13,8 @@ class FilmResponse {
   late final String description;
   late final String duration;
   late final String genre;
-  
-  FilmResponse.fromJson(Map<String, dynamic> json){
+
+  FilmResponse.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     title = json['title'];
     poster = json['poster'];

@@ -22,7 +22,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late AuthRepository authRepository;
-  late DateTime _minDate,_maxDate;
+  late DateTime _minDate, _maxDate;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nickController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
@@ -40,8 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     authRepository = AuthRepositoryImpl();
     super.initState();
-    _minDate=DateTime(1900,3,5,9,0,0);
-    _maxDate=DateTime.now();
+    _minDate = DateTime(1900, 3, 5, 9, 0, 0);
+    _maxDate = DateTime.now();
   }
 
   @override
@@ -348,20 +348,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                               .fromRadius(
                                                           40), // Image radius
                                                       child: InkWell(
-                                                        borderRadius: BorderRadius.circular(40),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
                                                         child: Image.file(
                                                             File(state
-                                                                .pickedFile.path),
+                                                                .pickedFile
+                                                                .path),
                                                             fit: BoxFit.cover),
-                                                            onTap: () {
-                                                    BlocProvider.of<
-                                                                ImagePickBloc>(
-                                                            context)
-                                                        .add(
-                                                            const SelectImageEvent(
-                                                                ImageSource
-                                                                    .gallery));
-                                                  },
+                                                        onTap: () {
+                                                          BlocProvider.of<
+                                                                      ImagePickBloc>(
+                                                                  context)
+                                                              .add(const SelectImageEvent(
+                                                                  ImageSource
+                                                                      .gallery));
+                                                        },
                                                       ),
                                                     ),
                                                   ),

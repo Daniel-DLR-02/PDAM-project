@@ -192,11 +192,10 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
                 ),
               ),
             ),
-            
-            
             Container(
               height: 140,
-              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              margin: const EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 10), // add margin
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
@@ -210,7 +209,8 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.asset("assets/img/promo/Promo1.jpg",
+                child: Image.asset(
+                  "assets/img/promo/Promo1.jpg",
                   width: contentWidth,
                   height: contentHeight,
                   fit: BoxFit.cover,
@@ -219,7 +219,8 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
             ),
             Container(
               height: 140,
-              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              margin: const EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 10), // add margin
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
@@ -233,7 +234,8 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.asset("assets/img/promo/Promo2.png",
+                child: Image.asset(
+                  "assets/img/promo/Promo2.png",
                   width: contentWidth,
                   height: contentHeight,
                   fit: BoxFit.cover,
@@ -242,7 +244,8 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
             ),
             Container(
               height: 140,
-              margin: const EdgeInsets.symmetric(horizontal: 15,vertical: 10), // add margin
+              margin: const EdgeInsets.symmetric(
+                  horizontal: 15, vertical: 10), // add margin
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 boxShadow: [
@@ -256,14 +259,14 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.asset("assets/img/promo/Promo3.jpg",
+                child: Image.asset(
+                  "assets/img/promo/Promo3.jpg",
                   width: contentWidth,
                   height: contentHeight,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            
           ],
         ),
       ),
@@ -284,11 +287,11 @@ Widget _createPublicViewItem(
 
   return InkWell(
     onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => FilmDetails(filmUuid: film.uuid),
-                ),
-          ),
+      context,
+      MaterialPageRoute(
+        builder: (context) => FilmDetails(filmUuid: film.uuid),
+      ),
+    ),
     child: Container(
       width: contentWidth,
       height: contentHeight,

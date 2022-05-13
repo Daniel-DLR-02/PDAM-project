@@ -49,13 +49,13 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget _buildBottomBar(avatar_url, token) {
     return Container(
         decoration: const BoxDecoration(
-          color: Color(0xFF1d1d1d),
-            border: Border(
-          top: BorderSide(
             color: Color(0xFF1d1d1d),
-            width: 1.0,
-          ),
-        )),
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFF1d1d1d),
+                width: 1.0,
+              ),
+            )),
         padding: const EdgeInsets.symmetric(horizontal: 60.0),
         height: 50,
         child: Row(

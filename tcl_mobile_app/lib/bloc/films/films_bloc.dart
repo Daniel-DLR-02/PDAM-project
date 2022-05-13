@@ -30,7 +30,8 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
     }
   }
 
-  void _filmDetailsFetched(GetFilmDetails event, Emitter<FilmsState> emit) async {
+  void _filmDetailsFetched(
+      GetFilmDetails event, Emitter<FilmsState> emit) async {
     try {
       final film = await filmRepository.fetchFilmDetails(event.filmUuid);
       emit(FilmSuccessFetched(film));
@@ -39,5 +40,4 @@ class FilmsBloc extends Bloc<FilmsEvent, FilmsState> {
       emit(FilmErrorState(e.toString()));
     }
   }
-
 }
