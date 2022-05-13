@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 prefs.setString('token', state.loginResponse.token);
                 prefs.setString('avatar', state.loginResponse.avatar);
                 prefs.setString('nick', state.loginResponse.nickName);
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is LoginErrorState) {
                 _showSnackbar(context, state.message);
               }

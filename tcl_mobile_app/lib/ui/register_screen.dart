@@ -68,10 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
                 prefs.setString('avatar', state.registerResponse.avatar);
-                Navigator.pushNamed(
-                  context,
-                  '/',
-                );
+                Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is RegisterErrorState) {
                 _showSnackbar(context, state.message);
               }

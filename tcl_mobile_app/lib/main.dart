@@ -15,6 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'TheCinemaLive',
       theme: ThemeData(
@@ -30,3 +34,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
