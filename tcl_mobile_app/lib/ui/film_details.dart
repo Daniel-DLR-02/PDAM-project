@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
 
@@ -194,7 +195,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                           style: TextStyle(
                               color: Colors.white, fontSize: 10)),
                       Text(
-                        film.relaseDate,
+                        DateFormat('dd/MM/yyyy').format(DateTime.parse(film.relaseDate)).toString().substring(0, 10),
                         style:
                             const TextStyle(color: Colors.white, fontSize: 10),
                       )
