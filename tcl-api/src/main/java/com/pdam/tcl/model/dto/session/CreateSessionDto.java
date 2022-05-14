@@ -16,6 +16,5 @@ public class CreateSessionDto {
     private LocalDateTime sessionDate;
     private UUID hallUuid;
     private boolean active;
-    private boolean[][] availableSeats;
 }
 

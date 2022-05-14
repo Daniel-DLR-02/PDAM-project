@@ -16,6 +16,7 @@ public class FilmDtoConverter {
                 .poster(film.getPoster())
                 .description(film.getDescription())
                 .duration(film.getDuration())
+                .relaseDate(film.getReleaseDate())
                 .genre(film.getGenre())
                 .build();
     }

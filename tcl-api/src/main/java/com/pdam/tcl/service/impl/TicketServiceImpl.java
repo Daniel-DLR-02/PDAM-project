@@ -64,7 +64,7 @@ public class TicketServiceImpl implements TicketService {
                     .build();
 
             ticketRepository.save(newTicket);
-            session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = true;
+            session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
 
             return ticketDtoConverter.ticketDtoToGetDtoConverter(newTicket);
         }

@@ -16,5 +16,5 @@ public class GetSessionDto {
     private LocalDateTime sessionDate;
     private String hallName;
     private boolean active;
-    private boolean[][] availableSeats;
+    private String[][] availableSeats;
 }

@@ -3,6 +3,7 @@ package com.pdam.tcl.model.dto.film;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -17,5 +18,6 @@ public class GetFilmDto {
     private String poster;
     private String description;
     private String duration;
+    private LocalDate relaseDate;
     private String genre;
 }

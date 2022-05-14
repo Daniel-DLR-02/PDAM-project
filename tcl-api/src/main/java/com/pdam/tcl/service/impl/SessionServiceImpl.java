@@ -53,7 +53,6 @@ public class SessionServiceImpl implements SessionService {
 
         session.setSessionDate(createSessionDto.getSessionDate());
         session.setActive(createSessionDto.isActive());
-        session.setAvailableSeats(createSessionDto.getAvailableSeats());
         session.setFilm(filmService.getFilm(createSessionDto.getFilmUuid()));
         session.setHall(hallService.findById(createSessionDto.getHallUuid()));
 

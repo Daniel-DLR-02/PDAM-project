@@ -36,7 +36,7 @@ public class SessionDtoConverter {
                 .hall(hallService.findById(createSessionDto.getHallUuid()))
                 .sessionDate(createSessionDto.getSessionDate())
                 .active(createSessionDto.isActive())
-                .availableSeats(createSessionDto.getAvailableSeats())
+                .availableSeats(hallService.findById(createSessionDto.getHallUuid()).getSeats())
                 .build();
     }
 }
