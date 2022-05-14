@@ -6,7 +6,6 @@ import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
 
 import '../bloc/films/films_bloc.dart';
 import '../constants.dart';
-import '../model/Films/film_response.dart';
 import '../model/Films/single_film_response.dart';
 import '../repository/films_repository/films_repository.dart';
 import '../repository/films_repository/films_repository_impl.dart';
@@ -166,10 +165,36 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                             color: Colors.white, size: 35),
                       ),
                       const Text("Duración:",
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.white, fontSize: 10)),
                       Text(
                         film.duration,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 10),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(left: 25.0, top: 15),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 1.5),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  height: 80,
+                  width: 80,
+                  child: Column(
+                    children: [
+                      const Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        child: Icon(Icons.calendar_month,
+                            color: Colors.white, size: 35),
+                      ),
+                      const Text("Estreno:",
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 10)),
+                      Text(
+                        film.relaseDate,
                         style:
                             const TextStyle(color: Colors.white, fontSize: 10),
                       )
@@ -216,24 +241,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                     fontSize: 12,
                     fontWeight: FontWeight.w500)),
           ),
-          /*Padding(
-              padding:
-                  EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
-              child: Row(
-                children: [
-                  Text("Fecha de estreno",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600)),
-                          Text(,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600)),
-                ],
-              ),
-            ),*/
+        
         ]),
       ),
     ),

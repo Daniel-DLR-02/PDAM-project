@@ -25,7 +25,7 @@ class FilmRepositoryImpl extends FilmRepository {
       HttpHeaders.authorizationHeader: "Bearer $token"
     });
     if (response.statusCode == 200) {
-      return FilmsReponse.fromJson(
+      return FilmsResponse.fromJson(
               json.decode(const Utf8Decoder().convert(response.bodyBytes)))
           .content;
     } else {

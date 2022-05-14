@@ -1,40 +1,40 @@
-class FilmsReponse {
-  FilmsReponse({
+class FilmsResponse {
+  FilmsResponse({
     required this.content,
     required this.pageable,
-    required this.totalPages,
-    required this.totalElements,
     required this.last,
+    required this.totalElements,
+    required this.totalPages,
     required this.size,
     required this.number,
     required this.sort,
-    required this.numberOfElements,
     required this.first,
+    required this.numberOfElements,
     required this.empty,
   });
   late final List<Film> content;
   late final Pageable pageable;
-  late final int totalPages;
-  late final int totalElements;
   late final bool last;
+  late final int totalElements;
+  late final int totalPages;
   late final int size;
   late final int number;
   late final Sort sort;
-  late final int numberOfElements;
   late final bool first;
+  late final int numberOfElements;
   late final bool empty;
   
-  FilmsReponse.fromJson(Map<String, dynamic> json){
+  FilmsResponse.fromJson(Map<String, dynamic> json){
     content = List.from(json['content']).map((e)=>Film.fromJson(e)).toList();
     pageable = Pageable.fromJson(json['pageable']);
-    totalPages = json['totalPages'];
-    totalElements = json['totalElements'];
     last = json['last'];
+    totalElements = json['totalElements'];
+    totalPages = json['totalPages'];
     size = json['size'];
     number = json['number'];
     sort = Sort.fromJson(json['sort']);
-    numberOfElements = json['numberOfElements'];
     first = json['first'];
+    numberOfElements = json['numberOfElements'];
     empty = json['empty'];
   }
 
@@ -42,14 +42,14 @@ class FilmsReponse {
     final _data = <String, dynamic>{};
     _data['content'] = content.map((e)=>e.toJson()).toList();
     _data['pageable'] = pageable.toJson();
-    _data['totalPages'] = totalPages;
-    _data['totalElements'] = totalElements;
     _data['last'] = last;
+    _data['totalElements'] = totalElements;
+    _data['totalPages'] = totalPages;
     _data['size'] = size;
     _data['number'] = number;
     _data['sort'] = sort.toJson();
-    _data['numberOfElements'] = numberOfElements;
     _data['first'] = first;
+    _data['numberOfElements'] = numberOfElements;
     _data['empty'] = empty;
     return _data;
   }
@@ -62,6 +62,7 @@ class Film {
     required this.poster,
     required this.description,
     required this.duration,
+    required this.relaseDate,
     required this.genre,
   });
   late final String uuid;
@@ -69,6 +70,7 @@ class Film {
   late final String poster;
   late final String description;
   late final String duration;
+  late final String relaseDate;
   late final String genre;
   
   Film.fromJson(Map<String, dynamic> json){
@@ -77,6 +79,7 @@ class Film {
     poster = json['poster'];
     description = json['description'];
     duration = json['duration'];
+    relaseDate = json['relaseDate'];
     genre = json['genre'];
   }
 
@@ -87,6 +90,7 @@ class Film {
     _data['poster'] = poster;
     _data['description'] = description;
     _data['duration'] = duration;
+    _data['relaseDate'] = relaseDate;
     _data['genre'] = genre;
     return _data;
   }
