@@ -33,6 +33,8 @@ class SessionSuccessFetched extends SessionsState {
 
   @override
   List<Object> get props => [session];
+
+  
 }
 
 class SessionErrorState extends SessionsState {

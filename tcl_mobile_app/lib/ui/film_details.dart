@@ -84,7 +84,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
       child: SingleChildScrollView(
         child: Column(children: <Widget>[
           Container(
-            height: 65,
+            height: contentHeight * 0.09,
             color: const Color(0xFF1d1d1d),
             child: Row(
               children: [
