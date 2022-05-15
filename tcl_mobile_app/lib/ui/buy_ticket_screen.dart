@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/session/session_bloc.dart';
+import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 import 'package:tcl_mobile_app/repository/preferences_utils.dart';
 import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
@@ -11,9 +14,10 @@ import '../repository/session_repository/session_repository_impl.dart';
 import 'widgets/home_app_bar.dart';
 
 class BuyTicketScreen extends StatefulWidget {
-  const BuyTicketScreen({Key? key, required this.filmUuid}) : super(key: key);
+  const BuyTicketScreen({Key? key, required this.filmUuid, this.sessionUuid})
+      : super(key: key);
   final String filmUuid;
-
+  final String? sessionUuid;
   @override
   State<BuyTicketScreen> createState() => _BuyTicketScreenState();
 }
@@ -22,41 +26,70 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   late SessionRepository sessionRepository;
   String? token = "none";
   String filmId = "ac126ef2-80bc-101b-8180-bcb1c5490000";
-  String sessionId = "ac106372-80c7-15d7-8180-c737802e0002";
+  String? sessionId;
+
   @override
   void initState() {
     super.initState();
     PreferenceUtils.init();
     sessionRepository = SessionRepositoryImpl();
     token = PreferenceUtils.getString("token");
+    sessionId = widget.sessionUuid ?? "none";
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const HomeAppBar(),
-      backgroundColor: const Color(0xFF263238),
-      body: Column(
-        children: [
-          BlocProvider(
-            create: (context) {
-              return SessionsBloc(sessionRepository)
-                ..add(GetSessionDetails(sessionId));
-            },
-            child: Container(
-              child: _createSeeSession(context, sessionId),
+      backgroundColor: const Color(0xFF1d1d1d),
+      body: Container(
+        decoration: const BoxDecoration(color: Color(0xFF263238)),
+        child: Column(
+          children: [
+            Container(
+              height: 65,
+              color: const Color(0xFF1d1d1d),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 25.0, top: 5.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Icon(Icons.arrow_back, color: Colors.white),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 7.0, left: 20),
+                    child: Text(
+                      "Selección de asientos",
+                      style: TextStyle(color: Colors.white, fontSize: 15.0),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          BlocProvider(
-            create: (context) {
-              return SessionsBloc(sessionRepository)
-                ..add(FetchFilmSession(filmId));
-            },
-            child: Container(
-              child: _createSeeFilmSessions(context, sessionId),
+            BlocProvider(
+              create: (context) {
+                return SessionsBloc(sessionRepository)
+                  ..add(GetSessionDetails(sessionId!));
+              },
+              child: Container(
+                child: _createSeeSession(context, sessionId!),
+              ),
             ),
-          ),
-        ],
+            BlocProvider(
+              create: (context) {
+                return SessionsBloc(sessionRepository)
+                  ..add(FetchFilmSession(filmId));
+              },
+              child: Container(
+                child: _createSeeFilmSessions(context, sessionId!),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -69,13 +102,13 @@ Widget _createSeeFilmSessions(BuildContext context, String filmUuid) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is SessionErrorState) {
         return ErrorPage(
-          message: state.message,
+          message: "state.message",
           retry: () {
             context.watch<SessionsBloc>().add(FetchFilmSession(filmUuid));
           },
         );
       } else if (state is SessionsFetched) {
-        return _createSessionList(context, state.sessions);
+        return _createSessionList(context, state.sessions, filmUuid);
       } else {
         return const Text('Not support');
       }
@@ -83,7 +116,8 @@ Widget _createSeeFilmSessions(BuildContext context, String filmUuid) {
   );
 }
 
-Widget _createSessionList(BuildContext context, List<Session> sessions) {
+Widget _createSessionList(
+    BuildContext context, List<Session> sessions, String filmUuid) {
   final contentWidth = MediaQuery.of(context).size.width - 30;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
@@ -109,12 +143,11 @@ Widget _createSessionList(BuildContext context, List<Session> sessions) {
             color: Colors.white,
           ),
           SizedBox(
-            //color: const Color(0xFF263238),
             height: contentHeight / 3.07,
-            width: contentWidth-10,
+            width: contentWidth - 10,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return _getSessionList(context, sessions[index]);
+                return _getSessionList(context, sessions[index], filmUuid);
               },
               scrollDirection: Axis.vertical,
               itemCount: sessions.length,
@@ -126,20 +159,31 @@ Widget _createSessionList(BuildContext context, List<Session> sessions) {
   );
 }
 
-Widget _getSessionList(context, Session session) {
-
+Widget _getSessionList(context, Session session, String filmUuid) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal:30.0,vertical: 5),
+    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
     child: ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: const Color(0xFF546e7a),
-        side: const BorderSide(color: Color(0xFF78909c))
+        side: const BorderSide(color: Color(0xFF78909c)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
       ),
-      onPressed: () {  },
+      onPressed: () => Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BuyTicketScreen(
+              filmUuid: filmUuid, sessionUuid: session.sessionId),
+        ),
+        ModalRoute.withName('/'),
+      ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical:10.0),
-        child: Text(session.sessionDate),
-      ),
+          padding: const EdgeInsets.symmetric(vertical: 10.0),
+          child: Text(
+            DateTime.parse(session.sessionDate).toString().substring(0, 16),
+            style: const TextStyle(color: Colors.white, fontSize: 16.0),
+          )),
     ),
   );
 }
@@ -150,11 +194,15 @@ Widget _createSeeSession(BuildContext context, String uuid) {
       if (state is SessionsInitial) {
         return const Center(child: CircularProgressIndicator());
       } else if (state is SessionErrorState) {
-        return ErrorPage(
-          message: state.message,
-          retry: () {
-            context.watch<SessionsBloc>().add(GetSessionDetails(uuid));
-          },
+        return Container(
+          height: 364.65,
+          child: const Padding(
+            padding: EdgeInsets.only(top: 180.0),
+            child: Text(
+              "Seleccione una sesión",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ),
         );
       } else if (state is SessionSuccessFetched) {
         return _createPublicView(context, state.session);
@@ -174,30 +222,6 @@ Widget _createPublicView(BuildContext context, SessionResponse session) {
   return Container(
       child: Column(
     children: [
-      Container(
-        height: 65,
-        color: const Color(0xFF1d1d1d),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, top: 5.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: const Icon(Icons.arrow_back, color: Colors.white),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 7.0, left: 20),
-              child: Text(
-                "Selección de asientos",
-                style: TextStyle(color: Colors.white, fontSize: 15.0),
-              ),
-            ),
-          ],
-        ),
-      ),
       Padding(
         padding: const EdgeInsets.all(20.0),
         child: getSeatView(session.availableSeats),
