@@ -166,8 +166,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                             color: Colors.white, size: 35),
                       ),
                       const Text("Duración:",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 10)),
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
                       Text(
                         film.duration,
                         style:
@@ -192,10 +191,12 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                             color: Colors.white, size: 35),
                       ),
                       const Text("Estreno:",
-                          style: TextStyle(
-                              color: Colors.white, fontSize: 10)),
+                          style: TextStyle(color: Colors.white, fontSize: 10)),
                       Text(
-                        DateFormat('dd/MM/yyyy').format(DateTime.parse(film.relaseDate)).toString().substring(0, 10),
+                        DateFormat('dd/MM/yyyy')
+                            .format(DateTime.parse(film.relaseDate))
+                            .toString()
+                            .substring(0, 10),
                         style:
                             const TextStyle(color: Colors.white, fontSize: 10),
                       )
@@ -242,7 +243,24 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                     fontSize: 12,
                     fontWeight: FontWeight.w500)),
           ),
-        
+          Padding(
+            padding: const EdgeInsets.all(40.0),
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/buy-ticket');
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.white
+              ),
+              child: const Text(
+                'Comprar ticket',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF263238),
+                ),
+              ),
+            ),
+          )
         ]),
       ),
     ),
