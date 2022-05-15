@@ -1,5 +1,5 @@
-class Session {
-  Session({
+class SessionResponse {
+  SessionResponse({
     required this.sessionId,
     required this.filmTitle,
     required this.sessionDate,
@@ -12,15 +12,15 @@ class Session {
   late final String sessionDate;
   late final String hallName;
   late final bool active;
-  late final List<List<String>> availableSeats;
+  late final List<List<dynamic>> availableSeats;
   
-  Session.fromJson(Map<String, dynamic> json){
+  SessionResponse.fromJson(Map<String, dynamic> json){
     sessionId = json['sessionId'];
     filmTitle = json['filmTitle'];
     sessionDate = json['sessionDate'];
     hallName = json['hallName'];
     active = json['active'];
-    availableSeats = List.castFrom<dynamic, List<String>>(json['availableSeats']);
+    availableSeats = List.castFrom<dynamic, List<dynamic>>(json['availableSeats']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,4 +33,5 @@ class Session {
     _data['availableSeats'] = availableSeats;
     return _data;
   }
+
 }

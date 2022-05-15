@@ -1,15 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:tcl_mobile_app/bloc/films/films_bloc.dart';
-import 'package:tcl_mobile_app/constants.dart';
-import 'package:tcl_mobile_app/model/Films/single_film_response.dart';
-import 'package:tcl_mobile_app/repository/films_repository/films_repository.dart';
-import 'package:tcl_mobile_app/repository/films_repository/films_repository_impl.dart';
+import 'package:tcl_mobile_app/bloc/session/session_bloc.dart';
+import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 import 'package:tcl_mobile_app/repository/preferences_utils.dart';
+import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 
+import '../repository/session_repository/session_repository_impl.dart';
 import 'widgets/home_app_bar.dart';
 
 class BuyTicketScreen extends StatefulWidget {
@@ -21,16 +18,15 @@ class BuyTicketScreen extends StatefulWidget {
 }
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
-  late FilmRepository filmRepository;
+  late SessionRepository sessionRepository;
   String? token = "none";
+  String filmId = "ac106372-80c7-15d7-8180-c737802e0002";
   String sessionId = "ac106372-80c7-15d7-8180-c737802e0002";
-
   @override
   void initState() {
     super.initState();
     PreferenceUtils.init();
-    filmRepository = FilmRepositoryImpl();
-
+    sessionRepository = SessionRepositoryImpl();
     token = PreferenceUtils.getString("token");
   }
 
@@ -38,10 +34,10 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) {
-        return FilmsBloc(filmRepository)..add(GetFilmDetails(widget.filmUuid));
+        return SessionsBloc(sessionRepository)..add(GetSessionDetails(sessionId));
       },
       child: Scaffold(
-        body: _createSeeFilm(context, widget.filmUuid),
+        body: _createSeeSession(context, sessionId),
         appBar: const HomeAppBar(),
       ),
     );
@@ -49,20 +45,20 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
 }
 
 
-Widget _createSeeFilm(BuildContext context, String uuid) {
-  return BlocBuilder<FilmsBloc, FilmsState>(
+Widget _createSeeSession(BuildContext context, String uuid) {
+  return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
-      if (state is FilmsInitial) {
+      if (state is SessionsInitial) {
         return const Center(child: CircularProgressIndicator());
-      } else if (state is FilmErrorState) {
+      } else if (state is SessionErrorState) {
         return ErrorPage(
           message: state.message,
           retry: () {
-            context.watch<FilmsBloc>().add(GetFilmDetails(uuid));
+            context.watch<SessionsBloc>().add(GetSessionDetails(uuid));
           },
         );
-      } else if (state is FilmSuccessFetched) {
-        return _createPublicView(context, state.film);
+      } else if (state is SessionSuccessFetched) {
+        return _createPublicView(context, state.session);
       } else {
         return const Text('Not support');
       }
@@ -71,20 +67,17 @@ Widget _createSeeFilm(BuildContext context, String uuid) {
 }
 
 
-Widget _createPublicView(BuildContext context, FilmResponse film) {
+Widget _createPublicView(BuildContext context, SessionResponse session) {
   final contentWidth = MediaQuery.of(context).size.width - 30;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
-  String imageUrl =
-      film.poster.replaceAll("http://localhost:8080", Constants.baseUrl);
+
   return Scaffold(
-    body: Container(
-      height: contentHeight,
-      color: const Color(0xFF263238),
-      child: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Container(
+    backgroundColor: Color(0xFF263238),
+    body: Column(
+      children: [
+        Container(
             height: 65,
             color: const Color(0xFF1d1d1d),
             child: Row(
@@ -101,55 +94,101 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                 const Padding(
                   padding: EdgeInsets.only(top: 7.0, left: 20),
                   child: Text(
-                    "Selección de sitios",
+                    "Selección de asientos",
                     style: TextStyle(color: Colors.white, fontSize: 15.0),
                   ),
                 ),
               ],
             ),
           ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal:30.0,vertical: 8),
-                child: Container(
-                  width: contentWidth-30,
-                  height: contentHeight * 0.4,
-                  decoration: const BoxDecoration(
-                    color: Colors.black
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom:30.0),
-                        child: Container(
-                          width: contentWidth,
-                          height: 10,
-                          decoration: const BoxDecoration(
-                            color: Color(0xFFeceff1)
-                          ),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width:15,
-                            height: 15,
-                            decoration: const BoxDecoration(
-                              color: Colors.white
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: getSeatView(session.availableSeats),
+        ),
+      ],
+    )
+  );
+}
+
+
+Widget getSeatView(List<List<dynamic>> seats) {
+
+  
+  List<Widget> seatList = [];
+  int rowSeats = seats[0].length;
+  double height = (rowSeats * seats[0].length/1.3).toDouble();
+
+  for (var row in seats) {
+      for (var seat in row) {
+          if(seat == "S"){
+            seatList.add(
+              Container(
+                width: 10,
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF37474f),
+                  borderRadius: BorderRadius.all(Radius.circular(2))
                 ),
+              )
+            );
+          }
+          else if(seat == "P") {
+            seatList.add(
+              Container(
+                width: 10,
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.all(Radius.circular(2))
+                ),
+              )
+            );
+          }
+          else if(seat == "O") {
+            seatList.add(
+              Container(
+                width: 10,
+                height: 10,
+                decoration: const BoxDecoration(
+                  color: Color(0xFF78909c),
+                  borderRadius: BorderRadius.all(Radius.circular(2))
+                ),
+              )
+            );
+          }
+        }
+    }
+
+  return Container(
+    color: Colors.transparent,
+    height: height,
+    child: Column(
+      children: [
+        Expanded(
+          child: GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                 // number of items per row
+                crossAxisCount: rowSeats,
+                 // vertical spacing between the items
+                 mainAxisSpacing: 10,
+                 // horizontal spacing between the items
+                 crossAxisSpacing: 3,
+                ),
+              // number of items in your list
+              itemCount: seatList.length, 
+              
+              itemBuilder: (BuildContext context, int index) { 
+                return seatList[index];
+               },
               ),
-            ],
-          ),
-          
-        ]),
-      ),
+        ),
+        Container(
+          width: double.infinity,
+          height: 10,
+          color:Colors.white
+        )
+      ],
     ),
   );
+  
 }

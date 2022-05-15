@@ -1,7 +1,10 @@
-abstract class FilmRepository {
+import '../../model/Sessions/session_response.dart';
+import '../../model/Sessions/single_session_response.dart';
 
-  Future<List<Session>> fetchFilmSessions();
+abstract class SessionRepository {
 
-  Future<SessionResponse> fetchSession(String id);
+  Future<List<Session>> fetchFilmSessions(String filmUuid);
+
+  Future<SessionResponse> fetchSessionDetails(String id);
   
 }
