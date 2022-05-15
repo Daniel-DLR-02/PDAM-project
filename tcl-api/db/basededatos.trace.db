@@ -62,3 +62,7 @@ alter table ticket add constraint FK97jutu2jqqg4sy95o6fytj2p5 foreign key (user_
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
 Table "TICKET" not found; SQL statement:
 alter table user_tickets add constraint FKm89g7wxxhhmwfmk4stgu1ihoh foreign key (tickets_uuid) references ticket [42102-200]
+2022-05-15 13:14:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "SEATS VARBINARY(255)": "X'aced0005757200145b5b4c6a6176612e6c616e672e537472696e673b324d09ad8432e45702000078700000000c757200135b4c6a6176612e6c616e672e5374... (1393)"
+Value too long for column "SEATS VARBINARY(255)": "X'aced0005757200145b5b4c6a6176612e6c616e672e537472696e673b324d09ad8432e45702000078700000000c757200135b4c6a6176612e6c616e672e5374... (1393)"; SQL statement:
+insert into hall (name, seats, uuid) values (?, ?, ?) [22001-200]

@@ -14,12 +14,12 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
 
     @Query(value = """ 
-                        select new com.pdam.tcl.model.dto.session.GetSessionDto(
+                        SELECT new com.pdam.tcl.model.dto.session.GetSessionDto(
                             s.uuid,f.title,s.sessionDate,h.name,s.active,s.availableSeats
                         ) 
-                        from Session s join s.film f
-                            join s.hall h 
-                        where f.uuid = filmUuid
+                        FROM Session s JOIN Film f ON s.film.uuid = f.uuid
+                        JOIN Hall h ON s.hall.uuid = h.uuid
+                        WHERE s.film.uuid = :filmUuid
                     """)
     Page<GetSessionDto> getSessionsByFilmId(UUID filmUuid, Pageable pageable);
 }
