@@ -46,7 +46,7 @@ public class SessionController {
         return ResponseEntity.ok(sessionDtoConverter.sessionToGetSessionDto(sessionService.edit(id, createSessionDto)));
     }
 
-    @GetMapping("/{filmId}")
+    @GetMapping("/film/{filmId}")
     public ResponseEntity<Page<GetSessionDto>> getSessionByFilmId(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request, @PathVariable("filmId") UUID filmId) {
         return ResponseEntity.ok(sessionService.findSessionsByFilmId(filmId,pageable));
     }
