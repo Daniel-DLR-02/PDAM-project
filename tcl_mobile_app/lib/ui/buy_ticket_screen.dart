@@ -25,7 +25,6 @@ class BuyTicketScreen extends StatefulWidget {
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
   late SessionRepository sessionRepository;
   String? token = "none";
-  String filmId = "ac126ef2-80bc-101b-8180-bcb1c5490000";
   String? sessionId;
 
   @override
@@ -40,6 +39,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: nextButton(sessionId),
       appBar: const HomeAppBar(),
       backgroundColor: const Color(0xFF1d1d1d),
       body: Container(
@@ -82,10 +82,10 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
             BlocProvider(
               create: (context) {
                 return SessionsBloc(sessionRepository)
-                  ..add(FetchFilmSession(filmId));
+                  ..add(FetchFilmSession(widget.filmUuid));
               },
               child: Container(
-                child: _createSeeFilmSessions(context, sessionId!),
+                child: _createSeeFilmSessions(context, widget.filmUuid, sessionId!),
               ),
             ),
           ],
@@ -95,7 +95,22 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   }
 }
 
-Widget _createSeeFilmSessions(BuildContext context, String filmUuid) {
+Widget? nextButton(String? sessionId) {
+  if (sessionId != "none") {
+    return FloatingActionButton(
+      onPressed: () {
+        // Enviar datos
+      },
+      backgroundColor: const Color(0xFF546e7a),
+      child: const Icon(Icons.arrow_forward),
+    );
+  } else {
+    return null;
+  }
+}
+
+Widget _createSeeFilmSessions(
+    BuildContext context, String filmUuid, String sessionId) {
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
@@ -108,7 +123,7 @@ Widget _createSeeFilmSessions(BuildContext context, String filmUuid) {
           },
         );
       } else if (state is SessionsFetched) {
-        return _createSessionList(context, state.sessions, filmUuid);
+        return _createSessionList(context, state.sessions, filmUuid, sessionId);
       } else {
         return const Text('Not support');
       }
@@ -116,8 +131,8 @@ Widget _createSeeFilmSessions(BuildContext context, String filmUuid) {
   );
 }
 
-Widget _createSessionList(
-    BuildContext context, List<Session> sessions, String filmUuid) {
+Widget _createSessionList(BuildContext context, List<Session> sessions,
+    String filmUuid, String sessionId) {
   final contentWidth = MediaQuery.of(context).size.width - 30;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
@@ -147,7 +162,8 @@ Widget _createSessionList(
             width: contentWidth - 10,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                return _getSessionList(context, sessions[index], filmUuid);
+                return _getSessionList(
+                    context, sessions[index], filmUuid, sessionId);
               },
               scrollDirection: Axis.vertical,
               itemCount: sessions.length,
@@ -159,33 +175,55 @@ Widget _createSessionList(
   );
 }
 
-Widget _getSessionList(context, Session session, String filmUuid) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
-    child: ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: const Color(0xFF546e7a),
-        side: const BorderSide(color: Color(0xFF78909c)),
-        shape: RoundedRectangleBorder(
+Widget _getSessionList(
+    context, Session session, String filmUuid, String sessionId) {
+  if (sessionId == session.sessionId) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Center(
+              child: Text(
+                DateTime.parse(session.sessionDate).toString().substring(0, 16),
+                style: const TextStyle(
+                    color: const Color(0xFF546e7a), fontSize: 16.0),
+              ),
+            )),
       ),
-      onPressed: () => Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => BuyTicketScreen(
-              filmUuid: filmUuid, sessionUuid: session.sessionId),
+    );
+  } else {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: const Color(0xFF546e7a),
+          side: const BorderSide(color: Color(0xFF78909c)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
-        ModalRoute.withName('/'),
+        onPressed: () => Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => BuyTicketScreen(
+                filmUuid: filmUuid, sessionUuid: session.sessionId),
+          ),
+          ModalRoute.withName('/'),
+        ),
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: Text(
+              DateTime.parse(session.sessionDate).toString().substring(0, 16),
+              style: const TextStyle(color: Colors.white, fontSize: 16.0),
+            )),
       ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10.0),
-          child: Text(
-            DateTime.parse(session.sessionDate).toString().substring(0, 16),
-            style: const TextStyle(color: Colors.white, fontSize: 16.0),
-          )),
-    ),
-  );
+    );
+  }
 }
 
 Widget _createSeeSession(BuildContext context, String uuid) {
@@ -243,8 +281,8 @@ Widget getSeatView(List<List<dynamic>> seats) {
           width: 10,
           height: 10,
           decoration: const BoxDecoration(
-              color: Color(0xFF37474f),
-              borderRadius: BorderRadius.all(Radius.circular(2))),
+              color: Color(0xFF37474f), // Hacer que sea gesture detector, que cambie de color y se meta en un array de asientos[row][column].
+              borderRadius: BorderRadius.all(Radius.circular(2))), 
         ));
       } else if (seat == "P") {
         seatList.add(Container(
