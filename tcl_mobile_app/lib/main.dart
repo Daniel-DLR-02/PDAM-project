@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         '/': (context) => const MenuScreen(),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
-        '/buy-ticket': (context) => const BuyTicketScreen(),
       },
     );
   }

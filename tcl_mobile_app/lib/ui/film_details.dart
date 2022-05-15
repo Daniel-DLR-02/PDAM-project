@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:tcl_mobile_app/ui/buy_ticket_screen.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
 
@@ -246,12 +247,13 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
           Padding(
             padding: const EdgeInsets.all(40.0),
             child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/buy-ticket');
-              },
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.white
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BuyTicketScreen(filmUuid: film.uuid),
+                ),
               ),
+              style: TextButton.styleFrom(backgroundColor: Colors.white),
               child: const Text(
                 'Comprar ticket',
                 style: TextStyle(
