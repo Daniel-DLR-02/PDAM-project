@@ -3,11 +3,14 @@ package com.pdam.tcl.service;
 import org.springframework.web.multipart.MultipartFile;
 
 import org.springframework.core.io.Resource;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public interface StorageService {
+
 
     void init();
 

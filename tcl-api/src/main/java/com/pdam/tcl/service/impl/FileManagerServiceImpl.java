@@ -1,11 +1,15 @@
 package com.pdam.tcl.service.impl;
 
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.storage.*;
 import com.pdam.tcl.config.StorageProperties;
 import com.pdam.tcl.errors.exception.FileNotFoundException;
 import com.pdam.tcl.errors.exception.StorageException;
 import com.pdam.tcl.service.StorageService;
 import com.pdam.tcl.utils.MediaTypeUrlUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -42,7 +46,8 @@ public class FileManagerServiceImpl implements StorageService {
     }
 
     @Override
-    public String store(MultipartFile file) {
+    public String store(MultipartFile file) throws IOException {
+
         String filename = StringUtils.cleanPath(file.getOriginalFilename().replace(" ","_"));
         String newFilename = "";
 
@@ -72,8 +77,20 @@ public class FileManagerServiceImpl implements StorageService {
             throw new StorageException("Error en el almacenamiento del fichero: " + newFilename, ex);
         }
 
-        return newFilename;
+        StorageOptions storageOptions = StorageOptions.newBuilder()
+                .setProjectId("my-project")
+                .setCredentials(GoogleCredentials
+                        .fromStream(new ClassPathResource("firebase.json").getInputStream()))
+                .build();
+        Storage storage = storageOptions.getService();
+        BlobId blobId = BlobId.of("bucket-name", filename);
 
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType(file.getContentType()).build();
+
+        Blob blob = storage.create(blobInfo, file.getBytes());
+
+        System.out.println("UPLOAD FILE" + file.getName() + " " + file.getSize() + " octet");
+        return "https://storage.cloud.google.com/tcl-bucket"+filename;
     }
 
     private String createFileName(String filename) {
@@ -157,4 +174,7 @@ public class FileManagerServiceImpl implements StorageService {
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
     }
+
+
+
 }
