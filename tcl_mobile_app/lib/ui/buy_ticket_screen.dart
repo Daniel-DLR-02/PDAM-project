@@ -257,33 +257,49 @@ Widget _createPublicView(BuildContext context, SessionResponse session) {
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
 
-  return Container(
-      child: Column(
+  return Column(
     children: [
-      Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: getSeatView(session.availableSeats),
-      ),
+  Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: getSeatView(session.availableSeats),
+  ),
     ],
-  ));
+  );
 }
+
+
 
 Widget getSeatView(List<List<dynamic>> seats) {
   List<Widget> seatList = [];
   int rowSeats = seats[0].length;
   int columnSeats = seats.length;
   double height = (columnSeats * 27).toDouble();
-
+  var seatsSelected = [];
+  int numberSeatsSelected = 0;
   for (var row in seats) {
     for (var seat in row) {
       if (seat == "S") {
-        seatList.add(Container(
-          width: 10,
-          height: 10,
-          decoration: const BoxDecoration(
-              color: Color(0xFF37474f), // Hacer que sea gesture detector, que cambie de color y se meta en un array de asientos[row][column].
-              borderRadius: BorderRadius.all(Radius.circular(2))), 
-        ));
+        seatList.add(
+          InkWell(
+            onTap: (() => {
+              print(seatsSelected.any((e)=> e == ([row.indexOf(seat),seats.indexOf(row)]))),
+              if(seatsSelected.contains([row.indexOf(seat),seats.indexOf(row)])){
+                seatsSelected.remove([row.indexOf(seat),seats.indexOf(row)]),
+                numberSeatsSelected--
+              }else{
+                seatsSelected.add([row.indexOf(seat),seats.indexOf(row)]),
+                numberSeatsSelected++,
+                print(seatsSelected)
+              }
+            }),
+            child: Container(
+            width: 10,
+            height: 10,
+            decoration: const BoxDecoration(
+                color: Color(0xFF37474f), // Hacer que sea gesture detector, que cambie de color y se meta en un array de asientos[row][column].
+                borderRadius: BorderRadius.all(Radius.circular(2))), 
+                  ),
+          ));
       } else if (seat == "P") {
         seatList.add(Container(
           width: 10,
