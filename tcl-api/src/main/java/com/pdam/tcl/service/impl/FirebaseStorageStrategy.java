@@ -1,7 +1,9 @@
 package com.pdam.tcl.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.OAuth2Credentials;
 import com.google.cloud.ReadChannel;
 import com.google.cloud.storage.*;
 import com.pdam.tcl.config.FirebaseCredential;
@@ -52,7 +54,7 @@ public class FirebaseStorageStrategy implements StorageStrategy {
     }
 
     public String upload(MultipartFile multipartFile) throws IOException {
-        log.debug("bucket name====" + bucketName);
+        /*log.debug("bucket name====" + bucketName);
         File file = convertMultiPartToFile(multipartFile);
         Path filePath = file.toPath();
         String objectName = generateFileName(multipartFile);
@@ -63,7 +65,24 @@ public class FirebaseStorageStrategy implements StorageStrategy {
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
         Blob blob = storage.create(blobInfo, Files.readAllBytes(filePath));
 
+        Bucket bucket = storage.create(BucketInfo.of("tcl-bucket"));
+
         log.info("File " + filePath + " uploaded to bucket " + bucketName + " as " + objectName);
+        return objectName;*/
+
+        Storage storage = StorageOptions.newBuilder()
+                .setCredentials(GoogleCredentials.fromStream(getClass().getClassLoader().getResourceAsStream("firebase.json")))
+                .build()
+                .getService();
+
+        File file = convertMultiPartToFile(multipartFile);
+        Path filePath = file.toPath();
+        String objectName = generateFileName(multipartFile);
+
+        BlobId blobId = BlobId.of("tcl-bucket", objectName);
+        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("text/plain").build();
+        Blob zebraBlob = storage.create(blobInfo);
+
         return objectName;
     }
 
