@@ -10,12 +10,13 @@ import org.springframework.stereotype.Component;
 public class TicketDtoConverter {
 
     private final UserDtoConverter userDtoConverter;
+    private final SessionDtoConverter sessionDtoConverter;
 
     public GetTicketDto ticketDtoToGetDtoConverter(Ticket ticket){
         return GetTicketDto.builder()
                 .uuid(ticket.getUuid())
                 .user(userDtoConverter.userToGetUserDto(ticket.getUser()))
-                .session(ticket.getSession())
+                .session(sessionDtoConverter.sessionToGetSessionDto(ticket.getSession()))
                 .row(ticket.getHallRow())
                 .column(ticket.getHallColumn())
                 .build();
