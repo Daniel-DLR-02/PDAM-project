@@ -28,14 +28,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final StorageService storageService;
-
+    private final FirebaseStorageStrategy firebaseStorageStrategy;
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
 
-        String fileName = storageService.store(file);
+        String fileName = firebaseStorageStrategy.upload(file);
 
-        String uri = storageService.createUri(fileName);
 
         return userRepository.save(User.builder()
                 .nombre(createUsuarioDto.getNombre())
@@ -43,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .email(createUsuarioDto.getEmail())
                 .fechaNacimiento(createUsuarioDto.getFechaNacimiento())
                 .password(passwordEncoder.encode(createUsuarioDto.getPassword()))
-                .avatar(uri)
+                .avatar(fileName)
                 .role(UserRole.USER)
                 .build());
 
@@ -81,16 +80,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
-        String fileName = storageService.store(file);
-
-        String uri = storageService.createUri(fileName);
+        String fileName = firebaseStorageStrategy.upload(file);
 
         user.setNombre(userDto.getNombre());
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
         user.setPassword(userDto.getPassword());
-        user.setAvatar(uri);
+        user.setAvatar(fileName);
         user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);
