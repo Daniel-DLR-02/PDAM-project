@@ -4,11 +4,15 @@ import com.pdam.tcl.model.Film;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.film.CreateFilmDto;
 import com.pdam.tcl.model.dto.film.GetFilmDto;
+import com.pdam.tcl.model.img.ImgResponse;
+import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.FilmRepository;
 import com.pdam.tcl.service.FilmService;
+import com.pdam.tcl.service.ImgServiceStorage;
 import com.pdam.tcl.service.StorageService;
 import com.pdam.tcl.utils.converters.FilmDtoConverter;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,13 +32,15 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final StorageService storageService;
     private final FilmDtoConverter filmDtoConverter;
+    private final ImgServiceStorage imgServiceStorage;
 
     @Override
     public Film save(CreateFilmDto createFilm, MultipartFile file) throws Exception {
 
-        String fileName = storageService.store(file);
+        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
-        String uri = storageService.createUri(fileName);
+        String uri = img.getData().getLink();
+        String delete_hash_img = img.getData().getDeletehash();
 
         return filmRepository.save(Film.builder()
                 .title(createFilm.getTitle())
@@ -49,7 +55,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Optional<Film> findById(UUID id) {
+    public Optional<Film>    findById(UUID id) {
         return filmRepository.findById(id);
     }
 
