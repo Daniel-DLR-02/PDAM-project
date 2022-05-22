@@ -34,6 +34,10 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     sessionRepository = SessionRepositoryImpl();
     token = PreferenceUtils.getString("token");
     sessionId = widget.sessionUuid ?? "none";
+    PreferenceUtils.setString('filmUuid', widget.filmUuid);
+    if(widget.sessionUuid != null) {
+      PreferenceUtils.setString('sessionUuid', widget.sessionUuid!);
+    }
   }
 
   @override
@@ -253,8 +257,6 @@ Widget _createSeeSession(BuildContext context, String uuid) {
 }
 
 Widget _createPublicView(BuildContext context, SessionResponse session) {
-  final contentWidth = MediaQuery.of(context).size.width - 30;
-  final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
 
@@ -276,29 +278,20 @@ Widget getSeatView(List<List<dynamic>> seats) {
   List<String> seatsSelected = [];
   for (var i = 0; i < seats.length; i++) {
     for (var j = 0; j < seats[i].length; j++) {
-      print(seats);
       if (seats[i][j] == "S") {
-        seatList.add(InkWell(
-          onTap: (() => {
-                print("$i,$j"),
-                if (seatsSelected.contains("$i,$j"))
-                  {
-                    seatsSelected.remove("$i,$j"),
-                  }
-                else
-                  {seatsSelected.add("$i,$j"), print(seatsSelected)}
-              }),
-          child: Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-                color: seatsSelected.contains(seats[i][j])
-                    ? Colors.white
-                    : const Color(
-                        0xFF37474f), // Hacer que sea gesture detector, que cambie de color y se meta en un array de asientos[row][column].
-                borderRadius: const BorderRadius.all(Radius.circular(2))),
+        seatList.add(
+          UnselectedSeat(
+            row: i,
+            column: j,
+            onFlatButtonPressed: () {
+              if (seatsSelected.contains("$i,$j")) {
+                seatsSelected.remove("$i,$j");
+              } else {
+                seatsSelected.add("$i,$j");
+              }
+            },
           ),
-        ));
+        );
       } else if (seats[i][j] == "P") {
         seatList.add(Container(
           width: 10,
@@ -407,4 +400,43 @@ Widget getSeatView(List<List<dynamic>> seats) {
       ],
     ),
   );
+}
+
+class UnselectedSeat extends StatefulWidget {
+  final VoidCallback onFlatButtonPressed;
+  UnselectedSeat(
+      {Key? key,
+      required this.row,
+      required this.column,
+      required this.onFlatButtonPressed})
+      : super(key: key);
+  final int row;
+  final int column;
+
+  @override
+  State<UnselectedSeat> createState() => _UnselectedSeatState();
+}
+
+class _UnselectedSeatState extends State<UnselectedSeat> {
+  bool selected = false;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return InkWell(
+      onTap: ((){
+        setState(() => {
+            widget.onFlatButtonPressed,
+            selected = !selected,
+        });
+      }),
+      child: Container(
+        width: 10,
+        height: 10,
+        decoration: BoxDecoration(
+            color: selected ? const Color(0xFFeceff1) : const Color(0xFF37474f),
+            borderRadius: const BorderRadius.all(Radius.circular(2))),
+      ),
+    );
+  }
 }
