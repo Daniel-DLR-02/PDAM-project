@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
@@ -52,5 +53,10 @@ public class FilmController {
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) throws IOException {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("img/{id}")
+    public ResponseEntity<String> loadPoster(@PathVariable("id") UUID id) throws FileNotFoundException {
+        return ResponseEntity.ok(service.getImg(id));
     }
 }

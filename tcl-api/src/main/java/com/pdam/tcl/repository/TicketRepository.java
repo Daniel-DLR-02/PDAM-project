@@ -10,6 +10,6 @@ import java.util.UUID;
 
 public interface TicketRepository extends JpaRepository<Ticket, UUID> {
 
-    @Query(value="select t from Ticket t where t.user.id = idUser")
+    @Query(value="select t from Ticket t where t.user.id = :idUser")
     Page<Ticket> findAllByUserId(UUID idUser, Pageable pageable);
 }

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,4 +25,6 @@ public interface FilmService {
     Film update(UUID id, CreateFilmDto createFilm, MultipartFile file) throws Exception;
 
     Page<GetFilmDto> getCurrentFilms(Pageable pageable);
+
+    String getImg(UUID filmUuid) throws FileNotFoundException;
 }

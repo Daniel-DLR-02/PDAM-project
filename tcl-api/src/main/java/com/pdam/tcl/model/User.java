@@ -1,5 +1,7 @@
 package com.pdam.tcl.model;
 
+import com.pdam.tcl.model.img.ImgurImageInfo;
+import com.pdam.tcl.utils.converters.ImgInfoConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,7 +53,8 @@ public class User implements UserDetails {
 
     private LocalDate fechaNacimiento;
 
-    private String avatar;
+    @Convert(converter = ImgInfoConverter.class)
+    private ImgurImageInfo avatar;
 
     private String password;
 

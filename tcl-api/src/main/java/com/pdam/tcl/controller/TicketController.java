@@ -5,8 +5,6 @@ import com.pdam.tcl.model.Ticket;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.ticket.CreateTicketDto;
 import com.pdam.tcl.model.dto.ticket.GetTicketDto;
-import com.pdam.tcl.model.dto.user.GetUserDto;
-import com.pdam.tcl.repository.SessionRepository;
 import com.pdam.tcl.service.SessionService;
 import com.pdam.tcl.service.TicketService;
 import lombok.RequiredArgsConstructor;

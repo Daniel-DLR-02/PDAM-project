@@ -119,7 +119,7 @@ public class UserController {
         return UserLoggedResponse.builder()
                 .nickName(user.getNickname())
                 .email(user.getEmail())
-                .avatar(user.getAvatar())
+                .avatar(user.getAvatar().getLink())
                 .token(jwt)
                 .build();
     }

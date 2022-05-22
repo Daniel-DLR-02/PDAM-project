@@ -13,10 +13,9 @@ public class FilmDtoConverter {
         return GetFilmDto.builder()
         .title(film.getTitle())
                 .uuid(film.getUuid())
-                .poster(film.getPoster())
                 .description(film.getDescription())
                 .duration(film.getDuration())
-                .relaseDate(film.getReleaseDate())
+                .releaseDate(film.getReleaseDate())
                 .genre(film.getGenre())
                 .build();
     }
