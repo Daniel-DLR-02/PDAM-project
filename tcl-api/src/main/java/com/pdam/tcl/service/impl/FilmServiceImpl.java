@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
@@ -89,8 +90,18 @@ public class FilmServiceImpl implements FilmService {
     }
 
 
+
+
     @Override
     public Page<GetFilmDto> getCurrentFilms(Pageable pageable) {
         return filmRepository.findCurrentFilms(pageable);
+    }
+    @Override
+    public String getImg(UUID filmUuid) throws FileNotFoundException {
+        Optional<Film> peliculaBuscada = findById(filmUuid);
+        if(peliculaBuscada.isPresent())
+            return peliculaBuscada.get().getPoster().getLink();
+        else
+            throw new FileNotFoundException("Poster not found");
     }
 }
