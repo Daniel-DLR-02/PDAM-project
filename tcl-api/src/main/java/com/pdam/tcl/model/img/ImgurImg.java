@@ -17,25 +17,13 @@ public class ImgurImg {
 
     public ImgurImg() { }
 
-    /**
-     * Constructor "preferible"
-     * @param image Imagen codificada como una cadena de caracteres en base64
-     * @param name Nombre del fichero
-     */
     public ImgurImg(String image, String name) {
         super();
         this.image = image;
         this.name = name;
     }
 
-    /**
-     * Constructor completo
-     *
-     * @param title Título de la imagen
-     * @param description Descripción de la imagen
-     * @param image Imagen codificada como una cadena de caracteres en base64
-     * @param name Nombre del fichero
-     */
+
     public ImgurImg(String title, String description, String image, String name) {
         super();
         this.title = title;

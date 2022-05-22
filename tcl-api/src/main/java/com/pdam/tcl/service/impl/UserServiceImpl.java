@@ -3,10 +3,13 @@ package com.pdam.tcl.service.impl;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.UserRole;
 import com.pdam.tcl.model.dto.user.CreateUserDto;
+import com.pdam.tcl.model.img.ImgResponse;
+import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.UserRepository;
-import com.pdam.tcl.service.StorageService;
+import com.pdam.tcl.service.ImgServiceStorage;
 import com.pdam.tcl.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,15 +27,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final StorageService storageService;
+    private final ImgServiceStorage imgServiceStorage;
 
 
     @Override
     public User save(CreateUserDto createUsuarioDto, MultipartFile file) throws Exception {
 
-        String fileName = storageService.store(file);
-
-        String uri = storageService.createUri(fileName);
+        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
         return userRepository.save(User.builder()
                 .nombre(createUsuarioDto.getNombre())
@@ -43,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .email(createUsuarioDto.getEmail())
                 .fechaNacimiento(createUsuarioDto.getFechaNacimiento())
                 .password(passwordEncoder.encode(createUsuarioDto.getPassword()))
-                .avatar(uri)
+                .avatar(img.getData())
                 .role(UserRole.USER)
                 .build());
 
@@ -57,9 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception {
-        String fileName = storageService.store(file);
-
-        String uri = storageService.createUri(fileName);
+        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
         return userRepository.save(User.builder()
                 .nombre(newUsuario.getNombre())
@@ -67,7 +63,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .email(newUsuario.getEmail())
                 .fechaNacimiento(newUsuario.getFechaNacimiento())
                 .password(passwordEncoder.encode(newUsuario.getPassword()))
-                .avatar(uri)
+                .avatar(img.getData())
                 .role(UserRole.ADMIN)
                 .build());
     }
@@ -81,16 +77,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
-        String fileName = storageService.store(file);
+        imgServiceStorage.delete(user.getAvatar().getDeletehash());
 
-        String uri = storageService.createUri(fileName);
+        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
         user.setNombre(userDto.getNombre());
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
         user.setPassword(userDto.getPassword());
-        user.setAvatar(uri);
+        user.setAvatar(img.getData());
         user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);
@@ -104,10 +100,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if((usuarioABorrar.isPresent()) &&
         (usuarioABorrar.get().getAvatar() != null)){
 
-            String filePathString = "./uploads/"+usuarioABorrar.get().getAvatar().replace("http://localhost:8080/download/","");
-            Path path = Paths.get(filePathString);
+            imgServiceStorage.delete(usuarioABorrar.get().getAvatar().getDeletehash());
 
-            storageService.deleteFile(path);
         }
 
         userRepository.deleteById(id);

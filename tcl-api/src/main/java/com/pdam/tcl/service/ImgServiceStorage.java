@@ -10,5 +10,5 @@ import java.util.UUID;
 
 public interface ImgServiceStorage {
     ImgResponse store(ImgurImg imagen);
-    void delete(UUID deleteId);
+    void delete(String deleteId);
 }

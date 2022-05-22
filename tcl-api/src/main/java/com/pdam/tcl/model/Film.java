@@ -1,5 +1,7 @@
 package com.pdam.tcl.model;
 
+import com.pdam.tcl.model.img.ImgurImageInfo;
+import com.pdam.tcl.utils.converters.ImgInfoConverter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,10 +9,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -38,7 +37,8 @@ public class Film {
 
     private String title;
 
-    private String poster;
+    @Convert(converter = ImgInfoConverter.class)
+    private ImgurImageInfo poster;
 
     private String description;
 
