@@ -22,17 +22,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late FilmRepository filmRepository;
-  String? avatar_sin_formato;
-  String? avatar_url = "none";
+  String? avatar_url;
   String? token = "none";
 
   @override
   void initState() {
     PreferenceUtils.init();
     filmRepository = FilmRepositoryImpl();
-    avatar_sin_formato = PreferenceUtils.getString("avatar");
-    avatar_url = avatar_sin_formato!
-        .replaceAll("http://localhost:8080", Constants.baseUrl);
+    avatar_url = PreferenceUtils.getString("avatar");
     token = PreferenceUtils.getString("token");
     /*this._isLoading=true;
     Future.delayed(const Duration(seconds: 2),() {
@@ -87,9 +84,7 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
   final contentWidth = MediaQuery.of(context).size.width;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
-  String? avatar_sin_formato = PreferenceUtils.getString("avatar");
-  String avatar_url = avatar_sin_formato!
-      .replaceAll("http://localhost:8080", Constants.baseUrl);
+  String? avatar_url = PreferenceUtils.getString("avatar");
   String? token = PreferenceUtils.getString("token");
   String? nick = PreferenceUtils.getString("nick");
   return RefreshIndicator(
@@ -143,10 +138,7 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
                                   placeholder: (context, url) => Center(
                                       child: SkeletonContainer.imageItem(
                                           width: 80, height: 80, radius: 50)),
-                                  imageUrl: avatar_url,
-                                  httpHeaders: {
-                                    "Authorization": "Bearer " + token!
-                                  },
+                                  imageUrl: avatar_url!,
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,
@@ -339,8 +331,6 @@ Widget _createPublicViewItem(
   final contentHeight = MediaQuery.of(context).size.height;
 
   String? token = PreferenceUtils.getString("token");
-  String imageUrl =
-      film.poster.replaceAll("http://localhost:8080", Constants.baseUrl);
 
   return InkWell(
     onTap: () => Navigator.push(
@@ -374,8 +364,7 @@ Widget _createPublicViewItem(
               radius: 25.0,
             ),
           ),
-          imageUrl: imageUrl,
-          httpHeaders: {"Authorization": "Bearer " + token!},
+          imageUrl: film.poster,
           width: contentWidth,
           height: contentHeight,
           fit: BoxFit.cover,

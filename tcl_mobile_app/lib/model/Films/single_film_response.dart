@@ -5,7 +5,7 @@ class FilmResponse {
     required this.poster,
     required this.description,
     required this.duration,
-    required this.relaseDate,
+    required this.releaseDate,
     required this.genre,
   });
   late final String uuid;
@@ -13,7 +13,7 @@ class FilmResponse {
   late final String poster;
   late final String description;
   late final String duration;
-  late final String relaseDate;
+  late final String releaseDate;
   late final String genre;
   
   FilmResponse.fromJson(Map<String, dynamic> json){
@@ -22,7 +22,7 @@ class FilmResponse {
     poster = json['poster'];
     description = json['description'];
     duration = json['duration'];
-    relaseDate = json['relaseDate'];
+    releaseDate = json['releaseDate'];
     genre = json['genre'];
   }
 
@@ -33,7 +33,7 @@ class FilmResponse {
     _data['poster'] = poster;
     _data['description'] = description;
     _data['duration'] = duration;
-    _data['relaseDate'] = relaseDate;
+    _data['releaseDate'] = releaseDate;
     _data['genre'] = genre;
     return _data;
   }

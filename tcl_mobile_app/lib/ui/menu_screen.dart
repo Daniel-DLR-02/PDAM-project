@@ -105,7 +105,6 @@ class _MenuScreenState extends State<MenuScreen> {
                       child: CircularProgressIndicator(),
                     ),
                     imageUrl: avatar_url,
-                    httpHeaders: {"Authorization": "Bearer " + token},
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,

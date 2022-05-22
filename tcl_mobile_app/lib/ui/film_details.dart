@@ -75,8 +75,6 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
-  String imageUrl =
-      film.poster.replaceAll("http://localhost:8080", Constants.baseUrl);
   return Scaffold(
     body: Container(
       height: contentHeight,
@@ -117,8 +115,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                     placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                    imageUrl: imageUrl,
-                    httpHeaders: {"Authorization": "Bearer " + token!},
+                    imageUrl: film.poster,
                     width: contentWidth,
                     height: 300,
                     fit: BoxFit.cover,
@@ -195,7 +192,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                           style: TextStyle(color: Colors.white, fontSize: 10)),
                       Text(
                         DateFormat('dd/MM/yyyy')
-                            .format(DateTime.parse(film.relaseDate))
+                            .format(DateTime.parse(film.releaseDate))
                             .toString()
                             .substring(0, 10),
                         style:

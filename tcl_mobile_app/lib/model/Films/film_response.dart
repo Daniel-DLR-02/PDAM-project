@@ -62,7 +62,7 @@ class Film {
     required this.poster,
     required this.description,
     required this.duration,
-    required this.relaseDate,
+    required this.releaseDate,
     required this.genre,
   });
   late final String uuid;
@@ -70,7 +70,7 @@ class Film {
   late final String poster;
   late final String description;
   late final String duration;
-  late final String relaseDate;
+  late final String releaseDate;
   late final String genre;
   
   Film.fromJson(Map<String, dynamic> json){
@@ -79,7 +79,7 @@ class Film {
     poster = json['poster'];
     description = json['description'];
     duration = json['duration'];
-    relaseDate = json['relaseDate'];
+    releaseDate = json['releaseDate'];
     genre = json['genre'];
   }
 
@@ -90,7 +90,7 @@ class Film {
     _data['poster'] = poster;
     _data['description'] = description;
     _data['duration'] = duration;
-    _data['relaseDate'] = relaseDate;
+    _data['releaseDate'] = releaseDate;
     _data['genre'] = genre;
     return _data;
   }
