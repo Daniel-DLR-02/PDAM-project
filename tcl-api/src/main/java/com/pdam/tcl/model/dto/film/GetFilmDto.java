@@ -15,6 +15,7 @@ import java.util.UUID;
 public class GetFilmDto {
     private UUID uuid;
     private String title;
+    private String poster;
     private String description;
     private String duration;
     private LocalDate releaseDate;

@@ -55,8 +55,4 @@ public class FilmController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("img/{id}")
-    public ResponseEntity<String> loadPoster(@PathVariable("id") UUID id) throws FileNotFoundException {
-        return ResponseEntity.ok(service.getImg(id));
-    }
 }

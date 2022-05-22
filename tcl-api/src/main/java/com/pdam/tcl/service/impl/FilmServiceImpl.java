@@ -11,6 +11,7 @@ import com.pdam.tcl.service.ImgServiceStorage;
 import com.pdam.tcl.utils.converters.FilmDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -94,14 +95,18 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public Page<GetFilmDto> getCurrentFilms(Pageable pageable) {
-        return filmRepository.findCurrentFilms(pageable);
+        Page<GetFilmDto> pageDto = filmRepository.findCurrentFilms(pageable).map((o)-> GetFilmDto.builder()
+                .uuid(o.getUuid())
+                .title(o.getTitle())
+                .duration(o.getDuration())
+                .genre(o.getGenre())
+                .releaseDate(o.getReleaseDate())
+                .description(o.getDescription())
+                .poster(o.getPoster().split(",")[0])
+                .build());
+
+        return pageDto;
     }
-    @Override
-    public String getImg(UUID filmUuid) throws FileNotFoundException {
-        Optional<Film> peliculaBuscada = findById(filmUuid);
-        if(peliculaBuscada.isPresent())
-            return peliculaBuscada.get().getPoster().getLink();
-        else
-            throw new FileNotFoundException("Poster not found");
-    }
+
+
 }

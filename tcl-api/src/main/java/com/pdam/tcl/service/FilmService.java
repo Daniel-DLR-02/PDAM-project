@@ -26,5 +26,4 @@ public interface FilmService {
 
     Page<GetFilmDto> getCurrentFilms(Pageable pageable);
 
-    String getImg(UUID filmUuid) throws FileNotFoundException;
 }
