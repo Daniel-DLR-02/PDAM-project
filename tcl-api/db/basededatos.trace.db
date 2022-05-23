@@ -1,0 +1,68 @@
+2022-04-24 19:12:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; expected "identifier"; SQL statement:
+create table ticket (uuid binary not null, column integer not null, row integer not null, session_uuid binary, user_uuid binary, primary key (uuid)) [42001-200]
+2022-04-24 19:12:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FKqsxta7ser5ujlp6dto1uf8l2t foreign key (session_uuid) references session [42102-200]
+2022-04-24 19:12:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FK97jutu2jqqg4sy95o6fytj2p5 foreign key (user_uuid) references user [42102-200]
+2022-04-24 19:12:12 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table user_tickets add constraint FKm89g7wxxhhmwfmk4stgu1ihoh foreign key (tickets_uuid) references ticket [42102-200]
+2022-04-24 19:14:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; expected "identifier"; SQL statement:
+create table ticket (uuid binary not null, column integer not null, row integer not null, session_uuid binary, user_uuid binary, primary key (uuid)) [42001-200]
+2022-04-24 19:14:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FKqsxta7ser5ujlp6dto1uf8l2t foreign key (session_uuid) references session [42102-200]
+2022-04-24 19:14:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FK97jutu2jqqg4sy95o6fytj2p5 foreign key (user_uuid) references user [42102-200]
+2022-04-24 19:14:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table user_tickets add constraint FKm89g7wxxhhmwfmk4stgu1ihoh foreign key (tickets_uuid) references ticket [42102-200]
+2022-04-24 19:18:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; expected "identifier"; SQL statement:
+create table ticket (uuid binary not null, column integer not null, row integer not null, session_uuid binary, user_uuid binary, primary key (uuid)) [42001-200]
+2022-04-24 19:18:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FKqsxta7ser5ujlp6dto1uf8l2t foreign key (session_uuid) references session [42102-200]
+2022-04-24 19:18:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FK97jutu2jqqg4sy95o6fytj2p5 foreign key (user_uuid) references user [42102-200]
+2022-04-24 19:18:15 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table user_tickets add constraint FKm89g7wxxhhmwfmk4stgu1ihoh foreign key (tickets_uuid) references ticket [42102-200]
+2022-04-24 19:19:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; se esperaba "identifier"
+Syntax error in SQL statement "CREATE TABLE TICKET (UUID BINARY NOT NULL, COLUMN INTEGER NOT NULL, ROW[*] INTEGER NOT NULL, SESSION_UUID BINARY, USER_UUID BINARY, PRIMARY KEY (UUID))"; expected "identifier"; SQL statement:
+create table ticket (uuid binary not null, column integer not null, row integer not null, session_uuid binary, user_uuid binary, primary key (uuid)) [42001-200]
+2022-04-24 19:19:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FKqsxta7ser5ujlp6dto1uf8l2t foreign key (session_uuid) references session [42102-200]
+2022-04-24 19:19:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table ticket add constraint FK97jutu2jqqg4sy95o6fytj2p5 foreign key (user_uuid) references user [42102-200]
+2022-04-24 19:19:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "TICKET" no encontrada
+Table "TICKET" not found; SQL statement:
+alter table user_tickets add constraint FKm89g7wxxhhmwfmk4stgu1ihoh foreign key (tickets_uuid) references ticket [42102-200]
+2022-05-15 13:14:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valor demasiado largo para la columna "SEATS VARBINARY(255)": "X'aced0005757200145b5b4c6a6176612e6c616e672e537472696e673b324d09ad8432e45702000078700000000c757200135b4c6a6176612e6c616e672e5374... (1393)"
+Value too long for column "SEATS VARBINARY(255)": "X'aced0005757200145b5b4c6a6176612e6c616e672e537472696e673b324d09ad8432e45702000078700000000c757200135b4c6a6176612e6c616e672e5374... (1393)"; SQL statement:
+insert into hall (name, seats, uuid) values (?, ?, ?) [22001-200]
