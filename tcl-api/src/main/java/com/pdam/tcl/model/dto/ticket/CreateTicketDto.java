@@ -13,5 +13,6 @@ import java.util.UUID;
 public class CreateTicketDto {
     public UUID userUuid;
     public UUID sessionUuid;
-    private String seat;
+    private int row;
+    private int column;
 }

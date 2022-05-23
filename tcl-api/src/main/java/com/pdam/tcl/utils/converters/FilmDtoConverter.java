@@ -12,9 +12,11 @@ public class FilmDtoConverter {
     public GetFilmDto filmToGetFilmDto(Film film){
         return GetFilmDto.builder()
         .title(film.getTitle())
-                .poster(film.getPoster())
+                .uuid(film.getUuid())
+                .poster(film.getPoster().getLink())
                 .description(film.getDescription())
                 .duration(film.getDuration())
+                .releaseDate(film.getReleaseDate())
                 .genre(film.getGenre())
                 .build();
     }

@@ -12,11 +12,10 @@ import java.util.UUID;
 
 public interface FilmRepository extends JpaRepository<Film, UUID> {
 
-    @Query(value = """ 
+    @Query(value = """
                         select new com.pdam.tcl.model.dto.film.GetFilmDto(
-                            f.title,f.poster,f.description,f.duration,f.genre
-                        ) 
-                        from Film f
+                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.genre
+                        ) from Film f
                         where CURRENT_DATE between f.releaseDate and f.expirationDate
                     """)
     Page<GetFilmDto> findCurrentFilms(Pageable pageable);

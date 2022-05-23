@@ -43,5 +43,7 @@ public class Session {
 
     boolean active;
 
-    boolean[][] seats;
+    String[][] availableSeats;
+
+
 }

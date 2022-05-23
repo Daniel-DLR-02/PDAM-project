@@ -11,9 +11,10 @@ public class UserDtoConverter {
 
     public GetUserDto userToGetUserDto(User user){
         return GetUserDto.builder()
+                .uuid(user.getUuid())
                 .nick(user.getNickname())
                 .nombre(user.getNombre())
-                .avatar(user.getAvatar())
+                .avatar(user.getAvatar().getLink())
                 .email(user.getEmail())
                 .fechaDeNacimiento(user.getFechaNacimiento())
                 .build();

@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/film")
+@RequestMapping("/films")
 @RequiredArgsConstructor
 public class FilmController {
 
@@ -37,7 +39,7 @@ public class FilmController {
         return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.getFilm(id)));
     }
 
-    @GetMapping("/current")
+    @GetMapping("/active")
     public ResponseEntity<Page<GetFilmDto>> getCurrentFilms(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
         return ResponseEntity.ok(service.getCurrentFilms(pageable));
     }
@@ -48,8 +50,9 @@ public class FilmController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) throws IOException {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

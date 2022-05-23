@@ -1,6 +1,7 @@
 package com.pdam.tcl.model.dto.ticket;
 
 import com.pdam.tcl.model.Session;
+import com.pdam.tcl.model.dto.session.GetSessionDto;
 import com.pdam.tcl.model.dto.user.GetUserDto;
 import lombok.*;
 
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class GetTicketDto {
     private UUID uuid;
     private GetUserDto user;
-    private Session session;
-    private String seat;
+    private GetSessionDto session;
+    private int row;
+    private int column;
 }
