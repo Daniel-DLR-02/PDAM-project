@@ -1,19 +1,19 @@
 class RegisterResponse {
   RegisterResponse({
-    required this.nickName,
+    required this.nick,
     required this.nombre,
     required this.fechaDeNacimiento,
     required this.email,
     required this.avatar,
   });
-  late final String nickName;
+  late final String nick;
   late final String nombre;
   late final String fechaDeNacimiento;
   late final String email;
   late final String avatar;
 
   RegisterResponse.fromJson(Map<String, dynamic> json) {
-    nickName = json['nickName'];
+    nick = json['nick'];
     nombre = json['nombre'];
     fechaDeNacimiento = json['fechaDeNacimiento'];
     email = json['email'];
@@ -22,7 +22,7 @@ class RegisterResponse {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['nickName'] = nickName;
+    _data['nick'] = nick;
     _data['nombre'] = nombre;
     _data['fechaDeNacimiento'] = fechaDeNacimiento;
     _data['email'] = email;

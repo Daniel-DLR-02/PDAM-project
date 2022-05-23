@@ -4,7 +4,6 @@ class LoginResponse {
     required this.avatar,
     required this.token,
     required this.email,
-
   });
   late final String nickName;
   late final String avatar;

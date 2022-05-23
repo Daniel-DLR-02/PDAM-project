@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/auth/register/register_bloc.dart';
 import 'package:tcl_mobile_app/model/auth/register/register_dto.dart';
-import '../bloc/auth/image_pick/image_pick_bloc.dart';
+import '../bloc/image_pick/image_pick_bloc.dart';
 import '../bloc/auth/login/login_bloc.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
@@ -22,6 +22,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   late AuthRepository authRepository;
+  late DateTime _minDate, _maxDate;
   final _formKey = GlobalKey<FormState>();
   TextEditingController nickController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
@@ -39,6 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void initState() {
     authRepository = AuthRepositoryImpl();
     super.initState();
+    _minDate = DateTime(1900, 3, 5, 9, 0, 0);
+    _maxDate = DateTime.now();
   }
 
   @override
@@ -65,10 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
                 prefs.setString('avatar', state.registerResponse.avatar);
-                Navigator.pushNamed(
-                  context,
-                  '/',
-                );
+                Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is RegisterErrorState) {
                 _showSnackbar(context, state.message);
               }
@@ -103,13 +103,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: SingleChildScrollView(
                 child: ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height - 90,
+                      minHeight: MediaQuery.of(context).size.height,
                     ),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Image.asset(
                             'assets/img/logo.png',
@@ -148,14 +147,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: nombreController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.person),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nombre',
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white))),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
                                     onSaved: (String? value) {
                                       // This optional block of code can be used to run
                                       // code when the user saves the form.
@@ -172,6 +172,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: nickController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon:
@@ -179,8 +180,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nick',
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white))),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
                                     onSaved: (String? value) {
                                       // This optional block of code can be used to run
                                       // code when the user saves the form.
@@ -197,14 +198,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: emailController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.email),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Email',
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white))),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
                                     onSaved: (String? value) {
                                       // This optional block of code can be used to run
                                       // code when the user saves the form.
@@ -221,6 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextFormField(
                                     controller: passwordController,
+                                    style: TextStyle(color: Colors.white),
                                     obscureText: true,
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
@@ -228,8 +231,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         suffixIconColor: Colors.white,
                                         hintText: 'Password',
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white))),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
                                     onSaved: (String? value) {
                                       // This optional block of code can be used to run
                                       // code when the user saves the form.
@@ -251,21 +254,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   ),
                                   child: TextField(
                                     controller: dateController,
+                                    style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
                                         border: OutlineInputBorder(),
                                         suffixIcon: Icon(Icons.calendar_today),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Fecha de nacimiento',
                                         focusedBorder: OutlineInputBorder(
-                                            borderSide:
-                                                BorderSide(color: Colors.white))),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
                                     readOnly: true,
                                     onTap: () async {
-                                      DateTime? pickedDate = await showDatePicker(
-                                          context: context,
-                                          initialDate: DateTime.now(),
-                                          firstDate: DateTime(2000),
-                                          lastDate: DateTime(2101));
+                                      DateTime? pickedDate =
+                                          await showDatePicker(
+                                              context: context,
+                                              initialDate: DateTime.now(),
+                                              firstDate: _minDate,
+                                              lastDate: _maxDate);
 
                                       if (pickedDate != null) {
                                         print(pickedDate);
@@ -300,7 +305,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         listener: (context, state) {},
                                         buildWhen: (context, state) {
                                           return state is ImagePickInitial ||
-                                              state is ImageSelectedSuccessState;
+                                              state
+                                                  is ImageSelectedSuccessState;
                                         },
                                         builder: (context, state) {
                                           if (state
@@ -311,18 +317,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             return Row(
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 40, right: 50.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 40,
+                                                          right: 50.0),
                                                   child: Text(
                                                     'Avatar:',
                                                     style: GoogleFonts.poppins(
                                                       color: Colors.white,
-                                                      textStyle: Theme.of(context)
-                                                          .textTheme
-                                                          .headline4,
+                                                      textStyle:
+                                                          Theme.of(context)
+                                                              .textTheme
+                                                              .headline4,
                                                       fontSize: 15,
-                                                      fontWeight: FontWeight.w300,
-                                                      fontStyle: FontStyle.normal,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontStyle:
+                                                          FontStyle.normal,
                                                     ),
                                                   ),
                                                 ),
@@ -330,12 +341,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                   height: 75,
                                                   child: ClipOval(
                                                     child: SizedBox.fromSize(
-                                                      size: const Size.fromRadius(
+                                                      size: const Size
+                                                              .fromRadius(
                                                           40), // Image radius
-                                                      child: Image.file(
-                                                          File(state
-                                                              .pickedFile.path),
-                                                          fit: BoxFit.cover),
+                                                      child: InkWell(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(40),
+                                                        child: Image.file(
+                                                            File(state
+                                                                .pickedFile
+                                                                .path),
+                                                            fit: BoxFit.cover),
+                                                        onTap: () {
+                                                          BlocProvider.of<
+                                                                      ImagePickBloc>(
+                                                                  context)
+                                                              .add(const SelectImageEvent(
+                                                                  ImageSource
+                                                                      .gallery));
+                                                        },
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -346,7 +372,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, right: 50.0),
+                                                    left: 40, right: 45.0),
                                                 child: Text(
                                                   'Avatar:',
                                                   style: GoogleFonts.poppins(
@@ -361,7 +387,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                                 ),
                                               ),
                                               ElevatedButton(
-                                                  style: ElevatedButton.styleFrom(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
                                                     primary: Colors.black,
                                                   ),
                                                   onPressed: () {
@@ -409,7 +436,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     width:
                                         MediaQuery.of(context).size.width / 2,
                                     child: Text(
-                                      'Iniciar sesión'.toUpperCase(),
+                                      'Registrarse'.toUpperCase(),
                                       style:
                                           const TextStyle(color: Colors.white),
                                       textAlign: TextAlign.start,
