@@ -35,15 +35,17 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     token = PreferenceUtils.getString("token");
     sessionId = widget.sessionUuid ?? "none";
     PreferenceUtils.setString('filmUuid', widget.filmUuid);
-    if(widget.sessionUuid != null) {
+    if (widget.sessionUuid != null) {
       PreferenceUtils.setString('sessionUuid', widget.sessionUuid!);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> selectedSeats = [];
+
     return Scaffold(
-      floatingActionButton: nextButton(sessionId),
+      floatingActionButton: (nextButton(sessionId,selectedSeats)),
       appBar: const HomeAppBar(),
       backgroundColor: const Color(0xFF1d1d1d),
       body: Container(
@@ -80,7 +82,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   ..add(GetSessionDetails(sessionId!));
               },
               child: Container(
-                child: _createSeeSession(context, sessionId!),
+                child: _createSeeSession(context, sessionId!,selectedSeats),
               ),
             ),
             BlocProvider(
@@ -100,11 +102,12 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   }
 }
 
-Widget? nextButton(String? sessionId) {
+Widget? nextButton(String? sessionId, List<String> selectedSeats) {
   if (sessionId != "none") {
     return FloatingActionButton(
       onPressed: () {
         // Enviar datos
+        print(selectedSeats);
       },
       backgroundColor: const Color(0xFF546e7a),
       child: const Icon(Icons.arrow_forward),
@@ -231,7 +234,7 @@ Widget _getSessionList(
   }
 }
 
-Widget _createSeeSession(BuildContext context, String uuid) {
+Widget _createSeeSession(BuildContext context, String uuid,List<String> selectedSeats) {
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
@@ -248,7 +251,7 @@ Widget _createSeeSession(BuildContext context, String uuid) {
           ),
         );
       } else if (state is SessionSuccessFetched) {
-        return _createPublicView(context, state.session);
+        return _createPublicView(context, state.session,selectedSeats);
       } else {
         return const Text('Not support');
       }
@@ -256,7 +259,7 @@ Widget _createSeeSession(BuildContext context, String uuid) {
   );
 }
 
-Widget _createPublicView(BuildContext context, SessionResponse session) {
+Widget _createPublicView(BuildContext context, SessionResponse session,List<String> selectedSeats) {
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
 
@@ -264,18 +267,17 @@ Widget _createPublicView(BuildContext context, SessionResponse session) {
     children: [
       Padding(
         padding: const EdgeInsets.all(20.0),
-        child: getSeatView(session.availableSeats),
+        child: getSeatView(session.availableSeats,selectedSeats),
       ),
     ],
   );
 }
 
-Widget getSeatView(List<List<dynamic>> seats) {
+Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
   List<Widget> seatList = [];
   int rowSeats = seats[0].length;
   int columnSeats = seats.length;
   double height = (columnSeats * 27).toDouble();
-  List<String> seatsSelected = [];
   for (var i = 0; i < seats.length; i++) {
     for (var j = 0; j < seats[i].length; j++) {
       if (seats[i][j] == "S") {
@@ -283,13 +285,7 @@ Widget getSeatView(List<List<dynamic>> seats) {
           UnselectedSeat(
             row: i,
             column: j,
-            onFlatButtonPressed: () {
-              if (seatsSelected.contains("$i,$j")) {
-                seatsSelected.remove("$i,$j");
-              } else {
-                seatsSelected.add("$i,$j");
-              }
-            },
+            seatsSelected: selectedSeats
           ),
         );
       } else if (seats[i][j] == "P") {
@@ -403,15 +399,15 @@ Widget getSeatView(List<List<dynamic>> seats) {
 }
 
 class UnselectedSeat extends StatefulWidget {
-  final VoidCallback onFlatButtonPressed;
-  UnselectedSeat(
+  const UnselectedSeat(
       {Key? key,
       required this.row,
       required this.column,
-      required this.onFlatButtonPressed})
+      required this.seatsSelected})
       : super(key: key);
   final int row;
   final int column;
+  final List<String> seatsSelected;
 
   @override
   State<UnselectedSeat> createState() => _UnselectedSeatState();
@@ -422,13 +418,19 @@ class _UnselectedSeatState extends State<UnselectedSeat> {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
-      onTap: ((){
-        setState(() => {
-            widget.onFlatButtonPressed,
-            selected = !selected,
-        });
+      onTap: (() {
+        if(widget.seatsSelected.contains("${widget.row},${widget.column }")){
+          widget.seatsSelected.remove("${widget.row},${widget.column }");
+          setState(() {
+            selected = false;
+          });
+        } else {         
+           widget.seatsSelected.add("${widget.row},${widget.column }");
+          setState(() {
+            selected = true;
+          });
+        }
       }),
       child: Container(
         width: 10,
