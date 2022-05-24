@@ -11,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class CreateTicketDto {
-    public UUID userUuid;
     public UUID sessionUuid;
     private int row;
     private int column;

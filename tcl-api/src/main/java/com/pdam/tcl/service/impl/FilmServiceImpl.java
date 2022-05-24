@@ -6,6 +6,7 @@ import com.pdam.tcl.model.dto.film.GetFilmDto;
 import com.pdam.tcl.model.img.ImgResponse;
 import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.FilmRepository;
+import com.pdam.tcl.repository.SessionRepository;
 import com.pdam.tcl.service.FilmService;
 import com.pdam.tcl.service.ImgServiceStorage;
 import com.pdam.tcl.utils.converters.FilmDtoConverter;
@@ -29,6 +30,7 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final FilmDtoConverter filmDtoConverter;
     private final ImgServiceStorage imgServiceStorage;
+    private final SessionRepository sessionRepository;
 
     @Override
     public Film save(CreateFilmDto createFilm, MultipartFile file) throws Exception {
@@ -61,13 +63,14 @@ public class FilmServiceImpl implements FilmService {
     public void delete(UUID id) throws IOException {
 
         Optional<Film> peliculaABorrar = filmRepository.findById(id);
+        if(peliculaABorrar.isPresent()) {
+            if (peliculaABorrar.get().getPoster() != null) {
 
-        if((peliculaABorrar.isPresent()) &&
-                (peliculaABorrar.get().getPoster() != null)){
+                imgServiceStorage.delete(peliculaABorrar.get().getPoster().getDeletehash());
+            }
+            // sessionRepository.getSessionsByFilmIdRaw(peliculaABorrar.get().getUuid()).forEach(sessionRepository::delete);
 
-            imgServiceStorage.delete(peliculaABorrar.get().getPoster().getDeletehash());
         }
-
         filmRepository.deleteById(id);
     }
 

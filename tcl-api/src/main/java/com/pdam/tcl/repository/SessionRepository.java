@@ -22,4 +22,6 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
                         WHERE s.film.uuid = :filmUuid
                     """)
     Page<GetSessionDto> getSessionsByFilmId(UUID filmUuid, Pageable pageable);
+
 }
+

@@ -9,8 +9,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -25,61 +23,60 @@ public class JwtProvider {
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
-    @Value("${jwt.secret:SG0pv5jeZbYfrRMektCCvNxgvpKpAUIN}")
+    @Value("${jwt.secret:qwertyuiopasdfghjklzxcvbnmpoiuytrewq}")
     private String jwtSecret;
 
-    @Value("${jwt.duration:86400}")
+    @Value("${jwt.duration:86400}") //86400
     private int jwtLifeInSeconds;
 
     private JwtParser parser;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         parser = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes(StandardCharsets.UTF_8)))
+                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .build();
-        //Jwt parser initialize.
     }
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
 
-        // Actual user authenticating
         User user = (User) authentication.getPrincipal();
 
-        // Instanciate the token expiration date
-        Date tokenExpiration = Date.
-                from(LocalDateTime
+        Date tokenExpirationDate = Date
+                .from(LocalDateTime
                         .now()
                         .plusSeconds(jwtLifeInSeconds)
                         .atZone(ZoneId.systemDefault()).toInstant());
 
-        // Jwt builder
+
         return Jwts.builder()
                 .setHeaderParam("typ", TOKEN_TYPE)
                 .setSubject(user.getUuid().toString())
-                .setIssuedAt(tokenExpiration)
-                .claim("nickName", user.getNickname())
+                .setIssuedAt(tokenExpirationDate)
+                .claim("nickname", user.getNickname())
                 .claim("role", user.getRole().name())
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .compact();
+
+
     }
 
     public UUID getUserIdFromJwt(String token) {
-        return UUID.fromString(parser.parseClaimsJwt(token).getBody().getSubject());
-        // Gets user by the token
+
+        return UUID.fromString(parser.parseClaimsJws(token).getBody().getSubject());
+
+
     }
 
-    public boolean validateToken(String token ){
+    public boolean validateToken(String token) {
 
         try {
-            // Doing the jtw parser
-            parser.parseClaimsJwt(token);
+            parser.parseClaimsJws(token);
             return true;
-        }catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
-            log.info("Token error: " + ex.getMessage());
+        } catch (SignatureException | MalformedJwtException | ExpiredJwtException | UnsupportedJwtException | IllegalArgumentException ex) {
+            log.info("Error con el token: " + ex.getMessage());
         }
         return false;
+
     }
-
-
 }

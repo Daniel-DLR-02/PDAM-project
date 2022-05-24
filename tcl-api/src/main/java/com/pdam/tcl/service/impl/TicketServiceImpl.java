@@ -9,6 +9,7 @@ import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.ticket.CreateTicketDto;
 import com.pdam.tcl.model.dto.ticket.GetTicketDto;
 import com.pdam.tcl.repository.TicketRepository;
+import com.pdam.tcl.repository.UserRepository;
 import com.pdam.tcl.service.SessionService;
 import com.pdam.tcl.service.TicketService;
 import com.pdam.tcl.service.UserService;
@@ -28,7 +29,7 @@ public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
     private final TicketDtoConverter ticketDtoConverter;
-    private final UserService userService;
+    private final UserRepository userRepository;
     private final SessionService sessionService;
 
     @Override
@@ -58,15 +59,15 @@ public class TicketServiceImpl implements TicketService {
 
             Ticket newTicket = Ticket.builder()
                     .session(session.get())
-                    .user(user)
                     .hallColumn(ticket.getColumn())
                     .hallRow(ticket.getRow())
                     .build();
 
-            ticketRepository.save(newTicket);
+            user.addTicket(newTicket);
+            Ticket savedTicket = ticketRepository.save(newTicket);
+            userRepository.save(user);
             session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
-
-            return ticketDtoConverter.ticketDtoToGetDtoConverter(newTicket);
+            return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
         }
         else{
             throw new SessionNotFoundException("Session not found");
@@ -96,7 +97,6 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public GetTicketDto editTicket(UUID id, CreateTicketDto newTicket) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFound("Ticket not found"));
-        ticket.setUser(userService.findUserByUuid(newTicket.getUserUuid()).orElseThrow(() -> new UserNotFoundException("User not found")));
         ticket.setSession(sessionService.findById(newTicket.getSessionUuid()).orElseThrow(() -> new SessionNotFoundException("Session not found")));
         ticket.setHallColumn(newTicket.getColumn());
         ticket.setHallRow(newTicket.getRow());

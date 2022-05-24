@@ -110,8 +110,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {
-        return this.userRepository.findFirstByNickname(nick)
-                .orElseThrow(()-> new UsernameNotFoundException(nick+ "no encontrado"));
+    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
+        return this.userRepository.findFirstByNickname(nickname)
+                .orElseThrow(()-> new UsernameNotFoundException(nickname+ "no encontrado"));
     }
 }

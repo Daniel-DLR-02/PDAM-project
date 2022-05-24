@@ -24,12 +24,11 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler {
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType("application/json");
 
-        Map<String, String> messages =
+        Map<String, String> message =
                 Map.of("message", accessDeniedException.getMessage());
 
-        String strjson = mapper.writeValueAsString(messages);
+        String strjson = mapper.writeValueAsString(message);
 
         response.getWriter().println(strjson);
-
     }
 }

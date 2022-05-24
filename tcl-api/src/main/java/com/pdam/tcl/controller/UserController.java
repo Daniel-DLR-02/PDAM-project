@@ -52,7 +52,7 @@ public class UserController {
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                loginDto.getNickName(),
+                                loginDto.getNickname(),
                                 loginDto.getPassword()
                         )
                 );
@@ -117,7 +117,7 @@ public class UserController {
 
     private UserLoggedResponse convertUserUserLoggedResponse(User user, String jwt) {
         return UserLoggedResponse.builder()
-                .nickName(user.getNickname())
+                .nickname(user.getNickname())
                 .email(user.getEmail())
                 .avatar(user.getAvatar().getLink())
                 .token(jwt)

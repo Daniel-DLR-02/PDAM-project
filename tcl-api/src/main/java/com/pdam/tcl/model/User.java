@@ -107,6 +107,11 @@ public class User implements UserDetails {
     }
 
     public void addTicket(Ticket ticket) {
+        ticket.setUser(this);
+        this.tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
         ticket.setUser(null);
         this.tickets.remove(ticket);
     }

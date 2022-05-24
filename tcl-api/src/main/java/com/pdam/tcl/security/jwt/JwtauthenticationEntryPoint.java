@@ -24,10 +24,10 @@ public class JwtauthenticationEntryPoint implements AuthenticationEntryPoint {
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
 
-        Map<String, String> messages =
+        Map<String, String> message =
                 Map.of("message",authException.getMessage());
 
-        String strjson = mapper.writeValueAsString(messages);
+        String strjson = mapper.writeValueAsString(message);
 
         response.getWriter().println(strjson);
 

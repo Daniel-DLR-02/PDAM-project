@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class UserLoggedResponse {
 
-    private String nickName;
+    private String nickname;
     private String avatar;
     private String token;
     private String email;
