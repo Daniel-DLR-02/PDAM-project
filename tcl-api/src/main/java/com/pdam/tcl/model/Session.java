@@ -45,5 +45,11 @@ public class Session {
 
     String[][] availableSeats;
 
+    @PreRemove
+    public void preRemove() {
+        this.setFilm(null);
+        this.setHall(null);
+    }
+
 
 }

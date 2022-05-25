@@ -1,12 +1,18 @@
 package com.pdam.tcl.service.impl;
 
+import com.pdam.tcl.errors.exception.FilmNotFoundException;
+import com.pdam.tcl.errors.exception.HallNotFoundException;
+import com.pdam.tcl.model.Film;
+import com.pdam.tcl.model.Hall;
 import com.pdam.tcl.model.Session;
+import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.session.CreateSessionDto;
 import com.pdam.tcl.model.dto.session.GetSessionDto;
+import com.pdam.tcl.repository.FilmRepository;
+import com.pdam.tcl.repository.HallRepository;
 import com.pdam.tcl.repository.SessionRepository;
-import com.pdam.tcl.service.FilmService;
-import com.pdam.tcl.service.HallService;
-import com.pdam.tcl.service.SessionService;
+import com.pdam.tcl.repository.TicketRepository;
+import com.pdam.tcl.service.*;
 import com.pdam.tcl.utils.converters.SessionDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,8 +28,9 @@ public class SessionServiceImpl implements SessionService {
 
     private final SessionRepository sessionRepository;
     private final SessionDtoConverter sessionDtoConverter;
-    private final FilmService filmService;
-    private final HallService hallService;
+    private final TicketRepository ticketRepository;
+    private final FilmRepository filmRepository;
+    private final HallRepository hallRepository;
 
     @Override
     public boolean existsById(UUID id) {
@@ -37,12 +44,25 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void deleteById(UUID sessionUuid) {
+
+        ticketRepository.getAllTicketsFromASession(sessionUuid).forEach(ticket -> ticketRepository.delete(ticket));
+
         sessionRepository.deleteById(sessionUuid);
     }
 
     @Override
     public Session save(CreateSessionDto createSessionDto) {
-        return sessionRepository.save(sessionDtoConverter.createSessionDtoToSession(createSessionDto));
+        Optional<Film> film = filmRepository.findById(createSessionDto.getFilmUuid());
+        Optional<Hall> hall = hallRepository.findById(createSessionDto.getHallUuid());
+        if(film.isPresent()) {
+            if(hall.isPresent()) {
+                return sessionRepository.save(sessionDtoConverter.createSessionDtoToSession(createSessionDto, hall.get(), film.get()));
+            } else {
+                throw new HallNotFoundException("Hall not found");
+            }
+        } else {
+            throw new FilmNotFoundException("Film not found");
+        }
     }
 
     @Override
@@ -50,17 +70,31 @@ public class SessionServiceImpl implements SessionService {
 
         Session session = findById(sessionUuid).orElseThrow(() -> new IllegalArgumentException("Session not found"));
 
-        session.setSessionDate(createSessionDto.getSessionDate());
-        session.setActive(createSessionDto.isActive());
-        session.setFilm(filmService.getFilm(createSessionDto.getFilmUuid()));
-        session.setHall(hallService.findById(createSessionDto.getHallUuid()));
-
+        Optional<Film> film = filmRepository.findById(createSessionDto.getFilmUuid());
+        Optional<Hall> hall = hallRepository.findById(createSessionDto.getHallUuid());
+        if(film.isPresent()) {
+            if(hall.isPresent()) {
+                session.setSessionDate(createSessionDto.getSessionDate());
+                session.setActive(createSessionDto.isActive());
+                session.setFilm(film.get());
+                session.setHall(hall.get());
+            } else {
+                throw new HallNotFoundException("Hall not found");
+            }
+        } else {
+            throw new FilmNotFoundException("Film not found");
+        }
         return sessionRepository.save(session);
     }
 
     @Override
     public Page<GetSessionDto> findSessionsByFilmId(UUID filmUuid, Pageable pageable) {
         return sessionRepository.getSessionsByFilmId(filmUuid, pageable);
+    }
+
+    @Override
+    public void deleteAllSessionsByFilmId(UUID filmUuid) {
+        sessionRepository.getSessionsByFilmIdList(filmUuid).forEach(session -> deleteById(session.getUuid()));
     }
 
 

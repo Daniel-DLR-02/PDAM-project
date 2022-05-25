@@ -36,14 +36,9 @@ public class TicketController {
     @PostMapping("/")
     public ResponseEntity<GetTicketDto> buyTicket(@RequestBody CreateTicketDto newTicket,
                                                 @AuthenticationPrincipal User currentUser){
-
         System.out.println(currentUser.getNickname());
-        if(sessionService.existsById(newTicket.getSessionUuid())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser.getUuid()));
-        }
-        else{
-            throw new SessionNotFoundException("Session not found.");
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser));
+
 
 
     }

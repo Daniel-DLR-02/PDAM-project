@@ -23,5 +23,13 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
                     """)
     Page<GetSessionDto> getSessionsByFilmId(UUID filmUuid, Pageable pageable);
 
+    @Query(value = """ 
+                        SELECT s
+                        FROM Session s JOIN Film f ON s.film.uuid = f.uuid
+                        JOIN Hall h ON s.hall.uuid = h.uuid
+                        WHERE s.film.uuid = :filmUuid
+                    """)
+    List<Session> getSessionsByFilmIdList(UUID filmUuid);
+
 }
 

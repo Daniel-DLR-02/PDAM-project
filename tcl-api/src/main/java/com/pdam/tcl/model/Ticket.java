@@ -42,4 +42,14 @@ public class Ticket {
 
     private int hallColumn;
 
+    @PreRemove
+    public void preRemove() {
+        if (user != null) {
+            user.getTickets().remove(this);
+        }
+        if (session != null) {
+            this.setSession(null);
+        }
+    }
+
 }

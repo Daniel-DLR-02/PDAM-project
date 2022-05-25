@@ -53,28 +53,31 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public GetTicketDto createTicket(CreateTicketDto ticket, UUID userUuid) {
+    public GetTicketDto createTicket(CreateTicketDto ticket, User user) {
         Optional<Session> session = sessionService.findById(ticket.getSessionUuid());
-        Optional<User> user = userService.findUserByUuid(userUuid);
+        if(userService.existsById(user.getUuid())) {
+            if (session.isPresent()) {
 
-        if(session.isPresent() && user.isPresent()) {
+                Ticket newTicket = Ticket.builder()
+                        .session(session.get())
+                        .hallColumn(ticket.getColumn())
+                        .hallRow(ticket.getRow())
+                        .build();
 
-            Ticket newTicket = Ticket.builder()
-                    .session(session.get())
-                    .hallColumn(ticket.getColumn())
-                    .hallRow(ticket.getRow())
-                    .build();
+                user.addTicket(newTicket);
+                Ticket savedTicket = ticketRepository.save(newTicket);
+                userRepository.save(user);
 
-            user.get().addTicket(newTicket);
-            Ticket savedTicket = ticketRepository.save(newTicket);
-            userRepository.save(user.get());
-
-            session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
-            return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
+                session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
+                return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
+            } else {
+                throw new SessionNotFoundException("Session not found");
+            }
         }
         else{
-            throw new SessionNotFoundException("Session not found");
+            throw new UserNotFoundException("User not found");
         }
+
     }
 
 
