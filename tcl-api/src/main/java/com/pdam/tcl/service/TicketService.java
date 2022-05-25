@@ -16,7 +16,7 @@ public interface TicketService {
 
     public GetTicketDto getTicket(UUID id);
 
-    public GetTicketDto createTicket(CreateTicketDto ticket, User user);
+    public GetTicketDto createTicket(CreateTicketDto ticket, UUID userUuid);
 
     boolean existsById(UUID idTicket);
 

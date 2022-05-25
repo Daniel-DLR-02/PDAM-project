@@ -39,7 +39,7 @@ public class TicketController {
 
         System.out.println(currentUser.getNickname());
         if(sessionService.existsById(newTicket.getSessionUuid())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser));
+            return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser.getUuid()));
         }
         else{
             throw new SessionNotFoundException("Session not found.");

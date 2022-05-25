@@ -31,6 +31,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketDtoConverter ticketDtoConverter;
     private final UserRepository userRepository;
     private final SessionService sessionService;
+    private final UserService userService;
 
     @Override
     public List<GetTicketDto> getUserTicket() {
@@ -52,10 +53,11 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public GetTicketDto createTicket(CreateTicketDto ticket, User user) {
+    public GetTicketDto createTicket(CreateTicketDto ticket, UUID userUuid) {
         Optional<Session> session = sessionService.findById(ticket.getSessionUuid());
+        Optional<User> user = userService.findUserByUuid(userUuid);
 
-        if(session.isPresent()) {
+        if(session.isPresent() && user.isPresent()) {
 
             Ticket newTicket = Ticket.builder()
                     .session(session.get())
@@ -63,9 +65,10 @@ public class TicketServiceImpl implements TicketService {
                     .hallRow(ticket.getRow())
                     .build();
 
-            user.addTicket(newTicket);
+            user.get().addTicket(newTicket);
             Ticket savedTicket = ticketRepository.save(newTicket);
-            userRepository.save(user);
+            userRepository.save(user.get());
+
             session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
             return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
         }
@@ -89,9 +92,7 @@ public class TicketServiceImpl implements TicketService {
     public void deleteTicket(UUID idTicket) {
         Optional<Ticket> ticket = ticketRepository.findById(idTicket);
 
-        if(ticket.isPresent()) {
-            ticketRepository.delete(ticket.get());
-        }
+        ticket.ifPresent(ticketRepository::delete);
     }
 
     @Override
