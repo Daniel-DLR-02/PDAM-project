@@ -58,7 +58,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToMany(fetch=FetchType.LAZY)
+    @OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL) // Intentar crear entity graph con tickets para poner en LAZY
     private List<Ticket> tickets;
 
     @Enumerated(EnumType.STRING)
