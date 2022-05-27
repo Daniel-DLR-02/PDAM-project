@@ -62,7 +62,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
       if (response.statusCode == 201) {
         LoginDto loginDto = LoginDto(
-            nickName: registerDto.nickName, password: registerDto.password);
+            nickname: registerDto.nickName, password: registerDto.password);
         login(loginDto);
         return RegisterResponse.fromJson(
             jsonDecode(await response.stream.bytesToString()));

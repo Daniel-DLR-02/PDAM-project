@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Shared preferences > guardo el token
                 prefs.setString('token', state.loginResponse.token);
                 prefs.setString('avatar', state.loginResponse.avatar);
-                prefs.setString('nick', state.loginResponse.nickName);
+                prefs.setString('nick', state.loginResponse.nickname);
                 Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is LoginErrorState) {
                 _showSnackbar(context, state.message);
@@ -228,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         final loginDto = LoginDto(
-                                            nickName: nickNameController.text,
+                                            nickname: nickNameController.text,
                                             password: passwordController.text);
                                         BlocProvider.of<LoginBloc>(context)
                                             .add(DoLoginEvent(loginDto));
