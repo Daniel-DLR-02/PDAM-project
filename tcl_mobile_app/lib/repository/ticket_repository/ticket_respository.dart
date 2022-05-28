@@ -1,8 +1,9 @@
-/*abstract class TicketRepository {
+import '../../model/Ticket/CreateTicketResponse.dart';
 
-  Future<CreateTicketResponse> createTicket(String filmUuid);
+abstract class TicketRepository {
 
-  // Future<TicketsListResponse> fetchTickets();
+  Future<CreateTicketResponse> createTickets(List<dynamic> seats, String filmUuid,String userUuid);
+
+  //Future<TicketsListResponse> fetchTickets();
   
 }
-*/
