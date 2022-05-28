@@ -6,6 +6,7 @@ import com.pdam.tcl.model.Film;
 import com.pdam.tcl.model.Hall;
 import com.pdam.tcl.model.Session;
 import com.pdam.tcl.model.dto.session.CreateSessionDto;
+import com.pdam.tcl.model.dto.session.GetSessionDataDto;
 import com.pdam.tcl.model.dto.session.GetSessionDto;
 import com.pdam.tcl.repository.FilmRepository;
 import com.pdam.tcl.repository.HallRepository;
@@ -29,6 +30,16 @@ public class SessionDtoConverter {
                 .hallName(session.getHall().getName())
                 .active(session.isActive())
                 .availableSeats(session.getAvailableSeats())
+                .build();
+
+    }
+
+    public GetSessionDataDto sessionToGetSessionDataDto(Session session) {
+        return GetSessionDataDto.builder()
+                .sessionId(session.getUuid())
+                .filmTitle(session.getFilm().getTitle())
+                .sessionDate(session.getSessionDate())
+                .hallName(session.getHall().getName())
                 .build();
 
     }

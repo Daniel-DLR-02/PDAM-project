@@ -89,8 +89,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Page<Ticket> getTicketsByUserId(UUID idUser, Pageable pageable) {
-        return ticketRepository.findAllByUserId(idUser, pageable);
+    public Page<GetTicketDto> getTicketsByUserId(UUID idUser, Pageable pageable) {
+        return ticketRepository.findAllByUserId(idUser, pageable).map(ticketDtoConverter::ticketDtoToGetDtoConverter);
     }
 
     @Override
