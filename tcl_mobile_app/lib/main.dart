@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/login',
       routes: {
-        '/': (context) => const MenuScreen(),
+        '/': (context) => const MenuScreen(initialScreen: 0),
         '/login': (context) => const LoginScreen(),
         '/register': (context) => const RegisterScreen(),
       },

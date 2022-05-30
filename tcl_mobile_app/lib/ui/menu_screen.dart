@@ -9,8 +9,9 @@ import '../repository/preferences_utils.dart';
 import 'home_screen.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+  const MenuScreen({Key? key,required this.initialScreen}) : super(key: key);
 
+  final int initialScreen;
   @override
   _MenuScreenState createState() => _MenuScreenState();
 }
@@ -35,6 +36,7 @@ class _MenuScreenState extends State<MenuScreen> {
     avatar_url = avatar_sin_formato!
         .replaceAll("http://localhost:8080", Constants.baseUrl);
     token = PreferenceUtils.getString("token");
+    _currentIndex = widget.initialScreen;
   }
 
   @override
