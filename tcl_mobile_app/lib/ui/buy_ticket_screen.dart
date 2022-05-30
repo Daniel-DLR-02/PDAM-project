@@ -7,6 +7,8 @@ import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 import 'package:tcl_mobile_app/repository/preferences_utils.dart';
 import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
+import 'package:tcl_mobile_app/repository/ticket_repository/ticket_repository_impl.dart';
+import 'package:tcl_mobile_app/repository/ticket_repository/ticket_respository.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 
 import '../model/Sessions/session_response.dart';
@@ -24,6 +26,8 @@ class BuyTicketScreen extends StatefulWidget {
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
   late SessionRepository sessionRepository;
+  late TicketRepository ticketRepository;
+
   String? token = "none";
   String? sessionId;
 
@@ -32,6 +36,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     super.initState();
     PreferenceUtils.init();
     sessionRepository = SessionRepositoryImpl();
+    ticketRepository = TicketRepositoryImpl();
     token = PreferenceUtils.getString("token");
     sessionId = widget.sessionUuid ?? "none";
     PreferenceUtils.setString('filmUuid', widget.filmUuid);
@@ -45,7 +50,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     List<String> selectedSeats = [];
 
     return Scaffold(
-      floatingActionButton: (nextButton(sessionId,selectedSeats)),
+      floatingActionButton: (nextButton(sessionId!,token!,selectedSeats,ticketRepository)),
       appBar: const HomeAppBar(),
       backgroundColor: const Color(0xFF1d1d1d),
       body: Container(
@@ -102,12 +107,15 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   }
 }
 
-Widget? nextButton(String? sessionId, List<String> selectedSeats) {
+Widget? nextButton(String sessionId,String token, List<String> selectedSeats,TicketRepository ticketRepository) {
+
+
   if (sessionId != "none") {
     return FloatingActionButton(
       onPressed: () {
         // Enviar datos
         print(selectedSeats);
+        ticketRepository.createTickets(selectedSeats, sessionId!, token!);
       },
       backgroundColor: const Color(0xFF546e7a),
       child: const Icon(Icons.arrow_forward),
