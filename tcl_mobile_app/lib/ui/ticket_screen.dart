@@ -11,101 +11,121 @@ class TicketScreen extends StatefulWidget {
 class _TicketScreenState extends State<TicketScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: CouponCard(
-        height: 200,
-        backgroundColor: Colors.white,
-        clockwise: true,
-        curvePosition: 135,
-        curveRadius: 30,
-        curveAxis: Axis.vertical,
-        borderRadius: 10,
-        firstChild: Container(
-          decoration: const BoxDecoration(
-            color: Colors.black,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      Text(
-                        '23%',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
+    return Scaffold(
+      backgroundColor: Color(0xFF263238),
+      body: Column(
+        children: [
+          Container(
+                height: 65,
+                color: const Color(0xFF1d1d1d),
+                child: Row(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.only(top: 7.0, left: 20),
+                      child: Text(
+                        "Tickets",
+                        style: TextStyle(color: Colors.white, fontSize: 15.0),
                       ),
-                      Text(
-                        'OFF',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-              const Divider(color: Colors.white54, height: 0),
-              const Expanded(
-                child: Center(
-                  child: Text(
-                    'WINTER IS\nHERE',
+          CouponCard(
+            height: 200,
+            backgroundColor: Colors.white,
+            clockwise: true,
+            curvePosition: 135,
+            curveRadius: 30,
+            curveAxis: Axis.vertical,
+            borderRadius: 10,
+            firstChild: Container(
+              decoration: const BoxDecoration(
+                color: Colors.black,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Text(
+                            '23%',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            'OFF',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const Divider(color: Colors.white54, height: 0),
+                  const Expanded(
+                    child: Center(
+                      child: Text(
+                        'WINTER IS\nHERE',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            secondChild: Container(
+              width: double.maxFinite,
+              padding: const EdgeInsets.all(18),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  Text(
+                    'Coupon Code',
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'FREESALES',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
                       color: Colors.white,
-                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                  Spacer(),
+                  Text(
+                    'Valid Till - 30 Jan 2022',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-        secondChild: Container(
-          width: double.maxFinite,
-          padding: const EdgeInsets.all(18),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              Text(
-                'Coupon Code',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54,
-                ),
-              ),
-              SizedBox(height: 4),
-              Text(
-                'FREESALES',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Spacer(),
-              Text(
-                'Valid Till - 30 Jan 2022',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-        ),
+        ],
       ),
     );
   }

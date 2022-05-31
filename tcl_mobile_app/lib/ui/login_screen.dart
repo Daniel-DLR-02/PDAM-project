@@ -126,19 +126,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                        BorderRadius.all(Radius.circular(15.0)),
                                     color: Color.fromARGB(255, 62, 62, 62),
                                   ),
                                   child: TextFormField(
                                     controller: nickNameController,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
                                         suffixIcon:
                                             Icon(Icons.account_circle_sharp),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nombre de usuario',
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -155,19 +160,24 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
+                                        BorderRadius.all(Radius.circular(15.0)),
                                     color: Color.fromARGB(255, 62, 62, 62),
                                   ),
                                   child: TextFormField(
                                     obscureText: true,
                                     controller: passwordController,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
                                         suffixIcon: Icon(Icons.vpn_key),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Password',
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {

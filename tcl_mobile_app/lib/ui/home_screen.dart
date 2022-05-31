@@ -137,7 +137,7 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
                                 child: CachedNetworkImage(
                                   placeholder: (context, url) => Center(
                                       child: SkeletonContainer.imageItem(
-                                          width: 80, height: 80, radius: 50)),
+                                          width: 80.0, height: 80.0, radius: 50.0)),
                                   imageUrl: avatar_url!,
                                   width: 80,
                                   height: 80,
