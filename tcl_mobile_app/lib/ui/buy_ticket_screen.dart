@@ -62,7 +62,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
         child: Column(
           children: [
             Container(
-              height: 65,
+              height: 64.8,
               color: const Color(0xFF1d1d1d),
               child: Row(
                 children: [
@@ -140,7 +140,7 @@ Widget _createSeeFilmSessions(
       if (state is SessionsInitial) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: 295,
+          height: 294,
           decoration: const BoxDecoration(
             color: Color(0xFF1d1d1d)
           ),

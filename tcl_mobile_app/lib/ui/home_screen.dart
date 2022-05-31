@@ -286,43 +286,6 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
   );
 }
 
-/*Widget buildSkeletonItemText(double width,double height, double borderRadius){
-  return SkeletonContainer.text(
-      width: width,
-      height: height,
-      radius: borderRadius,
-  );
-}
-
-
-Widget buildSkeletonItemFilm(
-  BuildContext context,
-) {
-  final contentWidth = MediaQuery.of(context).size.width - 180;
-  final contentHeight = MediaQuery.of(context).size.height;
-  const contentborderRadius = 25.0;
-
-  return SkeletonContainer.filmPoster(
-      width: contentWidth,
-      height: contentHeight,
-      radius: contentborderRadius,
-  );
-}
-
-Widget buildSkeletonItemPromo(
-  BuildContext context,
-) {
-  final contentWidth = MediaQuery.of(context).size.width - 180;
-  final contentHeight = MediaQuery.of(context).size.height;
-  const contentborderRadius = 25.0;
-
-  return SkeletonContainer.filmPoster(
-      width: contentWidth,
-      height: contentHeight,
-      radius: contentborderRadius,
-  );
-}*/
-
 Widget _createPublicViewItem(
   BuildContext context,
   Film film,
