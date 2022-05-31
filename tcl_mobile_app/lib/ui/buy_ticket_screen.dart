@@ -12,6 +12,7 @@ import 'package:tcl_mobile_app/repository/ticket_repository/ticket_respository.d
 import 'package:tcl_mobile_app/ui/menu_screen.dart';
 import 'package:tcl_mobile_app/ui/ticket_screen.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
+import 'package:tcl_mobile_app/ui/widgets/skeleton_container.dart';
 
 import '../model/Sessions/session_response.dart';
 import '../repository/session_repository/session_repository_impl.dart';
@@ -52,7 +53,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     List<String> selectedSeats = [];
 
     return Scaffold(
-      floatingActionButton: (nextButton(context,sessionId!,token!,selectedSeats,ticketRepository)),
+      floatingActionButton: (nextButton(
+          context, sessionId!, token!, selectedSeats, ticketRepository)),
       appBar: const HomeAppBar(),
       backgroundColor: const Color(0xFF1d1d1d),
       body: Container(
@@ -89,7 +91,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   ..add(GetSessionDetails(sessionId!));
               },
               child: Container(
-                child: _createSeeSession(context, sessionId!,selectedSeats),
+                child: _createSeeSession(context, sessionId!, selectedSeats),
               ),
             ),
             BlocProvider(
@@ -109,9 +111,8 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   }
 }
 
-Widget? nextButton(BuildContext context,String sessionId,String token, List<String> selectedSeats,TicketRepository ticketRepository) {
-
-
+Widget? nextButton(BuildContext context, String sessionId, String token,
+    List<String> selectedSeats, TicketRepository ticketRepository) {
   if (sessionId != "none") {
     return FloatingActionButton(
       onPressed: () {
@@ -119,7 +120,7 @@ Widget? nextButton(BuildContext context,String sessionId,String token, List<Stri
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const MenuScreen(initialScreen:1),
+            builder: (context) => const MenuScreen(initialScreen: 1),
           ),
           ModalRoute.withName('/'),
         );
@@ -137,7 +138,28 @@ Widget _createSeeFilmSessions(
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
-        return const Center(child: CircularProgressIndicator());
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 295,
+          decoration: const BoxDecoration(
+            color: Color(0xFF1d1d1d)
+          ),
+          child: Column(
+            children: [
+              SkeletonContainer.square(width: 320.0, height: 40.0),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: SkeletonContainer.imageItem(
+                    width: 320.0, height: 70.0, radius: 20.0),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: SkeletonContainer.imageItem(
+                    width: 320.0, height: 70.0, radius: 20.0),
+              ),
+            ],
+          ),
+        );
       } else if (state is SessionErrorState) {
         return ErrorPage(
           message: "state.message",
@@ -249,11 +271,16 @@ Widget _getSessionList(
   }
 }
 
-Widget _createSeeSession(BuildContext context, String uuid,List<String> selectedSeats) {
+Widget _createSeeSession(
+    BuildContext context, String uuid, List<String> selectedSeats) {
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
-        return const Center(child: CircularProgressIndicator());
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30.0),
+          child: SkeletonContainer.imageItem(
+              width: 304.0, height: 304.0, radius: 20.0),
+        );
       } else if (state is SessionErrorState) {
         return Container(
           height: 364.65,
@@ -266,7 +293,7 @@ Widget _createSeeSession(BuildContext context, String uuid,List<String> selected
           ),
         );
       } else if (state is SessionSuccessFetched) {
-        return _createPublicView(context, state.session,selectedSeats);
+        return _createPublicView(context, state.session, selectedSeats);
       } else {
         return const Text('Not support');
       }
@@ -274,7 +301,8 @@ Widget _createSeeSession(BuildContext context, String uuid,List<String> selected
   );
 }
 
-Widget _createPublicView(BuildContext context, SessionResponse session,List<String> selectedSeats) {
+Widget _createPublicView(
+    BuildContext context, SessionResponse session, List<String> selectedSeats) {
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
 
@@ -282,7 +310,7 @@ Widget _createPublicView(BuildContext context, SessionResponse session,List<Stri
     children: [
       Padding(
         padding: const EdgeInsets.all(20.0),
-        child: getSeatView(session.availableSeats,selectedSeats),
+        child: getSeatView(session.availableSeats, selectedSeats),
       ),
     ],
   );
@@ -297,11 +325,7 @@ Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
     for (var j = 0; j < seats[i].length; j++) {
       if (seats[i][j] == "S") {
         seatList.add(
-          UnselectedSeat(
-            row: i,
-            column: j,
-            seatsSelected: selectedSeats
-          ),
+          UnselectedSeat(row: i, column: j, seatsSelected: selectedSeats),
         );
       } else if (seats[i][j] == "P") {
         seatList.add(Container(
@@ -435,13 +459,13 @@ class _UnselectedSeatState extends State<UnselectedSeat> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (() {
-        if(widget.seatsSelected.contains("${widget.row},${widget.column }")){
-          widget.seatsSelected.remove("${widget.row},${widget.column }");
+        if (widget.seatsSelected.contains("${widget.row},${widget.column}")) {
+          widget.seatsSelected.remove("${widget.row},${widget.column}");
           setState(() {
             selected = false;
           });
-        } else {         
-           widget.seatsSelected.add("${widget.row},${widget.column }");
+        } else {
+          widget.seatsSelected.add("${widget.row},${widget.column}");
           setState(() {
             selected = true;
           });
