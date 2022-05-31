@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: const Color(0xFF1d1d1d),
           primaryColor: const Color(0xFF1d1d1d),
           colorScheme: ThemeData().colorScheme.copyWith(
-                primary: Colors.white,
+                primary: Colors.black,
               ),
           fontFamily: GoogleFonts.poppins().fontFamily),
       debugShowCheckedModeBanner: false,

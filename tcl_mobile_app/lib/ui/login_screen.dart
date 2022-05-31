@@ -127,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15.0)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: nickNameController,
@@ -137,10 +137,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(15.0)),
                                         ),
-                                        suffixIcon:
-                                            Icon(Icons.account_circle_sharp),
+                                        suffixIcon: Icon(
+                                          Icons.account_circle_sharp,
+                                          color: Color(0xFF626262),
+                                        ),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nombre de usuario',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15.0)),
@@ -161,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: const BoxDecoration(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(15.0)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     obscureText: true,
@@ -172,9 +176,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(15.0)),
                                         ),
-                                        suffixIcon: Icon(Icons.vpn_key),
+                                        suffixIcon: Icon(
+                                          Icons.vpn_key,
+                                          color: Color(0xFF626262),
+                                        ),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Password',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.all(
                                                 Radius.circular(15.0)),
@@ -199,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: const Text(
                                   'Regístrate',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.blue),
+                                      fontSize: 12, color: Color(0xFF626262)),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/register');
@@ -220,7 +229,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Text(
                                       'Iniciar sesión'.toUpperCase(),
                                       style:
-                                          const TextStyle(color: Colors.white),
+                                          const TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),
                                       textAlign: TextAlign.start,
                                     ),
                                   )),
