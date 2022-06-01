@@ -340,6 +340,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         hintStyle:
                                             TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     readOnly: true,
