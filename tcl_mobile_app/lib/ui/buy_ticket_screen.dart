@@ -46,6 +46,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     if (widget.sessionUuid != null) {
       PreferenceUtils.setString('sessionUuid', widget.sessionUuid!);
     }
+    setState(() {});
   }
 
   @override
@@ -123,7 +124,7 @@ Widget? nextButton(BuildContext context, String sessionId, String token,
             builder: (context) => const MenuScreen(initialScreen: 1),
           ),
           ModalRoute.withName('/'),
-        );
+        ).then((value) => value.pages[1].setState((){}));
       },
       backgroundColor: const Color(0xFF546e7a),
       child: const Icon(Icons.arrow_forward),
@@ -140,10 +141,8 @@ Widget _createSeeFilmSessions(
       if (state is SessionsInitial) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: 294,
-          decoration: const BoxDecoration(
-            color: Color(0xFF1d1d1d)
-          ),
+          height: MediaQuery.of(context).size.height / 4 + 82,
+          decoration: const BoxDecoration(color: Color(0xFF1d1d1d)),
           child: Column(
             children: [
               SkeletonContainer.square(width: 320.0, height: 40.0),
@@ -203,7 +202,7 @@ Widget _createSessionList(BuildContext context, List<Session> sessions,
             color: Colors.white,
           ),
           SizedBox(
-            height: contentHeight / 3.07,
+            height: contentHeight / 4 + 29,
             width: contentWidth - 10,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -374,7 +373,7 @@ Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
         Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 8.0, left: 25),
               child: Row(
                 children: [
                   Container(
@@ -387,7 +386,7 @@ Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Disponible",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),
@@ -406,7 +405,7 @@ Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Seleccionado",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),
@@ -425,7 +424,7 @@ Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Reservado",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),

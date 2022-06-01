@@ -37,6 +37,9 @@ class _MenuScreenState extends State<MenuScreen> {
         .replaceAll("http://localhost:8080", Constants.baseUrl);
     token = PreferenceUtils.getString("token");
     _currentIndex = widget.initialScreen;
+    setState(() {
+      
+    });
   }
 
   @override

@@ -30,6 +30,7 @@ class AuthRepositoryImpl extends AuthRepository {
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       prefs.setString(
           'avatar', LoginResponse.fromJson(json.decode(response.body)).avatar);
+      prefs.setString('nick', LoginResponse.fromJson(json.decode(response.body)).nickname);
       return LoginResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Fail to login');
