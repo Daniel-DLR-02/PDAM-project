@@ -47,17 +47,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) {
-          return RegisterBloc(authRepository);
-        },
-        child: _createBody(context));
+    return Scaffold(
+      floatingActionButton: (nextButton(context)),
+      body: BlocProvider(
+          create: (context) {
+            return RegisterBloc(authRepository);
+          },
+          child: _createBody(context)),
+    );
+  }
+
+  Widget? nextButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+      },
+      backgroundColor: const Color(0xFF546e7a),
+      child: const Icon(Icons.arrow_forward),
+    );
   }
 
   _createBody(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 29, 29, 29),
-      body: Center(
+    return Container(
+      color: const Color.fromARGB(255, 29, 29, 29),
+      child: Center(
         child: Container(
             padding: const EdgeInsets.all(20),
             child: BlocConsumer<RegisterBloc, RegisterState>(
@@ -111,26 +123,106 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Image.asset(
-                            'assets/img/logo.png',
-                            width: 150,
-                          ),
-                          Text(
-                            'Crear una cuenta',
-                            style: GoogleFonts.poppins(
-                              color: Colors.white,
-                              textStyle: Theme.of(context).textTheme.headline4,
-                              fontSize: 35,
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
+                          Container(
+                            margin: const EdgeInsets.only(top: 20),
+                            width: deviceWidth - 100,
+                            child: BlocProvider(
+                              create: (context) {
+                                return ImagePickBloc();
+                              },
+                              child: BlocConsumer<ImagePickBloc,
+                                      ImagePickState>(
+                                  listenWhen: (context, state) {
+                                    return state is ImageSelectedSuccessState;
+                                  },
+                                  listener: (context, state) {},
+                                  buildWhen: (context, state) {
+                                    return state is ImagePickInitial ||
+                                        state is ImageSelectedSuccessState;
+                                  },
+                                  builder: (context, state) {
+                                    if (state is ImageSelectedSuccessState) {
+                                      filePath = state.pickedFile.path;
+                                      return Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 40, right: 50.0),
+                                            child: Text(
+                                              'Avatar:',
+                                              style: GoogleFonts.poppins(
+                                                color: Colors.white,
+                                                textStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .headline4,
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w300,
+                                                fontStyle: FontStyle.normal,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 75,
+                                            child: ClipOval(
+                                              child: SizedBox.fromSize(
+                                                size: const Size.fromRadius(
+                                                    40), // Image radius
+                                                child: InkWell(
+                                                  borderRadius:
+                                                      BorderRadius.circular(40),
+                                                  child: Image.file(
+                                                      File(state
+                                                          .pickedFile.path),
+                                                      fit: BoxFit.cover),
+                                                  onTap: () {
+                                                    BlocProvider.of<
+                                                                ImagePickBloc>(
+                                                            context)
+                                                        .add(
+                                                            const SelectImageEvent(
+                                                                ImageSource
+                                                                    .gallery));
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    return Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 40, right: 45.0),
+                                          child: Text(
+                                            'Avatar:',
+                                            style: GoogleFonts.poppins(
+                                              color: Colors.white,
+                                              textStyle: Theme.of(context)
+                                                  .textTheme
+                                                  .headline4,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w300,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Color(0xFF262626),
+                                            ),
+                                            onPressed: () {
+                                              BlocProvider.of<ImagePickBloc>(
+                                                      context)
+                                                  .add(const SelectImageEvent(
+                                                      ImageSource.gallery));
+                                            },
+                                            child: const Text('Elegir avatar')),
+                                      ],
+                                    );
+                                  }),
                             ),
-                          ),
-                          const Divider(
-                            height: 20,
-                            thickness: .1,
-                            indent: 20,
-                            endIndent: 20,
-                            color: Colors.white,
                           ),
                           Center(
                             child: Column(
@@ -366,130 +458,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   ),
                                 ),
                                 //avatar
-                                Container(
-                                  margin: const EdgeInsets.only(top: 20),
-                                  width: deviceWidth - 100,
-                                  child: BlocProvider(
-                                    create: (context) {
-                                      return ImagePickBloc();
-                                    },
-                                    child: BlocConsumer<ImagePickBloc,
-                                            ImagePickState>(
-                                        listenWhen: (context, state) {
-                                          return state
-                                              is ImageSelectedSuccessState;
-                                        },
-                                        listener: (context, state) {},
-                                        buildWhen: (context, state) {
-                                          return state is ImagePickInitial ||
-                                              state
-                                                  is ImageSelectedSuccessState;
-                                        },
-                                        builder: (context, state) {
-                                          if (state
-                                              is ImageSelectedSuccessState) {
-                                            print(
-                                                'PATH ${state.pickedFile.path}');
-                                            filePath = state.pickedFile.path;
-                                            return Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 40,
-                                                          right: 50.0),
-                                                  child: Text(
-                                                    'Avatar:',
-                                                    style: GoogleFonts.poppins(
-                                                      color: Colors.white,
-                                                      textStyle:
-                                                          Theme.of(context)
-                                                              .textTheme
-                                                              .headline4,
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      fontStyle:
-                                                          FontStyle.normal,
-                                                    ),
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 75,
-                                                  child: ClipOval(
-                                                    child: SizedBox.fromSize(
-                                                      size: const Size
-                                                              .fromRadius(
-                                                          40), // Image radius
-                                                      child: InkWell(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(40),
-                                                        child: Image.file(
-                                                            File(state
-                                                                .pickedFile
-                                                                .path),
-                                                            fit: BoxFit.cover),
-                                                        onTap: () {
-                                                          BlocProvider.of<
-                                                                      ImagePickBloc>(
-                                                                  context)
-                                                              .add(const SelectImageEvent(
-                                                                  ImageSource
-                                                                      .gallery));
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          }
-                                          return Row(
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 40, right: 45.0),
-                                                child: Text(
-                                                  'Avatar:',
-                                                  style: GoogleFonts.poppins(
-                                                    color: Colors.white,
-                                                    textStyle: Theme.of(context)
-                                                        .textTheme
-                                                        .headline4,
-                                                    fontSize: 15,
-                                                    fontWeight: FontWeight.w300,
-                                                    fontStyle: FontStyle.normal,
-                                                  ),
-                                                ),
-                                              ),
-                                              ElevatedButton(
-                                                  style:
-                                                      ElevatedButton.styleFrom(
-                                                    primary: Color(0xFF262626),
-                                                  ),
-                                                  onPressed: () {
-                                                    BlocProvider.of<
-                                                                ImagePickBloc>(
-                                                            context)
-                                                        .add(
-                                                            const SelectImageEvent(
-                                                                ImageSource
-                                                                    .gallery));
-                                                  },
-                                                  child: const Text(
-                                                      'Elegir avatar')),
-                                            ],
-                                          );
-                                        }),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
-    
-                          Padding(
-                            padding: const EdgeInsets.only(left: 50.0),
+                          //Botón de mandar
+                          /*Padding(
+                            padding:
+                                const EdgeInsets.only(left: 50.0, bottom: 150),
                             child: SizedBox(
                               child: ElevatedButton(
                                 child: const Icon(
@@ -533,7 +508,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                             ),
-                          )
+                          )*/
                         ],
                       ),
                     )))));
