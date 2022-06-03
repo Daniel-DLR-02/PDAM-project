@@ -49,6 +49,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User saveNoAvatar(CreateUserDto createUsuarioDto) {
+
+
+        return userRepository.save(User.builder()
+                .nombre(createUsuarioDto.getNombre())
+                .nickname(createUsuarioDto.getNickName())
+                .email(createUsuarioDto.getEmail())
+                .fechaNacimiento(createUsuarioDto.getFechaNacimiento())
+                .password(passwordEncoder.encode(createUsuarioDto.getPassword()))
+                .role(UserRole.USER)
+                .build());
+
+
+    }
+
+    @Override
     public Optional<User> findUserByUuid(UUID uuid){
         return userRepository.findById(uuid);
     }
@@ -64,6 +80,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .fechaNacimiento(newUsuario.getFechaNacimiento())
                 .password(passwordEncoder.encode(newUsuario.getPassword()))
                 .avatar(img.getData())
+                .role(UserRole.ADMIN)
+                .build());
+    }
+
+    @Override
+    public User saveAdminNoAvatar(CreateUserDto newUsuario) throws Exception {
+
+        return userRepository.save(User.builder()
+                .nombre(newUsuario.getNombre())
+                .nickname(newUsuario.getNickName())
+                .email(newUsuario.getEmail())
+                .fechaNacimiento(newUsuario.getFechaNacimiento())
+                .password(passwordEncoder.encode(newUsuario.getPassword()))
                 .role(UserRole.ADMIN)
                 .build());
     }
@@ -87,6 +116,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setFechaNacimiento(userDto.getFechaNacimiento());
         user.setPassword(userDto.getPassword());
         user.setAvatar(img.getData());
+        user.setRole(UserRole.valueOf(userDto.getRole()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User editUserNoAvatar(UUID id, CreateUserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+        user.setNombre(userDto.getNombre());
+        user.setNickname(userDto.getNickName());
+        user.setEmail(userDto.getEmail());
+        user.setFechaNacimiento(userDto.getFechaNacimiento());
+        user.setPassword(userDto.getPassword());
         user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);

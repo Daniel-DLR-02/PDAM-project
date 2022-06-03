@@ -13,13 +13,19 @@ public interface UserService {
 
     User save(CreateUserDto createUserDto, MultipartFile file) throws Exception;
 
+    User saveNoAvatar(CreateUserDto createUsuarioDto);
+
     Optional<User> findUserByUuid(UUID uuid);
 
     User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception;
 
+    User saveAdminNoAvatar(CreateUserDto newUsuario) throws Exception;
+
     boolean existsById(UUID id);
 
     User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception;
+
+    User editUserNoAvatar(UUID id,CreateUserDto userDto);
 
     void deleteUser(UUID id) throws IOException;
 }

@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping("/auth/register")
     public ResponseEntity<GetUserDto> doRegister(@RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
-        User saved = userService.save(newUsuario,file);
+        User saved = file.isEmpty()?userService.saveNoAvatar(newUsuario):userService.save(newUsuario,file);
 
         if(saved == null)
             return ResponseEntity.badRequest().build();
@@ -73,7 +73,7 @@ public class UserController {
     public ResponseEntity<GetUserDto> registerAdmin(@RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
 
-        User saved = userService.saveAdmin(newUsuario,file);
+        User saved = file.isEmpty()?userService.saveAdminNoAvatar(newUsuario):userService.saveAdmin(newUsuario,file);
 
         if(saved == null)
             return ResponseEntity.badRequest().build();
@@ -83,12 +83,20 @@ public class UserController {
 
     @PutMapping("/user/{id}")
     public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(id,userDto,file)));
+        if(file.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(id, userDto)));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUser(id, userDto, file)));
+        }
     }
 
     @PutMapping("/user")
     public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(currentUser.getUuid(),userDto,file)));
+        if(file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(currentUser.getUuid(), userDto)));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUser(currentUser.getUuid(), userDto, file)));
+        }
     }
 
     @GetMapping("/me")
