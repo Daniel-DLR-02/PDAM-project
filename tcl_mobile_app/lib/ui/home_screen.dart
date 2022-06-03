@@ -8,9 +8,7 @@ import 'package:tcl_mobile_app/repository/films_repository/films_repository_impl
 import 'package:tcl_mobile_app/ui/film_details.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
-import 'package:coupon_uikit/coupon_uikit.dart';
 import 'package:tcl_mobile_app/ui/widgets/skeleton_container.dart';
-import '../constants.dart';
 import '../repository/preferences_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -84,7 +82,7 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
   final contentWidth = MediaQuery.of(context).size.width;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
-  String? avatar_url = PreferenceUtils.getString("avatar");
+  String? avatarUrl = PreferenceUtils.getString("avatar");
   String? token = PreferenceUtils.getString("token");
   String? nick = PreferenceUtils.getString("nick");
   return RefreshIndicator(
@@ -135,10 +133,12 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(50),
                                 child: CachedNetworkImage(
-                                  placeholder: (context, url) => Center(
+                                  placeholder: (context, url) => const Center(
                                       child: SkeletonContainer.imageItem(
-                                          width: 80.0, height: 80.0, radius: 50.0)),
-                                  imageUrl: avatar_url!,
+                                          width: 80.0,
+                                          height: 80.0,
+                                          radius: 50.0)),
+                                  imageUrl: avatarUrl!,
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,

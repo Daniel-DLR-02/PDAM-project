@@ -6,21 +6,21 @@ class SkeletonContainer extends StatelessWidget {
   final double height;
   final double radius;
 
-  SkeletonContainer._({
+  const SkeletonContainer._({
     this.width = double.infinity,
     this.height = double.infinity,
     this.radius = 0.0,
     Key? key,
   }) : super(key: key);
 
-  SkeletonContainer.square({
+  const SkeletonContainer.square({
     width = double.infinity,
     height = double.infinity,
     radius = 0.0,
     Key? key,
   }) : this._(width: width,height:height);
 
-  SkeletonContainer.imageItem({
+  const SkeletonContainer.imageItem({
     width = double.infinity,
     height = double.infinity,
     radius = 0.0,
@@ -28,7 +28,7 @@ class SkeletonContainer extends StatelessWidget {
   }) : this._(width: width,height:height,radius: radius);
 
 
-    SkeletonContainer.text({
+    const SkeletonContainer.text({
     width = double.infinity,
     height = double.infinity,
     radius = 0.0,

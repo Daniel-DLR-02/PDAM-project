@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tcl_mobile_app/ui/buy_ticket_screen.dart';
-import 'package:tcl_mobile_app/ui/film_details.dart';
 import 'package:tcl_mobile_app/ui/login_screen.dart';
 import 'package:tcl_mobile_app/ui/menu_screen.dart';
 import 'package:tcl_mobile_app/ui/register_screen.dart';
 import 'package:flutter/services.dart';
-import 'package:skeletons/skeletons.dart';
 
 void main() {
   runApp(const MyApp());

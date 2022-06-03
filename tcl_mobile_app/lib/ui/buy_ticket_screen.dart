@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/session/session_bloc.dart';
-import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 import 'package:tcl_mobile_app/repository/preferences_utils.dart';
 import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
 import 'package:tcl_mobile_app/repository/ticket_repository/ticket_repository_impl.dart';
 import 'package:tcl_mobile_app/repository/ticket_repository/ticket_respository.dart';
 import 'package:tcl_mobile_app/ui/menu_screen.dart';
-import 'package:tcl_mobile_app/ui/ticket_screen.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/skeleton_container.dart';
 
@@ -116,15 +112,18 @@ Widget? nextButton(BuildContext context, String sessionId, String token,
     List<String> selectedSeats, TicketRepository ticketRepository) {
   if (sessionId != "none") {
     return FloatingActionButton(
-      onPressed: () {
+      onPressed: () async {
         ticketRepository.createTickets(selectedSeats, sessionId, token);
+        for (int i = 0; i < selectedSeats.length; i++) {
+          await Future.delayed(const Duration(seconds: 2), () {});
+        }
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
             builder: (context) => const MenuScreen(initialScreen: 1),
           ),
           ModalRoute.withName('/'),
-        ).then((value) => value.pages[1].setState((){}));
+        );
       },
       backgroundColor: const Color(0xFF546e7a),
       child: const Icon(Icons.arrow_forward),
@@ -144,15 +143,15 @@ Widget _createSeeFilmSessions(
           height: MediaQuery.of(context).size.height / 4 + 82,
           decoration: const BoxDecoration(color: Color(0xFF1d1d1d)),
           child: Column(
-            children: [
+            children: const [
               SkeletonContainer.square(width: 320.0, height: 40.0),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+                padding: EdgeInsets.only(top: 20.0),
                 child: SkeletonContainer.imageItem(
                     width: 320.0, height: 70.0, radius: 20.0),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 20.0),
+                padding: EdgeInsets.only(top: 20.0),
                 child: SkeletonContainer.imageItem(
                     width: 320.0, height: 70.0, radius: 20.0),
               ),
@@ -234,8 +233,8 @@ Widget _getSessionList(
             child: Center(
               child: Text(
                 DateTime.parse(session.sessionDate).toString().substring(0, 16),
-                style: const TextStyle(
-                    color: const Color(0xFF546e7a), fontSize: 16.0),
+                style:
+                    const TextStyle(color: Color(0xFF546e7a), fontSize: 16.0),
               ),
             )),
       ),
@@ -275,15 +274,15 @@ Widget _createSeeSession(
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 30.0),
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 30.0),
           child: SkeletonContainer.imageItem(
               width: 304.0, height: 304.0, radius: 20.0),
         );
       } else if (state is SessionErrorState) {
-        return Container(
+        return const SizedBox(
           height: 364.65,
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.only(top: 180.0),
             child: Text(
               "Seleccione una sesión",

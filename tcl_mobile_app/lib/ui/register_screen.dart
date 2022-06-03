@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/auth/register/register_bloc.dart';
 import 'package:tcl_mobile_app/model/auth/register/register_dto.dart';
 import '../bloc/image_pick/image_pick_bloc.dart';
-import '../bloc/auth/login/login_bloc.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
@@ -32,10 +31,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController passwordConfirmController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String filePath = '';
-  String _selectedDate = '';
-  String _dateCount = '';
-  String _range = '';
-  String _rangeCount = '';
+  final String _selectedDate = '';
+  final String _dateCount = '';
+  final String _range = '';
+  final String _rangeCount = '';
   TextEditingController dateController = TextEditingController();
   bool publicController = true;
 

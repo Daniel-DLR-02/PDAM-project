@@ -73,7 +73,7 @@ Widget _createPublicView(BuildContext context, List<Ticket> tickets) {
   final contentWidth = MediaQuery.of(context).size.width;
   final contentHeight = MediaQuery.of(context).size.height;
   PreferenceUtils.init();
-  String? avatar_url = PreferenceUtils.getString("avatar");
+  String? avatarUrl = PreferenceUtils.getString("avatar");
   String? token = PreferenceUtils.getString("token");
   String? nick = PreferenceUtils.getString("nick");
   return RefreshIndicator(
@@ -107,12 +107,12 @@ Widget _createPublicView(BuildContext context, List<Ticket> tickets) {
           ),
           Container(
             color: const Color(0xFF263238),
-            height: contentHeight,	
+            height: contentHeight,
             child: Padding(
               padding: const EdgeInsets.all(5.0),
               child: ListView.builder(
                 itemCount: tickets.length,
-                padding: const EdgeInsets.only(bottom:150.0),
+                padding: const EdgeInsets.only(bottom: 150.0),
                 itemBuilder: (BuildContext context, int index) {
                   return _createPublicViewItem(context, tickets[index]);
                 },
@@ -133,30 +133,30 @@ Widget _createPublicViewItem(
   return InkWell(
     onTap: () => {
       showDialog<void>(
-    context: context,
-    barrierDismissible: false, // user must tap button!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text('Código QR de la entrada'),
-        content: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:20.0),
-          child: QrImage(
-                    data: ticket.uuid,
-                    version: QrVersions.auto,
-                    size: 200.0,
-                  ),
-        ),
-        actions: <Widget>[
-          TextButton(
-            child: const Text('Cerrar'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      );
-    },
-  )
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Código QR de la entrada'),
+            content: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: QrImage(
+                data: ticket.uuid,
+                version: QrVersions.auto,
+                size: 200.0,
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Cerrar'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      )
     },
     child: Padding(
       padding: const EdgeInsets.only(top: 10.0),
@@ -238,7 +238,7 @@ Widget _createPublicViewItem(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Fila: '+ ticket.row.toString(),
+                'Fila: ' + ticket.row.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 13,
@@ -255,9 +255,9 @@ Widget _createPublicViewItem(
                   color: Colors.black54,
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal:20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: QrImage(
                   data: ticket.uuid,
                   version: QrVersions.auto,

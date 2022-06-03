@@ -1,10 +1,6 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/retry.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
 import 'package:tcl_mobile_app/model/Ticket/TicketListResponse.dart';
 import 'package:tcl_mobile_app/repository/ticket_repository/ticket_respository.dart';
 

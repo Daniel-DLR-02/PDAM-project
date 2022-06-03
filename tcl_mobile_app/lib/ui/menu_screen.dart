@@ -1,15 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tcl_mobile_app/ui/profile_screen.dart';
+import 'package:tcl_mobile_app/bloc/ticket/tickets_bloc.dart';
+import 'package:tcl_mobile_app/repository/ticket_repository/ticket_repository_impl.dart';
+import 'package:tcl_mobile_app/ui/profile_info_screen.dart';
 import 'package:tcl_mobile_app/ui/ticket_screen.dart';
 import '../constants.dart';
 import '../repository/preferences_utils.dart';
+import '../repository/ticket_repository/ticket_respository.dart';
 import 'home_screen.dart';
 
 class MenuScreen extends StatefulWidget {
-  const MenuScreen({Key? key,required this.initialScreen}) : super(key: key);
+  const MenuScreen({Key? key, required this.initialScreen}) : super(key: key);
 
   final int initialScreen;
   @override
@@ -18,6 +19,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen> {
   int _currentIndex = 0;
+  late TicketRepository ticketRepository;
   String? avatar_sin_formato;
   String? avatar_url = "none";
   String? token = "none";
@@ -25,7 +27,7 @@ class _MenuScreenState extends State<MenuScreen> {
   List<Widget> pages = [
     const HomeScreen(),
     const TicketScreen(),
-    const ProfileScreen()
+    const ProfileInfoScreen()
   ];
 
   @override
@@ -33,13 +35,11 @@ class _MenuScreenState extends State<MenuScreen> {
     super.initState();
     PreferenceUtils.init();
     avatar_sin_formato = PreferenceUtils.getString("avatar");
-    avatar_url = avatar_sin_formato!
-        .replaceAll("http://localhost:8080", Constants.baseUrl);
+    avatar_url = avatar_sin_formato;
     token = PreferenceUtils.getString("token");
     _currentIndex = widget.initialScreen;
-    setState(() {
-      
-    });
+    ticketRepository = TicketRepositoryImpl();
+    TicketsBloc(ticketRepository).add(const FetchUserTicket());
   }
 
   @override
@@ -51,7 +51,7 @@ class _MenuScreenState extends State<MenuScreen> {
         bottomNavigationBar: _buildBottomBar(avatar_url, token));
   }
 
-  Widget _buildBottomBar(avatar_url, token) {
+  Widget _buildBottomBar(avatarUrl, token) {
     return Container(
         decoration: const BoxDecoration(
             color: Color(0xFF1d1d1d),
@@ -109,7 +109,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                    imageUrl: avatar_url,
+                    imageUrl: avatarUrl,
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,

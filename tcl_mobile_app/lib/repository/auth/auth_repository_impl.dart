@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
-import 'dart:ui';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,7 +70,7 @@ class AuthRepositoryImpl extends AuthRepository {
       }
     } catch (error) {
       print('Error add project $error');
-      throw (error);
+      rethrow;
     }
   }
 
