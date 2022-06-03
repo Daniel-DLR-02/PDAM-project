@@ -15,6 +15,10 @@ import '../model/auth/register/register_dto.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+import 'dart:math';
+
 class ProfileEditForm extends StatefulWidget {
   const ProfileEditForm(
       {Key? key,
@@ -56,7 +60,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
     super.initState();
     _minDate = DateTime(1900, 3, 5, 9, 0, 0);
     _maxDate = DateTime.now();
-    filePath = widget.avatar;
+
     nombreController.text = widget.nombre;
     nickController.text = widget.nick;
     emailController.text = widget.email;
@@ -409,4 +413,14 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           ),
         )));
   }
+}
+
+Future<File> urlToFile(String imageUrl) async {
+  var rng = new Random();
+  Directory tempDir = await getTemporaryDirectory();
+  String tempPath = tempDir.path;
+  File file = File(tempPath + (rng.nextInt(100)).toString() + '.png');
+  http.Response response = await http.get(Uri.parse(imageUrl));
+  await file.writeAsBytes(response.bodyBytes);
+  return file;
 }
