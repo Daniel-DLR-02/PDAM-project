@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tcl_mobile_app/bloc/user/user_bloc.dart';
 import 'package:tcl_mobile_app/model/User/user_response.dart';
 import 'package:tcl_mobile_app/repository/user_repository/user_repository_impl.dart';
+import 'package:tcl_mobile_app/ui/profile_edit_form.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import '../repository/preferences_utils.dart';
 import '../repository/user_repository/user_repository.dart';
@@ -72,97 +73,152 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
   Widget _buildPage(BuildContext context, UserResponse user) {
     double deviceWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 20.0),
-          child: Column(children: [
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 25, left: 5),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: CachedNetworkImage(
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      imageUrl: user.avatar,
-                      httpHeaders: {"Authorization": "Bearer " + token},
-                      width: 80,
-                      height: 80,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+      backgroundColor: const Color(0xFF263238),
+      body: Column(children: [
+        Container(
+          height: 65,
+          color: const Color(0xFF1d1d1d),
+          child: Row(
+            children: const [
+              Padding(
+                padding: EdgeInsets.only(top: 7.0, left: 20),
+                child: Text(
+                  "Información del usuario",
+                  style: TextStyle(color: Colors.white, fontSize: 15.0),
                 ),
-              ],
-            ),
-            SizedBox(
-              width: deviceWidth,
+              ),
+            ],
+          ),
+        ),
+        Column(
+          children: [
+            Container(
+              color: const Color(0xFF1d1d1d),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5, vertical: 20),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user.nombre,
+                padding: const EdgeInsets.only(
+                    top: 25.0, right: 20.0, left: 20.0, bottom: 30),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25, left: 5),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          imageUrl: user.avatar,
+                          httpHeaders: {"Authorization": "Bearer " + token},
+                          width: 80,
+                          height: 80,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30, left: 70),
+                      child: Text(user.nombre,
                           style: TextStyle(
-                            color: Colors.black.withOpacity(.8),
+                            fontSize: 20,
+                            color: Colors.white.withOpacity(.8),
                             fontWeight: FontWeight.bold,
                           )),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Text("Email: " + user.email,
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(.8),
-                            )),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Text(
-                            "Fecha de nacimiento: " + user.fechaDeNacimiento,
-                            style: TextStyle(
-                              color: Colors.black.withOpacity(.8),
-                            )),
-                      ),
-                    ]),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          ],
+        ),
+        SizedBox(
+          width: deviceWidth,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
-                alignment: Alignment.center,
-                width: deviceWidth - 75,
-                height: 35.0,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  border: Border.all(
-                    width: 2.0,
-                    color: Colors.black,
+                    color: const Color(0xFF1d1d1d),
+                    borderRadius: BorderRadius.circular(25)),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text("Nombre:     " + user.nombre,
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(.8),
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color(0xFF1d1d1d),
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text("Email:     " + user.email,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.8),
+                        )),
                   ),
                 ),
-                child: const Text("Editar Perfil",
-                    style: TextStyle(color: Colors.black)),
               ),
-              const Icon(Icons.expand_more_outlined, color: Colors.black),
-            ]),
-            const SizedBox(height: 24.0),
-            Divider(
-              color: Colors.grey[800],
-              thickness: 2.0,
-            ),
-            const SizedBox(height: 12.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                SizedBox(
-                  width: 150.0,
-                  child: Icon(Icons.grid_on_outlined, color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: const Color(0xFF1d1d1d),
+                      borderRadius: BorderRadius.circular(25)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text(
+                        "Fecha de nacimiento:     " + user.fechaDeNacimiento,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(.8),
+                        )),
+                  ),
                 ),
-              ],
-            ),
-          ]),
+              ),
+            ]),
+          ),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(top: 100.0, left: 30),
+          child: InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ProfileEditForm(
+                  nombre: user.nombre,
+                  nick: user.nick,
+                  email: user.email,
+                  avatar: user.avatar,
+                  fechaNacimiento: user.fechaDeNacimiento,
+                ),
+              ),
+            ),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: deviceWidth - 75,
+                    height: 35.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      color: const Color(0xFF1d1d1d),
+                      border: Border.all(
+                        width: 2.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    child: const Text("Editar Perfil",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ]),
+          ),
+        ),
+      ]),
     );
   }
 }
