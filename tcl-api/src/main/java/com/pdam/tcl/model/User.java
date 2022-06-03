@@ -41,11 +41,9 @@ public class User implements UserDetails {
     )
     private UUID uuid;
 
-    @NaturalId
     @Column(unique = true,updatable = false)
     private String nickname;
 
-    @NaturalId
     @Column(unique = true,updatable = false)
     private String email;
 

@@ -3,6 +3,7 @@ package com.pdam.tcl.service.impl;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.UserRole;
 import com.pdam.tcl.model.dto.user.CreateUserDto;
+import com.pdam.tcl.model.dto.user.EditUserDto;
 import com.pdam.tcl.model.img.ImgResponse;
 import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.UserRepository;
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
+    public User editUser(UUID id, EditUserDto userDto, MultipartFile file) throws Exception {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
         imgServiceStorage.delete(user.getAvatar().getDeletehash());
@@ -114,23 +115,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
-        user.setPassword(userDto.getPassword());
         user.setAvatar(img.getData());
-        user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);
     }
 
     @Override
-    public User editUserNoAvatar(UUID id, CreateUserDto userDto) {
+    public User editUserNoAvatar(UUID id, EditUserDto userDto) {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
         user.setNombre(userDto.getNombre());
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
-        user.setPassword(userDto.getPassword());
-        user.setRole(UserRole.valueOf(userDto.getRole()));
 
         return userRepository.save(user);
     }
