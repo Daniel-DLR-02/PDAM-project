@@ -44,7 +44,7 @@ public class TicketController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Page<GetTicketDto>> getTicketsCurrentUser(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal User currentUser){
+    public ResponseEntity<Page<GetTicketDto>> getTicketsCurrentUser(@PageableDefault(size = 30) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal User currentUser){
         return ResponseEntity.ok(ticketService.getTicketsByUserId(currentUser.getUuid(),pageable));
     }
 

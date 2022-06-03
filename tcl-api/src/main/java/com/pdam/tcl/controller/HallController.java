@@ -25,7 +25,7 @@ public class HallController {
     private final HallService hallService;
 
     @GetMapping("/")
-    public ResponseEntity<Page<Hall>> getAllHalls(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
+    public ResponseEntity<Page<Hall>> getAllHalls(@PageableDefault(size = 20) Pageable pageable, HttpServletRequest request) {
         return ResponseEntity.ok(hallService.findAll(pageable));
     }
 

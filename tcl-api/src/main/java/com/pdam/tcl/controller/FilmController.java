@@ -40,7 +40,7 @@ public class FilmController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<Page<GetFilmDto>> getCurrentFilms(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request) {
+    public ResponseEntity<Page<GetFilmDto>> getCurrentFilms(@PageableDefault(size = 30) Pageable pageable, HttpServletRequest request) {
         return ResponseEntity.ok(service.getCurrentFilms(pageable));
     }
 
