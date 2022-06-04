@@ -61,7 +61,7 @@ Widget _createSeeTickets(BuildContext context) {
           },
         );
       } else if (state is TicketsFetched) {
-        return _createPublicView(context, state.tickets);
+        return _createPublicView(context, state.tickets.reversed.toList());
       } else {
         return const Text('Not support');
       }
@@ -238,7 +238,7 @@ Widget _createPublicViewItem(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Fila: ' + ticket.row.toString(),
+                'Fila: ' + (ticket.row+1).toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 13,
@@ -247,7 +247,7 @@ Widget _createPublicViewItem(
                 ),
               ),
               Text(
-                "Asiento: " + ticket.column.toString(),
+                "Asiento: " + (ticket.column+1).toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 13,
