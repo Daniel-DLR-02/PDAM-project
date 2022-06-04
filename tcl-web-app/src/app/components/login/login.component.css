@@ -1,0 +1,62 @@
+.login-admin {
+    width: 100%;
+    height: 100%;
+    background: url("../../../assets/img/login-background.jpg") no-repeat center fixed;
+    background-size: cover;
+
+}
+
+.form-container {
+    width: 55%;
+    height: 80%;
+    background: #263238;
+    position: absolute;
+    top: 50%;
+    left: 67%;
+    transform: translate(-50%, -50%);
+    box-sizing: border-box;
+    padding: 30px 30px;
+    color: #fff;
+}
+
+.login-title {
+    margin: 0;
+    padding-top: 1.5em;
+    padding-left: 1.7em;
+    font-size: 3em;
+    font-weight:500;
+    color: #fff;
+}
+
+.username-field {
+
+  padding-top: 7%;
+  width: 20%;
+  color: trans;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.password-field {
+
+  padding-top: 7%;
+  width: 20%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.username-label {
+  color: white;
+}
+
+.login-form {
+  padding-top: 1em;
+  padding-left: 6em;
+  width: 100%;
+  display: flex;
+  color: white;
+  flex-direction: column;
+}

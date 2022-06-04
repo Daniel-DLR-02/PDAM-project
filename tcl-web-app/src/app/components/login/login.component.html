@@ -1,0 +1,19 @@
+<div class="login-admin">
+  <div class="form-container">
+    <h4 class="login-title">¡Bienvenido de nuevo!</h4>
+    <form action="" [formGroup]="loginForm" class="login-form">
+
+      <div class="username-field">
+        <mat-label>Nickname</mat-label>
+        <input matInput placeholder="Nickname..." formControlName="nick">
+      </div>
+      <div class="password-field">
+        <mat-label>Enter your password</mat-label>
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
