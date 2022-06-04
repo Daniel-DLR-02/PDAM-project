@@ -23,4 +23,6 @@ public interface SessionService {
     Session edit(UUID sessionUuid, CreateSessionDto createSessionDto);
 
     Page<GetSessionDto> findSessionsByFilmId(UUID filmUuid, Pageable pageable);
+
+    void deleteAllSessionsByFilmId(UUID filmUuid);
 }

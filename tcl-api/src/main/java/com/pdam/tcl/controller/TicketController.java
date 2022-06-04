@@ -36,20 +36,16 @@ public class TicketController {
     @PostMapping("/")
     public ResponseEntity<GetTicketDto> buyTicket(@RequestBody CreateTicketDto newTicket,
                                                 @AuthenticationPrincipal User currentUser){
+        System.out.println(currentUser.getNickname());
+        return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser));
 
-        if(sessionService.existsById(newTicket.getSessionUuid())) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(ticketService.createTicket(newTicket, currentUser));
-        }
-        else{
-            throw new SessionNotFoundException("Session not found.");
-        }
 
 
     }
 
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Page<Ticket>> getTicketsCurrentUser(@PageableDefault(size = 10) Pageable pageable, HttpServletRequest request, @PathVariable UUID id){
-        return ResponseEntity.ok(ticketService.getTicketsByUserId(id,pageable));
+    @GetMapping("/user")
+    public ResponseEntity<Page<GetTicketDto>> getTicketsCurrentUser(@PageableDefault(size = 30) Pageable pageable, HttpServletRequest request, @AuthenticationPrincipal User currentUser){
+        return ResponseEntity.ok(ticketService.getTicketsByUserId(currentUser.getUuid(),pageable));
     }
 
     @DeleteMapping("/{id}")

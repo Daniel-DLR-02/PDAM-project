@@ -8,7 +8,9 @@ import com.pdam.tcl.model.Ticket;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.ticket.CreateTicketDto;
 import com.pdam.tcl.model.dto.ticket.GetTicketDto;
+import com.pdam.tcl.repository.SessionRepository;
 import com.pdam.tcl.repository.TicketRepository;
+import com.pdam.tcl.repository.UserRepository;
 import com.pdam.tcl.service.SessionService;
 import com.pdam.tcl.service.TicketService;
 import com.pdam.tcl.service.UserService;
@@ -28,8 +30,9 @@ public class TicketServiceImpl implements TicketService {
 
     private final TicketRepository ticketRepository;
     private final TicketDtoConverter ticketDtoConverter;
+    private final UserRepository userRepository;
+    private final SessionRepository sessionRepository;
     private final UserService userService;
-    private final SessionService sessionService;
 
     @Override
     public List<GetTicketDto> getUserTicket() {
@@ -52,25 +55,31 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public GetTicketDto createTicket(CreateTicketDto ticket, User user) {
-        Optional<Session> session = sessionService.findById(ticket.getSessionUuid());
+        Optional<Session> session = sessionRepository.findById(ticket.getSessionUuid());
+        if(userService.existsById(user.getUuid())) {
+            if (session.isPresent()) {
 
-        if(session.isPresent()) {
+                Ticket newTicket = Ticket.builder()
+                        .session(session.get())
+                        .hallColumn(ticket.getColumn())
+                        .hallRow(ticket.getRow())
+                        .build();
 
-            Ticket newTicket = Ticket.builder()
-                    .session(session.get())
-                    .user(user)
-                    .hallColumn(ticket.getColumn())
-                    .hallRow(ticket.getRow())
-                    .build();
+                user.addTicket(newTicket);
+                Ticket savedTicket = ticketRepository.save(newTicket);
+                userRepository.save(user);
 
-            ticketRepository.save(newTicket);
-            session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
-
-            return ticketDtoConverter.ticketDtoToGetDtoConverter(newTicket);
+                session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
+                sessionRepository.save(session.get());
+                return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
+            } else {
+                throw new SessionNotFoundException("Session not found");
+            }
         }
         else{
-            throw new SessionNotFoundException("Session not found");
+            throw new UserNotFoundException("User not found");
         }
+
     }
 
 
@@ -80,24 +89,21 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public Page<Ticket> getTicketsByUserId(UUID idUser, Pageable pageable) {
-        return ticketRepository.findAllByUserId(idUser, pageable);
+    public Page<GetTicketDto> getTicketsByUserId(UUID idUser, Pageable pageable) {
+        return ticketRepository.findAllByUserId(idUser, pageable).map(ticketDtoConverter::ticketDtoToGetDtoConverter);
     }
 
     @Override
     public void deleteTicket(UUID idTicket) {
         Optional<Ticket> ticket = ticketRepository.findById(idTicket);
 
-        if(ticket.isPresent()) {
-            ticketRepository.delete(ticket.get());
-        }
+        ticket.ifPresent(ticketRepository::delete);
     }
 
     @Override
     public GetTicketDto editTicket(UUID id, CreateTicketDto newTicket) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new TicketNotFound("Ticket not found"));
-        ticket.setUser(userService.findUserByUuid(newTicket.getUserUuid()).orElseThrow(() -> new UserNotFoundException("User not found")));
-        ticket.setSession(sessionService.findById(newTicket.getSessionUuid()).orElseThrow(() -> new SessionNotFoundException("Session not found")));
+        ticket.setSession(sessionRepository.findById(newTicket.getSessionUuid()).orElseThrow(() -> new SessionNotFoundException("Session not found")));
         ticket.setHallColumn(newTicket.getColumn());
         ticket.setHallRow(newTicket.getRow());
         return ticketDtoConverter.ticketDtoToGetDtoConverter(ticketRepository.save(ticket));

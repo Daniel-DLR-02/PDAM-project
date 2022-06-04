@@ -2,10 +2,7 @@ package com.pdam.tcl.controller;
 
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.dto.ticket.CreateTicketDto;
-import com.pdam.tcl.model.dto.user.CreateUserDto;
-import com.pdam.tcl.model.dto.user.GetUserDto;
-import com.pdam.tcl.model.dto.user.LoginDto;
-import com.pdam.tcl.model.dto.user.UserLoggedResponse;
+import com.pdam.tcl.model.dto.user.*;
 import com.pdam.tcl.security.jwt.JwtProvider;
 import com.pdam.tcl.service.TicketService;
 import com.pdam.tcl.service.UserService;
@@ -13,6 +10,7 @@ import com.pdam.tcl.utils.converters.UserDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,9 +35,9 @@ public class UserController {
     private final TicketService ticketService;
 
     @PostMapping("/auth/register")
-    public ResponseEntity<GetUserDto> doRegister(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<GetUserDto> doRegister(@Nullable @RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
-        User saved = userService.save(newUsuario,file);
+        User saved = (file==null || file.isEmpty())?userService.saveNoAvatar(newUsuario):userService.save(newUsuario,file);
 
         if(saved == null)
             return ResponseEntity.badRequest().build();
@@ -52,7 +50,7 @@ public class UserController {
         Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                loginDto.getNickName(),
+                                loginDto.getNickname(),
                                 loginDto.getPassword()
                         )
                 );
@@ -70,10 +68,10 @@ public class UserController {
     }
 
     @PostMapping("/user/new-admin")
-    public ResponseEntity<GetUserDto> registerAdmin(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<GetUserDto> registerAdmin(@Nullable @RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
 
-        User saved = userService.saveAdmin(newUsuario,file);
+        User saved = (file==null || file.isEmpty())?userService.saveAdminNoAvatar(newUsuario):userService.saveAdmin(newUsuario,file);
 
         if(saved == null)
             return ResponseEntity.badRequest().build();
@@ -82,13 +80,21 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(id,userDto,file)));
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestPart("user") EditUserDto userDto,@Nullable @RequestPart("file") MultipartFile file) throws Exception{
+        if(file==null || file.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(id, userDto)));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUser(id, userDto, file)));
+        }
     }
 
     @PutMapping("/user")
-    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestBody CreateUserDto userDto,MultipartFile file) throws Exception{
-        return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(userService.editUser(currentUser.getUuid(),userDto,file)));
+    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestPart("user") EditUserDto userDto, @Nullable @RequestPart("file") MultipartFile file) throws Exception{
+        if(file==null || file.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(currentUser.getUuid(), userDto)));
+        }else{
+            return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUser(currentUser.getUuid(), userDto, file)));
+        }
     }
 
     @GetMapping("/me")
@@ -117,9 +123,9 @@ public class UserController {
 
     private UserLoggedResponse convertUserUserLoggedResponse(User user, String jwt) {
         return UserLoggedResponse.builder()
-                .nickName(user.getNickname())
+                .nickname(user.getNickname())
                 .email(user.getEmail())
-                .avatar(user.getAvatar().getLink())
+                .avatar(user.getAvatar()!=null?user.getAvatar().getLink():"")
                 .token(jwt)
                 .build();
     }

@@ -20,7 +20,7 @@ public interface TicketService {
 
     boolean existsById(UUID idTicket);
 
-    Page<Ticket> getTicketsByUserId(UUID idUser, Pageable pageable);
+    Page<GetTicketDto> getTicketsByUserId(UUID idUser, Pageable pageable);
 
     void deleteTicket(UUID idTicket);
 

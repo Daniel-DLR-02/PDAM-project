@@ -2,9 +2,14 @@ package com.pdam.tcl.utils.converters;
 
 import com.pdam.tcl.errors.exception.FilmNotFoundException;
 import com.pdam.tcl.errors.exception.HallNotFoundException;
+import com.pdam.tcl.model.Film;
+import com.pdam.tcl.model.Hall;
 import com.pdam.tcl.model.Session;
 import com.pdam.tcl.model.dto.session.CreateSessionDto;
+import com.pdam.tcl.model.dto.session.GetSessionDataDto;
 import com.pdam.tcl.model.dto.session.GetSessionDto;
+import com.pdam.tcl.repository.FilmRepository;
+import com.pdam.tcl.repository.HallRepository;
 import com.pdam.tcl.service.FilmService;
 import com.pdam.tcl.service.HallService;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +19,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SessionDtoConverter {
 
-    private final FilmService filmService;
-    private final HallService hallService;
+    private final FilmRepository filmRepository;
+    private final HallRepository hallRepository;
 
     public GetSessionDto sessionToGetSessionDto(Session session) {
         return GetSessionDto.builder()
@@ -29,14 +34,24 @@ public class SessionDtoConverter {
 
     }
 
+    public GetSessionDataDto sessionToGetSessionDataDto(Session session) {
+        return GetSessionDataDto.builder()
+                .sessionId(session.getUuid())
+                .filmTitle(session.getFilm().getTitle())
+                .sessionDate(session.getSessionDate())
+                .hallName(session.getHall().getName())
+                .build();
 
-    public Session createSessionDtoToSession(CreateSessionDto createSessionDto) {
+    }
+
+
+    public Session createSessionDtoToSession(CreateSessionDto createSessionDto, Hall hall, Film film) {
         return Session.builder()
-                .film(filmService.findById(createSessionDto.getFilmUuid()).orElseThrow(()-> new FilmNotFoundException("Film not found")) )
-                .hall(hallService.findById(createSessionDto.getHallUuid()))
+                .film(film)
+                .hall(hall)
                 .sessionDate(createSessionDto.getSessionDate())
                 .active(createSessionDto.isActive())
-                .availableSeats(hallService.findById(createSessionDto.getHallUuid()).getSeats())
+                .availableSeats(hall.getSeats())
                 .build();
     }
 }

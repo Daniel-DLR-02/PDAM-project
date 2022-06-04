@@ -3,6 +3,7 @@ package com.pdam.tcl.service.impl;
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.UserRole;
 import com.pdam.tcl.model.dto.user.CreateUserDto;
+import com.pdam.tcl.model.dto.user.EditUserDto;
 import com.pdam.tcl.model.img.ImgResponse;
 import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.UserRepository;
@@ -49,6 +50,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User saveNoAvatar(CreateUserDto createUsuarioDto) {
+
+
+        return userRepository.save(User.builder()
+                .nombre(createUsuarioDto.getNombre())
+                .nickname(createUsuarioDto.getNickName())
+                .email(createUsuarioDto.getEmail())
+                .fechaNacimiento(createUsuarioDto.getFechaNacimiento())
+                .password(passwordEncoder.encode(createUsuarioDto.getPassword()))
+                .role(UserRole.USER)
+                .build());
+
+
+    }
+
+    @Override
     public Optional<User> findUserByUuid(UUID uuid){
         return userRepository.findById(uuid);
     }
@@ -69,15 +86,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User saveAdminNoAvatar(CreateUserDto newUsuario) throws Exception {
+
+        return userRepository.save(User.builder()
+                .nombre(newUsuario.getNombre())
+                .nickname(newUsuario.getNickName())
+                .email(newUsuario.getEmail())
+                .fechaNacimiento(newUsuario.getFechaNacimiento())
+                .password(passwordEncoder.encode(newUsuario.getPassword()))
+                .role(UserRole.ADMIN)
+                .build());
+    }
+
+    @Override
     public boolean existsById(UUID id) {
         return  userRepository.existsById(id);
     }
 
     @Override
-    public User editUser(UUID id, CreateUserDto userDto, MultipartFile file) throws Exception {
+    public User editUser(UUID id, EditUserDto userDto, MultipartFile file) throws Exception {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
-        imgServiceStorage.delete(user.getAvatar().getDeletehash());
+        if (user.getAvatar() != null)
+            imgServiceStorage.delete(user.getAvatar().getDeletehash());
 
         ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
@@ -85,9 +116,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
-        user.setPassword(userDto.getPassword());
         user.setAvatar(img.getData());
-        user.setRole(UserRole.valueOf(userDto.getRole()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User editUserNoAvatar(UUID id, EditUserDto userDto) {
+        User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
+
+        user.setNombre(userDto.getNombre());
+        user.setNickname(userDto.getNickName());
+        user.setEmail(userDto.getEmail());
+        user.setFechaNacimiento(userDto.getFechaNacimiento());
 
         return userRepository.save(user);
     }
@@ -110,8 +151,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String nick) throws UsernameNotFoundException {
-        return this.userRepository.findFirstByNickname(nick)
-                .orElseThrow(()-> new UsernameNotFoundException(nick+ "no encontrado"));
+    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
+        return this.userRepository.findFirstByNickname(nickname)
+                .orElseThrow(()-> new UsernameNotFoundException(nickname+ "no encontrado"));
     }
 }

@@ -1,13 +1,17 @@
 package com.pdam.tcl.service.impl;
 
 import com.pdam.tcl.model.Film;
+import com.pdam.tcl.model.Session;
 import com.pdam.tcl.model.dto.film.CreateFilmDto;
 import com.pdam.tcl.model.dto.film.GetFilmDto;
 import com.pdam.tcl.model.img.ImgResponse;
 import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.FilmRepository;
+import com.pdam.tcl.repository.SessionRepository;
+import com.pdam.tcl.repository.TicketRepository;
 import com.pdam.tcl.service.FilmService;
 import com.pdam.tcl.service.ImgServiceStorage;
+import com.pdam.tcl.service.SessionService;
 import com.pdam.tcl.utils.converters.FilmDtoConverter;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
@@ -27,8 +31,9 @@ import java.util.UUID;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
-    private final FilmDtoConverter filmDtoConverter;
     private final ImgServiceStorage imgServiceStorage;
+    private final SessionService sessionService;
+
 
     @Override
     public Film save(CreateFilmDto createFilm, MultipartFile file) throws Exception {
@@ -61,13 +66,15 @@ public class FilmServiceImpl implements FilmService {
     public void delete(UUID id) throws IOException {
 
         Optional<Film> peliculaABorrar = filmRepository.findById(id);
+        if(peliculaABorrar.isPresent()) {
+            if (peliculaABorrar.get().getPoster() != null) {
 
-        if((peliculaABorrar.isPresent()) &&
-                (peliculaABorrar.get().getPoster() != null)){
+                imgServiceStorage.delete(peliculaABorrar.get().getPoster().getDeletehash());
+            }
 
-            imgServiceStorage.delete(peliculaABorrar.get().getPoster().getDeletehash());
+            sessionService.deleteAllSessionsByFilmId(peliculaABorrar.get().getUuid());
+
         }
-
         filmRepository.deleteById(id);
     }
 

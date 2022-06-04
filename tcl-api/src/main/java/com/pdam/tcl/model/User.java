@@ -41,12 +41,10 @@ public class User implements UserDetails {
     )
     private UUID uuid;
 
-    @NaturalId
-    @Column(unique = true,updatable = false)
+    @Column(unique = true)
     private String nickname;
 
-    @NaturalId
-    @Column(unique = true,updatable = false)
+    @Column(unique = true)
     private String email;
 
     private String nombre;
@@ -58,7 +56,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    @OneToMany(fetch=FetchType.LAZY)
+    @OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL) // Intentar crear entity graph con tickets para poner en LAZY
     private List<Ticket> tickets;
 
     @Enumerated(EnumType.STRING)
@@ -107,7 +105,14 @@ public class User implements UserDetails {
     }
 
     public void addTicket(Ticket ticket) {
+        ticket.setUser(this);
+        this.tickets.add(ticket);
+    }
+
+    public void removeTicket(Ticket ticket) {
         ticket.setUser(null);
         this.tickets.remove(ticket);
     }
+
+
 }
