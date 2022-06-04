@@ -35,7 +35,7 @@ public class UserController {
     private final TicketService ticketService;
 
     @PostMapping("/auth/register")
-    public ResponseEntity<GetUserDto> doRegister(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<GetUserDto> doRegister(@Nullable @RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
         User saved = (file==null || file.isEmpty())?userService.saveNoAvatar(newUsuario):userService.save(newUsuario,file);
 
@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PostMapping("/user/new-admin")
-    public ResponseEntity<GetUserDto> registerAdmin(@RequestPart("file") MultipartFile file,
+    public ResponseEntity<GetUserDto> registerAdmin(@Nullable @RequestPart("file") MultipartFile file,
                                                  @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
 
         User saved = (file==null || file.isEmpty())?userService.saveAdminNoAvatar(newUsuario):userService.saveAdmin(newUsuario,file);
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestBody EditUserDto userDto,MultipartFile file) throws Exception{
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestPart("user") EditUserDto userDto,@Nullable @RequestPart("file") MultipartFile file) throws Exception{
         if(file==null || file.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(id, userDto)));
         }else{
@@ -89,7 +89,7 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser, @RequestBody EditUserDto userDto, @Nullable MultipartFile file) throws Exception{
+    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestPart("user") EditUserDto userDto, @Nullable @RequestPart("file") MultipartFile file) throws Exception{
         if(file==null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(currentUser.getUuid(), userDto)));
         }else{
