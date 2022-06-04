@@ -1,12 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tcl_mobile_app/bloc/ticket/tickets_bloc.dart';
+import 'package:tcl_mobile_app/bloc/user/user_bloc.dart';
 import 'package:tcl_mobile_app/repository/ticket_repository/ticket_repository_impl.dart';
+import 'package:tcl_mobile_app/repository/user_repository/user_repository.dart';
 import 'package:tcl_mobile_app/ui/profile_info_screen.dart';
 import 'package:tcl_mobile_app/ui/ticket_screen.dart';
 import '../constants.dart';
 import '../repository/preferences_utils.dart';
 import '../repository/ticket_repository/ticket_respository.dart';
+import '../repository/user_repository/user_repository_impl.dart';
 import 'home_screen.dart';
 
 class MenuScreen extends StatefulWidget {
@@ -20,6 +23,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> {
   int _currentIndex = 0;
   late TicketRepository ticketRepository;
+  late UserRepository userRepository;
   String? avatar_sin_formato;
   String? avatar_url = "none";
   String? token = "none";
@@ -39,7 +43,9 @@ class _MenuScreenState extends State<MenuScreen> {
     token = PreferenceUtils.getString("token");
     _currentIndex = widget.initialScreen;
     ticketRepository = TicketRepositoryImpl();
+    userRepository = UserRepositoryImpl();
     TicketsBloc(ticketRepository).add(const FetchUserTicket());
+    UserBloc(userRepository).add(const FetchUser());
   }
 
   @override

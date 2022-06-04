@@ -20,6 +20,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'dart:math';
 
+import 'menu_screen.dart';
+
 class ProfileEditForm extends StatefulWidget {
   const ProfileEditForm({Key? key, required this.user}) : super(key: key);
 
@@ -77,8 +79,14 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
           if (state is EditSuccessState) {
             final prefs = await SharedPreferences.getInstance();
             // Shared preferences > guardo el token
-                prefs.setString('avatar', state.editResponse.avatar);
-            Navigator.pop(context);
+            prefs.setString('avatar', state.editResponse.avatar);
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const MenuScreen(initialScreen: 2),
+              ),
+              ModalRoute.withName('/'),
+            );
           } else if (state is EditErrorState) {
             _showSnackbar(context, state.message);
           }
@@ -157,7 +165,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                               return Row(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(top:4.0,bottom: 4.0,left:100.0),
+                                    padding: const EdgeInsets.only(
+                                        top: 4.0, bottom: 4.0, left: 100.0),
                                     child: SizedBox(
                                       height: 100,
                                       width: 100,
@@ -423,9 +432,8 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                                     fechaNacimiento: dateController.text,
                                   );
 
-                                  BlocProvider.of<EditBloc>(context).add(
-                                      DoEditEvent(
-                                          edit, filePath));
+                                  BlocProvider.of<EditBloc>(context)
+                                      .add(DoEditEvent(edit, filePath));
                                 }
                               },
                               style: ElevatedButton.styleFrom(
