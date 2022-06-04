@@ -5,7 +5,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/model/Films/film_response.dart';
 
 import '../../constants.dart';
-import 'package:http/http.dart' as http;
 import 'dart:io';
 
 import '../../model/Films/single_film_response.dart';
@@ -39,7 +38,7 @@ class FilmRepositoryImpl extends FilmRepository {
 
     String? token = prefs.getString('token');
     final response = await _client
-        .get(Uri.parse('${Constants.baseUrl}/films/${uuid}'), headers: {
+        .get(Uri.parse('${Constants.baseUrl}/films/$uuid'), headers: {
       HttpHeaders.contentTypeHeader: "application/json; charset=utf-8",
       HttpHeaders.authorizationHeader: "Bearer $token"
     });

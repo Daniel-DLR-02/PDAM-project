@@ -51,8 +51,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
                 prefs.setString('token', state.loginResponse.token);
-                prefs.setString('avatar', state.loginResponse.avatar);
-                prefs.setString('nick', state.loginResponse.nickName);
+                state.loginResponse.avatar==''?
+                prefs.setString('avatar',Constants.defaultUserImage):
+                prefs.setString('avatar',  state.loginResponse.avatar!);
+                prefs.setString('nick', state.loginResponse.nickname);
                 Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is LoginErrorState) {
                 _showSnackbar(context, state.message);
@@ -126,19 +128,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: nickNameController,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon:
-                                            Icon(Icons.account_circle_sharp),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.account_circle_sharp,
+                                          color: Color(0xFF626262),
+                                        ),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nombre de usuario',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -155,19 +166,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     obscureText: true,
                                     controller: passwordController,
-                                    style: TextStyle(color: Colors.white),
+                                    style: const TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon: Icon(Icons.vpn_key),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(
+                                          Icons.vpn_key,
+                                          color: Color(0xFF626262),
+                                        ),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Password',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -189,7 +210,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: const Text(
                                   'Regístrate',
                                   style: TextStyle(
-                                      fontSize: 12, color: Colors.blue),
+                                      fontSize: 12, color: Color(0xFF626262)),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/register');
@@ -210,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Text(
                                       'Iniciar sesión'.toUpperCase(),
                                       style:
-                                          const TextStyle(color: Colors.white),
+                                          const TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 15),
                                       textAlign: TextAlign.start,
                                     ),
                                   )),
@@ -228,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
                                         final loginDto = LoginDto(
-                                            nickName: nickNameController.text,
+                                            nickname: nickNameController.text,
                                             password: passwordController.text);
                                         BlocProvider.of<LoginBloc>(context)
                                             .add(DoLoginEvent(loginDto));

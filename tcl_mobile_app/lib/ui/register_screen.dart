@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/auth/register/register_bloc.dart';
 import 'package:tcl_mobile_app/model/auth/register/register_dto.dart';
 import '../bloc/image_pick/image_pick_bloc.dart';
-import '../bloc/auth/login/login_bloc.dart';
+import '../constants.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
@@ -27,12 +29,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController nickController = TextEditingController();
   TextEditingController nombreController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   String filePath = '';
-  String _selectedDate = '';
-  String _dateCount = '';
-  String _range = '';
-  String _rangeCount = '';
+  final String _selectedDate = '';
+  final String _dateCount = '';
+  final String _range = '';
+  final String _rangeCount = '';
   TextEditingController dateController = TextEditingController();
   bool publicController = true;
 
@@ -67,7 +70,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (state is RegisterSuccessState) {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
-                prefs.setString('avatar', state.registerResponse.avatar);
+                state.registerResponse.avatar==''?
+                prefs.setString('avatar',Constants.defaultUserImage):
+                prefs.setString('avatar',  state.registerResponse.avatar);
                 Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is RegisterErrorState) {
                 _showSnackbar(context, state.message);
@@ -142,18 +147,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: nombreController,
                                     style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon: Icon(Icons.person),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(Icons.person,
+                                            color: Color(0xFF626262)),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nombre',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -167,19 +180,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: nickController,
                                     style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon:
-                                            Icon(Icons.account_circle_sharp),
+                                        border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0))),
+                                        suffixIcon: Icon(
+                                            Icons.account_circle_sharp,
+                                            color: Color(0xFF626262)),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Nick',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -193,18 +213,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: emailController,
                                     style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon: Icon(Icons.email),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(Icons.email,
+                                            color: Color(0xFF626262)),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Email',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -218,19 +246,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextFormField(
                                     controller: passwordController,
                                     style: TextStyle(color: Colors.white),
                                     obscureText: true,
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon: Icon(Icons.vpn_key),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(Icons.vpn_key,
+                                            color: Color(0xFF626262)),
                                         suffixIconColor: Colors.white,
-                                        hintText: 'Password',
+                                        hintText: 'Contraseña',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     onSaved: (String? value) {
@@ -249,18 +285,65 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   width: deviceWidth - 100,
                                   decoration: const BoxDecoration(
                                     borderRadius:
-                                        BorderRadius.all(Radius.circular(5)),
-                                    color: Color.fromARGB(255, 62, 62, 62),
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
+                                  ),
+                                  child: TextFormField(
+                                    controller: passwordConfirmController,
+                                    style: TextStyle(color: Colors.white),
+                                    obscureText: true,
+                                    decoration: const InputDecoration(
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(Icons.vpn_key,
+                                            color: Color(0xFF626262)),
+                                        suffixIconColor: Colors.white,
+                                        hintText: 'Confirmar contraseña',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
+                                            borderSide: BorderSide(
+                                                color: Colors.white))),
+                                    onSaved: (String? value) {
+                                      // This optional block of code can be used to run
+                                      // code when the user saves the form.
+                                    },
+                                    validator: (value) {
+                                      return (value == null || value.isEmpty)
+                                          ? 'Write a password'
+                                          : null;
+                                    },
+                                  ),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.only(top: 20),
+                                  width: deviceWidth - 100,
+                                  decoration: const BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15.0)),
+                                    color: Color(0xFF262626),
                                   ),
                                   child: TextField(
                                     controller: dateController,
                                     style: TextStyle(color: Colors.white),
                                     decoration: const InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        suffixIcon: Icon(Icons.calendar_today),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(15.0)),
+                                        ),
+                                        suffixIcon: Icon(Icons.calendar_today,
+                                            color: Color(0xFF626262)),
                                         suffixIconColor: Colors.white,
                                         hintText: 'Fecha de nacimiento',
+                                        hintStyle:
+                                            TextStyle(color: Color(0xFF626262)),
                                         focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(15.0)),
                                             borderSide: BorderSide(
                                                 color: Colors.white))),
                                     readOnly: true,
@@ -372,7 +455,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, right: 45.0),
+                                                    left: 30, right: 45.0),
                                                 child: Text(
                                                   'Avatar:',
                                                   style: GoogleFonts.poppins(
@@ -389,7 +472,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                               ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    primary: Colors.black,
+                                                    primary: Color(0xFF262626),
                                                   ),
                                                   onPressed: () {
                                                     BlocProvider.of<
@@ -417,7 +500,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               TextButton(
                                 child: const Text(
                                   'Inicia sesión',
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                      fontSize: 12, color: Color(0xFF626262)),
                                 ),
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/login');
@@ -462,9 +546,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           password: passwordController.text,
                                           fechaNacimiento: dateController.text,
                                         );
-                                        BlocProvider.of<RegisterBloc>(context)
-                                            .add(DoRegisterEvent(
-                                                registerDto, filePath));
+                                        if (passwordController.text ==
+                                            passwordConfirmController.text) {
+                                          BlocProvider.of<RegisterBloc>(context)
+                                              .add(DoRegisterEvent(
+                                                  registerDto, filePath));
+                                        } else {
+                                          const snackBar = SnackBar(
+                                            content: Text('Las contraseñas no coinciden.'),
+                                          );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(snackBar);
+                                        }
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(

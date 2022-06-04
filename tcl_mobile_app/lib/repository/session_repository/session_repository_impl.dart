@@ -7,7 +7,6 @@ import 'package:tcl_mobile_app/model/Sessions/session_response.dart';
 import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
 
 import '../../constants.dart';
-import 'package:http/http.dart' as http;
 import 'dart:io';
 
 class SessionRepositoryImpl extends SessionRepository {
@@ -19,7 +18,7 @@ class SessionRepositoryImpl extends SessionRepository {
 
     String? token = prefs.getString('token');
     final response = await _client.get(
-        Uri.parse('${Constants.baseUrl}/session/film/${filmUuid}'),
+        Uri.parse('${Constants.baseUrl}/session/film/$filmUuid'),
         headers: {
           HttpHeaders.contentTypeHeader: "application/json",
           HttpHeaders.authorizationHeader: "Bearer $token"
@@ -31,7 +30,6 @@ class SessionRepositoryImpl extends SessionRepository {
     } else {
       throw Exception('Fail to load sessions');
     }
-    ;
   }
 
   @override
@@ -40,7 +38,7 @@ class SessionRepositoryImpl extends SessionRepository {
 
     String? token = prefs.getString('token');
     final response = await _client
-        .get(Uri.parse('${Constants.baseUrl}/session/${id}'), headers: {
+        .get(Uri.parse('${Constants.baseUrl}/session/$id'), headers: {
       HttpHeaders.contentTypeHeader: "application/json; charset=utf-8",
       HttpHeaders.authorizationHeader: "Bearer $token"
     });

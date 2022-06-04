@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/session/session_bloc.dart';
-import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 import 'package:tcl_mobile_app/repository/preferences_utils.dart';
 import 'package:tcl_mobile_app/repository/session_repository/session_repository.dart';
+import 'package:tcl_mobile_app/repository/ticket_repository/ticket_repository_impl.dart';
+import 'package:tcl_mobile_app/repository/ticket_repository/ticket_respository.dart';
+import 'package:tcl_mobile_app/ui/menu_screen.dart';
 import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
+import 'package:tcl_mobile_app/ui/widgets/skeleton_container.dart';
 
 import '../model/Sessions/session_response.dart';
 import '../repository/session_repository/session_repository_impl.dart';
@@ -24,6 +25,8 @@ class BuyTicketScreen extends StatefulWidget {
 
 class _BuyTicketScreenState extends State<BuyTicketScreen> {
   late SessionRepository sessionRepository;
+  late TicketRepository ticketRepository;
+
   String? token = "none";
   String? sessionId;
 
@@ -32,18 +35,23 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
     super.initState();
     PreferenceUtils.init();
     sessionRepository = SessionRepositoryImpl();
+    ticketRepository = TicketRepositoryImpl();
     token = PreferenceUtils.getString("token");
     sessionId = widget.sessionUuid ?? "none";
     PreferenceUtils.setString('filmUuid', widget.filmUuid);
-    if(widget.sessionUuid != null) {
+    if (widget.sessionUuid != null) {
       PreferenceUtils.setString('sessionUuid', widget.sessionUuid!);
     }
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
+    List<String> selectedSeats = [];
+
     return Scaffold(
-      floatingActionButton: nextButton(sessionId),
+      floatingActionButton: (nextButton(
+          context, sessionId!, token!, selectedSeats, ticketRepository)),
       appBar: const HomeAppBar(),
       backgroundColor: const Color(0xFF1d1d1d),
       body: Container(
@@ -51,7 +59,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
         child: Column(
           children: [
             Container(
-              height: 65,
+              height: 64.8,
               color: const Color(0xFF1d1d1d),
               child: Row(
                 children: [
@@ -80,7 +88,7 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
                   ..add(GetSessionDetails(sessionId!));
               },
               child: Container(
-                child: _createSeeSession(context, sessionId!),
+                child: _createSeeSession(context, sessionId!, selectedSeats),
               ),
             ),
             BlocProvider(
@@ -100,11 +108,22 @@ class _BuyTicketScreenState extends State<BuyTicketScreen> {
   }
 }
 
-Widget? nextButton(String? sessionId) {
+Widget? nextButton(BuildContext context, String sessionId, String token,
+    List<String> selectedSeats, TicketRepository ticketRepository) {
   if (sessionId != "none") {
     return FloatingActionButton(
-      onPressed: () {
-        // Enviar datos
+      onPressed: () async {
+        ticketRepository.createTickets(selectedSeats, sessionId, token);
+        for (int i = 0; i < selectedSeats.length; i++) {
+          await Future.delayed(const Duration(seconds: 2), () {});
+        }
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MenuScreen(initialScreen: 1),
+          ),
+          ModalRoute.withName('/'),
+        );
       },
       backgroundColor: const Color(0xFF546e7a),
       child: const Icon(Icons.arrow_forward),
@@ -119,7 +138,26 @@ Widget _createSeeFilmSessions(
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
-        return const Center(child: CircularProgressIndicator());
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height / 4 + 82,
+          decoration: const BoxDecoration(color: Color(0xFF1d1d1d)),
+          child: Column(
+            children: const [
+              SkeletonContainer.square(width: 320.0, height: 40.0),
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: SkeletonContainer.imageItem(
+                    width: 320.0, height: 70.0, radius: 20.0),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 20.0),
+                child: SkeletonContainer.imageItem(
+                    width: 320.0, height: 70.0, radius: 20.0),
+              ),
+            ],
+          ),
+        );
       } else if (state is SessionErrorState) {
         return ErrorPage(
           message: "state.message",
@@ -163,7 +201,7 @@ Widget _createSessionList(BuildContext context, List<Session> sessions,
             color: Colors.white,
           ),
           SizedBox(
-            height: contentHeight / 3.07,
+            height: contentHeight / 4 + 29,
             width: contentWidth - 10,
             child: ListView.builder(
               itemBuilder: (BuildContext context, int index) {
@@ -195,8 +233,8 @@ Widget _getSessionList(
             child: Center(
               child: Text(
                 DateTime.parse(session.sessionDate).toString().substring(0, 16),
-                style: const TextStyle(
-                    color: const Color(0xFF546e7a), fontSize: 16.0),
+                style:
+                    const TextStyle(color: Color(0xFF546e7a), fontSize: 16.0),
               ),
             )),
       ),
@@ -231,15 +269,20 @@ Widget _getSessionList(
   }
 }
 
-Widget _createSeeSession(BuildContext context, String uuid) {
+Widget _createSeeSession(
+    BuildContext context, String uuid, List<String> selectedSeats) {
   return BlocBuilder<SessionsBloc, SessionsState>(
     builder: (context, state) {
       if (state is SessionsInitial) {
-        return const Center(child: CircularProgressIndicator());
+        return const Padding(
+          padding: EdgeInsets.symmetric(vertical: 30.0),
+          child: SkeletonContainer.imageItem(
+              width: 304.0, height: 304.0, radius: 20.0),
+        );
       } else if (state is SessionErrorState) {
-        return Container(
+        return const SizedBox(
           height: 364.65,
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.only(top: 180.0),
             child: Text(
               "Seleccione una sesión",
@@ -248,7 +291,7 @@ Widget _createSeeSession(BuildContext context, String uuid) {
           ),
         );
       } else if (state is SessionSuccessFetched) {
-        return _createPublicView(context, state.session);
+        return _createPublicView(context, state.session, selectedSeats);
       } else {
         return const Text('Not support');
       }
@@ -256,7 +299,8 @@ Widget _createSeeSession(BuildContext context, String uuid) {
   );
 }
 
-Widget _createPublicView(BuildContext context, SessionResponse session) {
+Widget _createPublicView(
+    BuildContext context, SessionResponse session, List<String> selectedSeats) {
   PreferenceUtils.init();
   String? token = PreferenceUtils.getString("token");
 
@@ -264,33 +308,22 @@ Widget _createPublicView(BuildContext context, SessionResponse session) {
     children: [
       Padding(
         padding: const EdgeInsets.all(20.0),
-        child: getSeatView(session.availableSeats),
+        child: getSeatView(session.availableSeats, selectedSeats),
       ),
     ],
   );
 }
 
-Widget getSeatView(List<List<dynamic>> seats) {
+Widget getSeatView(List<List<dynamic>> seats, List<String> selectedSeats) {
   List<Widget> seatList = [];
   int rowSeats = seats[0].length;
   int columnSeats = seats.length;
   double height = (columnSeats * 27).toDouble();
-  List<String> seatsSelected = [];
   for (var i = 0; i < seats.length; i++) {
     for (var j = 0; j < seats[i].length; j++) {
       if (seats[i][j] == "S") {
         seatList.add(
-          UnselectedSeat(
-            row: i,
-            column: j,
-            onFlatButtonPressed: () {
-              if (seatsSelected.contains("$i,$j")) {
-                seatsSelected.remove("$i,$j");
-              } else {
-                seatsSelected.add("$i,$j");
-              }
-            },
-          ),
+          UnselectedSeat(row: i, column: j, seatsSelected: selectedSeats),
         );
       } else if (seats[i][j] == "P") {
         seatList.add(Container(
@@ -339,7 +372,7 @@ Widget getSeatView(List<List<dynamic>> seats) {
         Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
+              padding: const EdgeInsets.only(top: 8.0, left: 25),
               child: Row(
                 children: [
                   Container(
@@ -352,7 +385,7 @@ Widget getSeatView(List<List<dynamic>> seats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Disponible",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),
@@ -371,7 +404,7 @@ Widget getSeatView(List<List<dynamic>> seats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Seleccionado",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),
@@ -390,7 +423,7 @@ Widget getSeatView(List<List<dynamic>> seats) {
                   const Padding(
                     padding: EdgeInsets.only(left: 9.0),
                     child: Text("Reservado",
-                        style: TextStyle(color: Colors.white, fontSize: 13)),
+                        style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ],
               ),
@@ -403,15 +436,15 @@ Widget getSeatView(List<List<dynamic>> seats) {
 }
 
 class UnselectedSeat extends StatefulWidget {
-  final VoidCallback onFlatButtonPressed;
-  UnselectedSeat(
+  const UnselectedSeat(
       {Key? key,
       required this.row,
       required this.column,
-      required this.onFlatButtonPressed})
+      required this.seatsSelected})
       : super(key: key);
   final int row;
   final int column;
+  final List<String> seatsSelected;
 
   @override
   State<UnselectedSeat> createState() => _UnselectedSeatState();
@@ -422,13 +455,19 @@ class _UnselectedSeatState extends State<UnselectedSeat> {
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
-      onTap: ((){
-        setState(() => {
-            widget.onFlatButtonPressed,
-            selected = !selected,
-        });
+      onTap: (() {
+        if (widget.seatsSelected.contains("${widget.row},${widget.column}")) {
+          widget.seatsSelected.remove("${widget.row},${widget.column}");
+          setState(() {
+            selected = false;
+          });
+        } else {
+          widget.seatsSelected.add("${widget.row},${widget.column}");
+          setState(() {
+            selected = true;
+          });
+        }
       }),
       child: Container(
         width: 10,

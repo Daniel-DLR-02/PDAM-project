@@ -7,7 +7,6 @@ import 'package:tcl_mobile_app/ui/widgets/error_page.dart';
 import 'package:tcl_mobile_app/ui/widgets/home_app_bar.dart';
 
 import '../bloc/films/films_bloc.dart';
-import '../constants.dart';
 import '../model/Films/single_film_response.dart';
 import '../repository/films_repository/films_repository.dart';
 import '../repository/films_repository/films_repository_impl.dart';
@@ -159,7 +158,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                   child: Column(
                     children: [
                       const Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: Icon(Icons.access_time_filled,
                             color: Colors.white, size: 35),
                       ),
@@ -184,7 +183,7 @@ Widget _createPublicView(BuildContext context, FilmResponse film) {
                   child: Column(
                     children: [
                       const Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4.0),
+                        padding: EdgeInsets.symmetric(vertical: 4.0),
                         child: Icon(Icons.calendar_month,
                             color: Colors.white, size: 35),
                       ),

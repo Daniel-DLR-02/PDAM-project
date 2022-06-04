@@ -1,10 +1,6 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/retry.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/retry.dart';
 import 'package:tcl_mobile_app/model/Sessions/session_response.dart';
 import 'package:tcl_mobile_app/model/Sessions/single_session_response.dart';
 
