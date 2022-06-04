@@ -107,7 +107,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User editUser(UUID id, EditUserDto userDto, MultipartFile file) throws Exception {
         User user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("Usuario no encontrado"));
 
-        imgServiceStorage.delete(user.getAvatar().getDeletehash());
+        if (user.getAvatar() != null)
+            imgServiceStorage.delete(user.getAvatar().getDeletehash());
 
         ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
