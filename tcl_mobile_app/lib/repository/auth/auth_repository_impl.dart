@@ -54,7 +54,7 @@ class AuthRepositoryImpl extends AuthRepository {
           'POST', Uri.parse("${Constants.baseUrl}/auth/register"))
         ..files.add(http.MultipartFile.fromString('user', data,
             contentType: MediaType('application', 'json')));
-
+    
       if (filePath.isNotEmpty && filePath != null && filePath != "") {
         request..files.add(await http.MultipartFile.fromPath('file', filePath));
       }
