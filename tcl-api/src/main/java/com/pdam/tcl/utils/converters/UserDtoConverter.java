@@ -14,7 +14,7 @@ public class UserDtoConverter {
                 .uuid(user.getUuid())
                 .nick(user.getNickname())
                 .nombre(user.getNombre())
-                .avatar(user.getAvatar()!=null?user.getAvatar().getLink():null)
+                .avatar(user.getAvatar()!=null?user.getAvatar().getLink():"")
                 .email(user.getEmail())
                 .fechaDeNacimiento(user.getFechaNacimiento())
                 .build();
