@@ -125,7 +125,7 @@ public class UserController {
         return UserLoggedResponse.builder()
                 .nickname(user.getNickname())
                 .email(user.getEmail())
-                .avatar(user.getAvatar().getLink())
+                .avatar(user.getAvatar()!=null?user.getAvatar().getLink():null)
                 .token(jwt)
                 .build();
     }
