@@ -41,10 +41,10 @@ public class User implements UserDetails {
     )
     private UUID uuid;
 
-    @Column(unique = true,updatable = false)
+    @Column(unique = true)
     private String nickname;
 
-    @Column(unique = true,updatable = false)
+    @Column(unique = true)
     private String email;
 
     private String nombre;
