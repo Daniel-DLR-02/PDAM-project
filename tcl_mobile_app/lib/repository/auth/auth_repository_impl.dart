@@ -28,7 +28,8 @@ class AuthRepositoryImpl extends AuthRepository {
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       prefs.setString(
           'avatar', LoginResponse.fromJson(json.decode(response.body)).avatar);
-      prefs.setString('nick', LoginResponse.fromJson(json.decode(response.body)).nickname);
+      prefs.setString(
+          'nick', LoginResponse.fromJson(json.decode(response.body)).nickname);
       return LoginResponse.fromJson(json.decode(response.body));
     } else {
       throw Exception('Fail to login');
@@ -52,8 +53,11 @@ class AuthRepositoryImpl extends AuthRepository {
       var request = http.MultipartRequest(
           'POST', Uri.parse("${Constants.baseUrl}/auth/register"))
         ..files.add(http.MultipartFile.fromString('user', data,
-            contentType: MediaType('application', 'json')))
-        ..files.add(await http.MultipartFile.fromPath('file', filePath));
+            contentType: MediaType('application', 'json')));
+
+      if (filePath.isNotEmpty && filePath != null && filePath != "") {
+        request..files.add(await http.MultipartFile.fromPath('file', filePath));
+      }
 
       request.headers.addAll(headers);
 
