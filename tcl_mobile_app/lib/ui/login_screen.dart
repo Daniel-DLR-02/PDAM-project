@@ -51,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
                 prefs.setString('token', state.loginResponse.token);
-                state.loginResponse.avatar==null?
+                state.loginResponse.avatar==''?
                 prefs.setString('avatar',Constants.defaultUserImage):
                 prefs.setString('avatar',  state.loginResponse.avatar!);
                 prefs.setString('nick', state.loginResponse.nickname);

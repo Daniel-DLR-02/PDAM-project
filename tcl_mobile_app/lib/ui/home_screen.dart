@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tcl_mobile_app/bloc/films/films_bloc.dart';
+import 'package:tcl_mobile_app/constants.dart';
 import 'package:tcl_mobile_app/model/Films/film_response.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository.dart';
 import 'package:tcl_mobile_app/repository/films_repository/films_repository_impl.dart';
@@ -138,7 +139,7 @@ Widget _createPublicView(BuildContext context, List<Film> films) {
                                           width: 80.0,
                                           height: 80.0,
                                           radius: 50.0)),
-                                  imageUrl: avatarUrl!,
+                                  imageUrl: avatarUrl==''?Constants.defaultUserImage:avatarUrl!,
                                   width: 80,
                                   height: 80,
                                   fit: BoxFit.cover,

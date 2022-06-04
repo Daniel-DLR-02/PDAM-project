@@ -11,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tcl_mobile_app/bloc/auth/register/register_bloc.dart';
 import 'package:tcl_mobile_app/model/auth/register/register_dto.dart';
 import '../bloc/image_pick/image_pick_bloc.dart';
+import '../constants.dart';
 import '../repository/auth/auth_repository.dart';
 import '../repository/auth/auth_repository_impl.dart';
 
@@ -69,7 +70,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               if (state is RegisterSuccessState) {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
-                prefs.setString('avatar', state.registerResponse.avatar);
+                state.registerResponse.avatar==''?
+                prefs.setString('avatar',Constants.defaultUserImage):
+                prefs.setString('avatar',  state.registerResponse.avatar);
                 Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is RegisterErrorState) {
                 _showSnackbar(context, state.message);

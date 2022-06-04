@@ -200,7 +200,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                                               40), // Image radius
                                           child: PreferenceUtils.getString(
                                                       'avatar') !=
-                                                  null
+                                                  ''
                                               ? ClipOval(
                                                   child: SizedBox.fromSize(
                                                     size: const Size.fromRadius(

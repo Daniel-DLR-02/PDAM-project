@@ -108,7 +108,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          imageUrl: user.avatar != null ? user.avatar! : Constants.defaultUserImage,
+                          imageUrl: user.avatar != '' ? user.avatar! : Constants.defaultUserImage,
                           httpHeaders: {"Authorization": "Bearer " + token},
                           width: 80,
                           height: 80,

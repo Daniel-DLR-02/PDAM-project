@@ -29,7 +29,7 @@ class AuthRepositoryImpl extends AuthRepository {
       prefs.setString(
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       //LoginResponse.fromJson(json.decode(response.body)).avatar??prefs.setString('avatar',  LoginResponse.fromJson(json.decode(response.body)).avatar!);
-      LoginResponse.fromJson(json.decode(response.body)).avatar == null
+      LoginResponse.fromJson(json.decode(response.body)).avatar == ''
           ? prefs.setString('avatar', Constants.defaultUserImage)
           : prefs.setString('avatar',
               LoginResponse.fromJson(json.decode(response.body)).avatar!);
