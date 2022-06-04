@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tcl_mobile_app/constants.dart';
 
 import '../bloc/auth/login/login_bloc.dart';
 import '../model/auth/login/login_dto.dart';
@@ -50,7 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 final prefs = await SharedPreferences.getInstance();
                 // Shared preferences > guardo el token
                 prefs.setString('token', state.loginResponse.token);
-                prefs.setString('avatar', state.loginResponse.avatar);
+                state.loginResponse.avatar==null?
+                prefs.setString('avatar',Constants.defaultUserImage):
+                prefs.setString('avatar',  state.loginResponse.avatar!);
                 prefs.setString('nick', state.loginResponse.nickname);
                 Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
               } else if (state is LoginErrorState) {

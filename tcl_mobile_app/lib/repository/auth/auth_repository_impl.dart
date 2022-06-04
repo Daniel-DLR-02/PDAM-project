@@ -26,8 +26,11 @@ class AuthRepositoryImpl extends AuthRepository {
     if (response.statusCode == 200) {
       prefs.setString(
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
-      prefs.setString(
-          'avatar', LoginResponse.fromJson(json.decode(response.body)).avatar);
+      //LoginResponse.fromJson(json.decode(response.body)).avatar??prefs.setString('avatar',  LoginResponse.fromJson(json.decode(response.body)).avatar!);
+      LoginResponse.fromJson(json.decode(response.body)).avatar == null
+          ? prefs.setString('avatar',Constants.defaultUserImage)
+          : prefs.setString('avatar',
+              LoginResponse.fromJson(json.decode(response.body)).avatar!);
       prefs.setString(
           'nick', LoginResponse.fromJson(json.decode(response.body)).nickname);
       return LoginResponse.fromJson(json.decode(response.body));
@@ -54,7 +57,7 @@ class AuthRepositoryImpl extends AuthRepository {
           'POST', Uri.parse("${Constants.baseUrl}/auth/register"))
         ..files.add(http.MultipartFile.fromString('user', data,
             contentType: MediaType('application', 'json')));
-    
+
       if (filePath.isNotEmpty && filePath != null && filePath != "") {
         request..files.add(await http.MultipartFile.fromPath('file', filePath));
       }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tcl_mobile_app/bloc/user/user_bloc.dart';
+import 'package:tcl_mobile_app/constants.dart';
 import 'package:tcl_mobile_app/model/User/user_response.dart';
 import 'package:tcl_mobile_app/repository/user_repository/user_repository_impl.dart';
 import 'package:tcl_mobile_app/ui/profile_edit_form.dart';
@@ -107,7 +108,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          imageUrl: user.avatar,
+                          imageUrl: user.avatar != null ? user.avatar! : Constants.defaultUserImage,
                           httpHeaders: {"Authorization": "Bearer " + token},
                           width: 80,
                           height: 80,
@@ -192,7 +193,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                   nombre: user.nombre,
                   nick: user.nick,
                   email: user.email,
-                  avatar: user.avatar,
+                  avatar: user.avatar != null ? user.avatar! : Constants.defaultUserImage,
                   fechaNacimiento: user.fechaDeNacimiento,
                 ),
               ),

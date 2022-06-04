@@ -12,7 +12,7 @@ class UserResponse {
   late final String nombre;
   late final String fechaDeNacimiento;
   late final String email;
-  late final String avatar;
+  late final String? avatar;
 
   UserResponse.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];

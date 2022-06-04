@@ -109,7 +109,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     placeholder: (context, url) => const Center(
                       child: CircularProgressIndicator(),
                     ),
-                    imageUrl: avatarUrl,
+                    imageUrl: avatarUrl?? "",
                     width: 30,
                     height: 30,
                     fit: BoxFit.cover,

@@ -6,7 +6,7 @@ class LoginResponse {
     required this.email,
   });
   late final String nickname;
-  late final String avatar;
+  late final dynamic avatar;
   late final String token;
   late final String email;
 
