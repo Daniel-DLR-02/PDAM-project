@@ -3,6 +3,8 @@ import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:tcl_mobile_app/model/auth/edit/edit_response.dart';
+import 'package:tcl_mobile_app/model/auth/edit/edit_dto.dart';
 
 import '../../model/auth/login/login_dto.dart';
 import '../../model/auth/login/login_response.dart';
@@ -28,7 +30,7 @@ class AuthRepositoryImpl extends AuthRepository {
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
       //LoginResponse.fromJson(json.decode(response.body)).avatar??prefs.setString('avatar',  LoginResponse.fromJson(json.decode(response.body)).avatar!);
       LoginResponse.fromJson(json.decode(response.body)).avatar == null
-          ? prefs.setString('avatar',Constants.defaultUserImage)
+          ? prefs.setString('avatar', Constants.defaultUserImage)
           : prefs.setString('avatar',
               LoginResponse.fromJson(json.decode(response.body)).avatar!);
       prefs.setString(
@@ -86,5 +88,43 @@ class AuthRepositoryImpl extends AuthRepository {
       request.fields[key] = data[key].toString();
     }
     return request;
+  }
+
+  @override
+  Future<EditResponse> edit(EditDto editDto, String filePath) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      var data = json.encode({
+        "nombre": editDto.nombre,
+        "nickName": editDto.nickName,
+        "email": editDto.email,
+        "fechaNacimiento": editDto.fechaNacimiento,
+      });
+
+      var request =
+          http.MultipartRequest('PUT', Uri.parse("${Constants.baseUrl}/user/"))
+            ..headers['authorization'] = 'Bearer $token'
+            ..headers['content-type'] = 'multipart/form-data'
+            ..files.add(http.MultipartFile.fromString('user', data,
+                contentType: MediaType('application', 'json')));
+
+      if (filePath.isNotEmpty && filePath != null && filePath != "") {
+        request..files.add(await http.MultipartFile.fromPath('file', filePath));
+      }
+
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        return EditResponse.fromJson(
+            jsonDecode(await response.stream.bytesToString()));
+      } else {
+        throw Exception('Fail to edit profile');
+      }
+    } catch (error) {
+      print('Error add project $error');
+      rethrow;
+    }
   }
 }

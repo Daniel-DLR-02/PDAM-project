@@ -118,7 +118,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 30, left: 70),
-                      child: Text(user.nombre,
+                      child: Text(user.nick,
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.white.withOpacity(.8),
@@ -190,11 +190,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
               context,
               MaterialPageRoute(
                 builder: (context) => ProfileEditForm(
-                  nombre: user.nombre,
-                  nick: user.nick,
-                  email: user.email,
-                  avatar: user.avatar != null ? user.avatar! : Constants.defaultUserImage,
-                  fechaNacimiento: user.fechaDeNacimiento,
+                  user: user,
                 ),
               ),
             ),
