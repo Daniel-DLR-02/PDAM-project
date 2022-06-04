@@ -156,24 +156,28 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
                               filePath = state.pickedFile.path;
                               return Row(
                                 children: [
-                                  SizedBox(
-                                    height: 75,
-                                    child: ClipOval(
-                                      child: SizedBox.fromSize(
-                                        size: const Size.fromRadius(
-                                            40), // Image radius
-                                        child: InkWell(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                          child: Image.file(
-                                              File(state.pickedFile.path),
-                                              fit: BoxFit.cover),
-                                          onTap: () {
-                                            BlocProvider.of<ImagePickBloc>(
-                                                    context)
-                                                .add(const SelectImageEvent(
-                                                    ImageSource.gallery));
-                                          },
+                                  Padding(
+                                    padding: const EdgeInsets.only(top:4.0,bottom: 4.0,left:100.0),
+                                    child: SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: ClipOval(
+                                        child: SizedBox.fromSize(
+                                          size: const Size.fromRadius(
+                                              40), // Image radius
+                                          child: InkWell(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            child: Image.file(
+                                                File(state.pickedFile.path),
+                                                fit: BoxFit.cover),
+                                            onTap: () {
+                                              BlocProvider.of<ImagePickBloc>(
+                                                      context)
+                                                  .add(const SelectImageEvent(
+                                                      ImageSource.gallery));
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ),

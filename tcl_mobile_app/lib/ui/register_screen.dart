@@ -455,7 +455,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                             children: [
                                               Padding(
                                                 padding: const EdgeInsets.only(
-                                                    left: 40, right: 45.0),
+                                                    left: 30, right: 45.0),
                                                 child: Text(
                                                   'Avatar:',
                                                   style: GoogleFonts.poppins(
