@@ -18,11 +18,11 @@
   <div class="form-container">
     <h4 class="login-title">¡Bienvenido de nuevo!</h4>
     <hr/>
-    <form action="" [formGroup]="loginForm" class="login-form">
+    <form action="" [formGroup]="form" class="login-form">
 
       <div class="username-field">
         <div class="form-input">
-          <input matInput placeholder="Nickname..." formControlName="nick">
+          <input matInput placeholder="Nickname..." formControlName="nickname">
           <mat-icon class="person-icon">person</mat-icon>
         </div>
       </div>
@@ -37,8 +37,10 @@
       </div>
 
       <div class="button-container">
-        <button mat-raised-button class="sign-in-button">Iniciar sesión</button>
+        <button mat-raised-button class="sign-in-button" (click)="onSubmit()">Iniciar sesión</button>
       </div>
     </form>
+
+    {{form.value | json}}
   </div>
 </div>
