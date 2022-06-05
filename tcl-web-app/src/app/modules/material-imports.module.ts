@@ -31,12 +31,15 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDividerModule} from '@angular/material/divider';
+
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
     MatCheckboxModule,
     MatCheckboxModule,
+    MatDividerModule,
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
@@ -58,6 +61,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
   exports: [
     MatCheckboxModule,
     MatCheckboxModule,
+    MatDividerModule,
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,

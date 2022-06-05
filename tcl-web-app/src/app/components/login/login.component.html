@@ -1,18 +1,43 @@
 <div class="login-admin">
+
+  <div class="info-container">
+    <div class="info-logo">
+      <img src="../../../assets/img/logo.png" alt="">
+    </div>
+    <h4 class="login-title">The cinema live</h4>
+    <hr/>
+    <div class="info">
+      <p>
+        Las entradas de tu cine local al alcance de tu mano
+      </p>
+    </div>
+
+  </div>
+
+
   <div class="form-container">
     <h4 class="login-title">¡Bienvenido de nuevo!</h4>
+    <hr/>
     <form action="" [formGroup]="loginForm" class="login-form">
 
       <div class="username-field">
-        <mat-label>Nickname</mat-label>
-        <input matInput placeholder="Nickname..." formControlName="nick">
+        <div class="form-input">
+          <input matInput placeholder="Nickname..." formControlName="nick">
+          <mat-icon class="person-icon">person</mat-icon>
+        </div>
       </div>
       <div class="password-field">
-        <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </button>
+        <div class="form-input">
+          <input matInput placeholder="Contraseña..." [type]="hide ? 'password' : 'text'" formControlName="password">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <div class="button-container">
+        <button mat-raised-button class="sign-in-button">Iniciar sesión</button>
       </div>
     </form>
   </div>
