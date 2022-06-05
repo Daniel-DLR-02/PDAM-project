@@ -1,16 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tcl_mobile_app/repository/preferences_utils.dart';
 import 'package:tcl_mobile_app/ui/login_screen.dart';
 import 'package:tcl_mobile_app/ui/menu_screen.dart';
 import 'package:tcl_mobile_app/ui/register_screen.dart';
 import 'package:flutter/services.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await PreferenceUtils.init();
+  String? token = PreferenceUtils.getString("token");
+
+  String initialRoute = (token == null || token == '') ? '/login' : '/';
+  runApp(MyApp(initialRoute: initialRoute));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key, required this.initialRoute}) : super(key: key);
+  final String initialRoute;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +37,7 @@ class MyApp extends StatelessWidget {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+
     return MaterialApp(
       title: 'TheCinemaLive',
       theme: ThemeData(
@@ -28,7 +48,7 @@ class MyApp extends StatelessWidget {
               ),
           fontFamily: GoogleFonts.poppins().fontFamily),
       debugShowCheckedModeBanner: false,
-      initialRoute: '/login',
+      initialRoute: widget.initialRoute,
       routes: {
         '/': (context) => const MenuScreen(initialScreen: 0),
         '/login': (context) => const LoginScreen(),

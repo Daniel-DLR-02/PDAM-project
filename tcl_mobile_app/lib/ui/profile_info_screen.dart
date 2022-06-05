@@ -184,7 +184,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 100.0, left: 30),
+          padding: const EdgeInsets.only(top: 20.0, left: 30),
           child: InkWell(
             onTap: () => Navigator.push(
               context,
@@ -210,6 +210,34 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                       ),
                     ),
                     child: const Text("Editar Perfil",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ]),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0, left: 30),
+          child: InkWell(
+            onTap: (){
+            PreferenceUtils.clear();
+            Navigator.pushNamedAndRemoveUntil(context,'/login', (Route<dynamic> route) => false);
+            },
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    alignment: Alignment.center,
+                    width: deviceWidth - 75,
+                    height: 35.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      color: Color.fromARGB(255, 71, 29, 29),
+                      border: Border.all(
+                        width: 2.0,
+                        color: Color.fromARGB(255, 80, 33, 33),
+                      ),
+                    ),
+                    child: const Text("Cerrar sesión",
                         style: TextStyle(color: Colors.white)),
                   ),
                 ]),

@@ -23,7 +23,7 @@ class UserRepositoryImpl extends UserRepository {
       HttpHeaders.authorizationHeader: "Bearer $token"
     });
     if (response.statusCode == 200) {
-      return UserResponse.fromJson(json.decode(response.body));
+      return UserResponse.fromJson(json.decode(const Utf8Decoder().convert(response.bodyBytes)));
     } else {
       throw Exception('Fail to load profile');
     }
