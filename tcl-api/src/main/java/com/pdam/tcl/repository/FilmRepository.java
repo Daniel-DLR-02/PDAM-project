@@ -14,7 +14,7 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
 
     @Query(value = """
                         select new com.pdam.tcl.model.dto.film.GetFilmDto(
-                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.genre
+                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.expirationDate,f.genre
                         ) from Film f
                         where CURRENT_DATE between f.releaseDate and f.expirationDate
                     """)
@@ -22,7 +22,7 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
 
     @Query(value = """
                         select new com.pdam.tcl.model.dto.film.GetFilmDto(
-                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.genre
+                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.expirationDate,f.genre
                         ) from Film f
                     """)
     Page<GetFilmDto> getAllFilms(Pageable pageable);

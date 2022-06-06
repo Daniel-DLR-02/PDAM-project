@@ -33,6 +33,7 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final ImgServiceStorage imgServiceStorage;
     private final SessionService sessionService;
+    private final FilmDtoConverter filmDtoConverter;
 
 
     @Override
@@ -40,15 +41,7 @@ public class FilmServiceImpl implements FilmService {
 
         ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
-        return filmRepository.save(Film.builder()
-                .title(createFilm.getTitle())
-                .poster(img.getData())
-                .description(createFilm.getDescription())
-                .duration(createFilm.getDuration())
-                .releaseDate(createFilm.getReleaseDate())
-                .expirationDate(createFilm.getExpirationDate())
-                .genre(createFilm.getGenre())
-                .build());
+        return filmRepository.save(filmDtoConverter.createFilmToFilm(createFilm,img));
 
     }
 
@@ -59,6 +52,7 @@ public class FilmServiceImpl implements FilmService {
                 .title(o.getTitle())
                 .duration(o.getDuration())
                 .genre(o.getGenre())
+                .expirationDate(o.getExpirationDate())
                 .releaseDate(o.getReleaseDate())
                 .description(o.getDescription())
                 .poster(o.getPoster().split(",")[0])
@@ -123,6 +117,7 @@ public class FilmServiceImpl implements FilmService {
                 .duration(o.getDuration())
                 .genre(o.getGenre())
                 .releaseDate(o.getReleaseDate())
+                .expirationDate(o.getExpirationDate())
                 .description(o.getDescription())
                 .poster(o.getPoster().split(",")[0])
                 .build());
