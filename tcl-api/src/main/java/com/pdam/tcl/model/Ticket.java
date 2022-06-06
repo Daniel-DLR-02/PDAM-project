@@ -44,9 +44,7 @@ public class Ticket {
 
     @PreRemove
     public void preRemove() {
-        if (user != null) {
-            user.getTickets().remove(this);
-        }
+
         if (session != null) {
             this.session.getAvailableSeats()[this.hallRow][this.hallColumn]="S";
             this.setSession(null);
