@@ -25,6 +25,7 @@ export class FilmsComponent implements OnInit,OnDestroy {
     this.subscriptions.push(
       this.filmsService.getFilms().subscribe(
         (films) => {
+          console.log(films.content);
           this.films = films.content;
         }
       )

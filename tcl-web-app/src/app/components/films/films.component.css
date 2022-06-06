@@ -5,3 +5,12 @@
   max-height: 90%;
   padding: 3em;
 }
+
+.tabla-peliculas {
+  background-color: white;
+}
+
+tr {
+  border: 1px solid black !important;
+  border-collapse:inherit !important;
+}

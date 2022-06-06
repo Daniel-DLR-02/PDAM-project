@@ -8,7 +8,7 @@ import { Constants } from '../utils/constants';
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
+    'Authorization': 'Bearer ' + localStorage.getItem('tcl-token')
   })
 };
 
