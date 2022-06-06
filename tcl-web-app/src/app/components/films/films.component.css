@@ -1,0 +1,7 @@
+.body-container{
+  background-color: #78909c80;
+  border-radius: 2em;
+  min-width:auto;
+  max-height: 90%;
+  padding: 3em;
+}
