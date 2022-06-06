@@ -10,7 +10,29 @@
   background-color: white;
 }
 
+table{
+  border-collapse: collapse;
+  border-radius: 1em;
+}
+
+th,td {
+  border-bottom: 1px solid black;
+  padding: 1em;
+  text-align: center;
+}
+
+td img {
+  width: 15%;
+  border-radius: 2em;
+}
+
+tr:last-child td{
+  border-bottom: 0px solid transparent;
+}
+
+th{
+  border-radius: 2em 2em 0em 0em;
+}
+
 tr {
-  border: 1px solid black !important;
-  border-collapse:inherit !important;
 }

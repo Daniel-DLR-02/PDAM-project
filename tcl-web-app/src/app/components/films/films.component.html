@@ -6,10 +6,10 @@
         Id
       </th>
       <th>
-        Título
+        Póster
       </th>
       <th>
-        Póster
+        Título
       </th>
       <th>
         Descripción
@@ -20,7 +20,8 @@
       <th>
         Fecha de lanzamiento
       </th>
-
+      <th>
+      </th>
     </tr>
 
 
@@ -29,11 +30,10 @@
         {{film.uuid}}
       </td>
       <td>
-        {{film.title}}
-
+        <img [src]="film.poster" alt="">
       </td>
       <td>
-        {{film.poster}}
+        {{film.title}}
 
       </td>
       <td>
@@ -53,7 +53,5 @@
     </tr>
 
   </table>
-
-  <!--<span *ngFor="let film of films">{{ film.title }}</span>-->
 
 </body>
