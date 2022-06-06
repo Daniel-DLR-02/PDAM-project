@@ -20,4 +20,11 @@ public interface FilmRepository extends JpaRepository<Film, UUID> {
                     """)
     Page<GetFilmDto> findCurrentFilms(Pageable pageable);
 
+    @Query(value = """
+                        select new com.pdam.tcl.model.dto.film.GetFilmDto(
+                            f.uuid,f.title,CAST(f.poster as string),f.description,f.duration,f.releaseDate,f.genre
+                        ) from Film f
+                    """)
+    Page<GetFilmDto> getAllFilms(Pageable pageable);
+
 }

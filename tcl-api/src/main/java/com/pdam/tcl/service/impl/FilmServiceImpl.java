@@ -53,6 +53,21 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
+    public Page<GetFilmDto> getAllFilms(Pageable pageable){
+        Page<GetFilmDto> pageDto = filmRepository.getAllFilms(pageable).map((o)-> GetFilmDto.builder()
+                .uuid(o.getUuid())
+                .title(o.getTitle())
+                .duration(o.getDuration())
+                .genre(o.getGenre())
+                .releaseDate(o.getReleaseDate())
+                .description(o.getDescription())
+                .poster(o.getPoster().split(",")[0])
+                .build());
+
+        return pageDto;
+    }
+
+    @Override
     public Optional<Film> findById(UUID id) {
         return filmRepository.findById(id);
     }
@@ -79,20 +94,20 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Film update(UUID id, CreateFilmDto createFilm, MultipartFile file) throws Exception {
+    public Film update(UUID id, CreateFilmDto editFilm, MultipartFile file) throws Exception {
         Film film = filmRepository.findById(id).orElseThrow(()-> new RuntimeException("Film not found"));
 
         imgServiceStorage.delete(film.getPoster().getDeletehash());
 
         ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
 
-        film.setTitle(createFilm.getTitle());
-        film.setDescription(createFilm.getDescription());
-        film.setDuration(createFilm.getDuration());
-        film.setGenre(createFilm.getGenre());
+        film.setTitle(editFilm.getTitle());
+        film.setDescription(editFilm.getDescription());
+        film.setDuration(editFilm.getDuration());
+        film.setGenre(editFilm.getGenre());
         film.setPoster(img.getData());
-        film.setExpirationDate(createFilm.getExpirationDate());
-        film.setReleaseDate(createFilm.getReleaseDate());
+        film.setExpirationDate(editFilm.getExpirationDate());
+        film.setReleaseDate(editFilm.getReleaseDate());
 
         return filmRepository.save(film);
     }

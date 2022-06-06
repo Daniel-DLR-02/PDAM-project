@@ -44,6 +44,11 @@ public class FilmController {
         return ResponseEntity.ok(service.getCurrentFilms(pageable));
     }
 
+    @GetMapping("/")
+    public ResponseEntity<Page<GetFilmDto>> getAllFilms(@PageableDefault(size = 30) Pageable pageable, HttpServletRequest request) {
+        return ResponseEntity.ok(service.getAllFilms(pageable));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<GetFilmDto> update(@PathVariable("id") UUID id, @RequestPart("film") CreateFilmDto film, @RequestPart("file") MultipartFile poster) throws Exception {
         return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.update(id, film,poster)));
