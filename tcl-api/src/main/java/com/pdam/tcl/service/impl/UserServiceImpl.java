@@ -116,6 +116,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
+        user.setRole(userDto.getRole());
         user.setAvatar(img.getData());
 
         return userRepository.save(user);
@@ -128,6 +129,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setNombre(userDto.getNombre());
         user.setNickname(userDto.getNickName());
         user.setEmail(userDto.getEmail());
+        user.setRole(userDto.getRole());
         user.setFechaNacimiento(userDto.getFechaNacimiento());
 
         return userRepository.save(user);
