@@ -1,0 +1,28 @@
+<div class="body" *ngIf="show" [@openedAnimation]>
+
+  <button mat-icon-button aria-label="open menu button" (click)="show=false">
+    <mat-icon class="show-button">keyboard_arrow_down</mat-icon>
+  </button>
+
+  <div class="element-list">
+    <div (click)="navigate('films')" routerLink="/films" routerLinkActive="element-selected" class="element">
+      Películas
+    </div>
+    <div (click)="navigate('sessions')" routerLink="/sessions" routerLinkActive="element-selected" class="element">
+      Sesiones
+    </div>
+    <div (click)="navigate('halls')" routerLink="/halls" routerLinkActive="element-selected" class="element">
+      Salas
+    </div>
+    <div (click)="navigate('admins')" routerLink="/admins" routerLinkActive="element-selected" class="element">
+      Administradores
+    </div>
+  </div>
+</div>
+
+<div class="body-collapse" *ngIf="!show" [@collapsedAnimation]>
+  <button mat-icon-button aria-label="open menu button" (click)="show=true">
+    <mat-icon class="show-button">keyboard_arrow_right</mat-icon>
+  </button>
+
+</div>

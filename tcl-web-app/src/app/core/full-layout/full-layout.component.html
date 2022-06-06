@@ -1,0 +1,26 @@
+<div class="topbar">
+
+  <div class="title-banner" (click)="goHome()">
+    <div class="logo-container">
+    </div>
+    <span class="title">The Cinema Live</span>
+  </div>
+
+  <div class="profile-banner" (click)="profileOptions.open()">
+    <mat-label class="options-label">
+      <span class="username">{{ nick }}</span>
+      <img [src]="img" alt="user profile image">
+    </mat-label>
+    <mat-select #profileOptions class="profile-options">
+      <mat-option (click)="logout()">
+        Cerrar sesión
+      </mat-option>
+    </mat-select>
+  </div>
+</div>
+
+<div class="content-body">
+  <app-sidebar></app-sidebar>
+
+  <router-outlet class="components"></router-outlet>
+</div>
