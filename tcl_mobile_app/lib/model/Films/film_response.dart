@@ -23,9 +23,9 @@ class FilmsResponse {
   late final bool first;
   late final int numberOfElements;
   late final bool empty;
-  
-  FilmsResponse.fromJson(Map<String, dynamic> json){
-    content = List.from(json['content']).map((e)=>Film.fromJson(e)).toList();
+
+  FilmsResponse.fromJson(Map<String, dynamic> json) {
+    content = List.from(json['content']).map((e) => Film.fromJson(e)).toList();
     pageable = Pageable.fromJson(json['pageable']);
     last = json['last'];
     totalElements = json['totalElements'];
@@ -40,7 +40,7 @@ class FilmsResponse {
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
-    _data['content'] = content.map((e)=>e.toJson()).toList();
+    _data['content'] = content.map((e) => e.toJson()).toList();
     _data['pageable'] = pageable.toJson();
     _data['last'] = last;
     _data['totalElements'] = totalElements;
@@ -63,6 +63,7 @@ class Film {
     required this.description,
     required this.duration,
     required this.releaseDate,
+    required this.expirationDate,
     required this.genre,
   });
   late final String uuid;
@@ -71,15 +72,17 @@ class Film {
   late final String description;
   late final String duration;
   late final String releaseDate;
+  late final String expirationDate;
   late final String genre;
-  
-  Film.fromJson(Map<String, dynamic> json){
+
+  Film.fromJson(Map<String, dynamic> json) {
     uuid = json['uuid'];
     title = json['title'];
     poster = json['poster'];
     description = json['description'];
     duration = json['duration'];
     releaseDate = json['releaseDate'];
+    expirationDate = json['expirationDate'];
     genre = json['genre'];
   }
 
@@ -91,6 +94,7 @@ class Film {
     _data['description'] = description;
     _data['duration'] = duration;
     _data['releaseDate'] = releaseDate;
+    _data['expirationDate'] = expirationDate;
     _data['genre'] = genre;
     return _data;
   }
@@ -111,8 +115,8 @@ class Pageable {
   late final int pageSize;
   late final bool paged;
   late final bool unpaged;
-  
-  Pageable.fromJson(Map<String, dynamic> json){
+
+  Pageable.fromJson(Map<String, dynamic> json) {
     sort = Sort.fromJson(json['sort']);
     offset = json['offset'];
     pageNumber = json['pageNumber'];
@@ -142,8 +146,8 @@ class Sort {
   late final bool empty;
   late final bool sorted;
   late final bool unsorted;
-  
-  Sort.fromJson(Map<String, dynamic> json){
+
+  Sort.fromJson(Map<String, dynamic> json) {
     empty = json['empty'];
     sorted = json['sorted'];
     unsorted = json['unsorted'];
