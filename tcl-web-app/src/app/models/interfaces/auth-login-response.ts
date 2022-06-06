@@ -5,4 +5,6 @@ export interface AuthLoginResponse {
   avatar:   string;
   token:    string;
   email:    string;
+  role:    string;
+
 }

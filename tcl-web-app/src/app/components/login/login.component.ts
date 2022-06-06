@@ -45,11 +45,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
     this.subscriptions.push(
       this.authService.login(this.loginDto).subscribe((authState) => {
+          if(authState.role == 'ADMIN'){
+            localStorage.setItem('tcl-token', authState.token);
+            localStorage.setItem('tcl-avatar', authState.avatar);
+            localStorage.setItem('tcl-nick', authState.nickname);
+            this.router.navigate(['/home']);
+          }else{
+            this.toastr.error("No tiene periso para acceder a esta sección.","Acceso no autorizado");
 
-          localStorage.setItem('tcl-token', authState.token);
-          localStorage.setItem('tcl-avatar', authState.avatar);
-          localStorage.setItem('tcl-nick', authState.nickname);
-          this.router.navigate(['/home']);
+          }
         },(error) => {
           this.toastr.error("Credenciales incorrectas","Error al iniciar sesión");
       })
