@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginDto } from '../models/dto/login';
 
-const AUTH_BASE_URL = 'auth';
 const DEFAULT_HEADERS = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'

@@ -1,4 +1,59 @@
 <body class="body-container">
-hola
+
+  <table mat-table class="mat-elevation-z8 demo-table">
+    <tr mat-header-row>
+      <th>
+        Id
+      </th>
+      <th>
+        Título
+      </th>
+      <th>
+        Póster
+      </th>
+      <th>
+        Descripción
+      </th>
+      <th>
+        Duración
+      </th>
+      <th>
+        Fecha de lanzamiento
+      </th>
+
+    </tr>
+
+
+    <tr *ngFor="let film of films">
+      <td>
+        {{film.uuid}}
+      </td>
+      <td>
+        {{film.title}}
+
+      </td>
+      <td>
+        {{film.poster}}
+
+      </td>
+      <td>
+        {{film.description}}
+
+      </td>
+      <td>
+        {{film.duration}}
+
+      </td>
+      <td>
+        {{film.releaseDate}}
+      </td>
+      <td>
+        actions buttons
+      </td>
+    </tr>
+
+  </table>
+
+  <span *ngFor="let film of films">{{ film.title }}</span>
 
 </body>
