@@ -50,6 +50,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception {
+        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
+
+        return userRepository.save(User.builder()
+                .nombre(newUsuario.getNombre())
+                .nickname(newUsuario.getNickName())
+                .email(newUsuario.getEmail())
+                .fechaNacimiento(newUsuario.getFechaNacimiento())
+                .password(passwordEncoder.encode(newUsuario.getPassword()))
+                .avatar(img.getData())
+                .role(UserRole.ADMIN)
+                .build());
+    }
+
+    @Override
     public User saveNoAvatar(CreateUserDto createUsuarioDto) {
 
 
@@ -70,20 +85,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findById(uuid);
     }
 
-    @Override
-    public User saveAdmin(CreateUserDto newUsuario, MultipartFile file) throws Exception {
-        ImgResponse img = imgServiceStorage.store(new ImgurImg(Base64.encodeBase64String(file.getBytes()),file.getOriginalFilename()));
-
-        return userRepository.save(User.builder()
-                .nombre(newUsuario.getNombre())
-                .nickname(newUsuario.getNickName())
-                .email(newUsuario.getEmail())
-                .fechaNacimiento(newUsuario.getFechaNacimiento())
-                .password(passwordEncoder.encode(newUsuario.getPassword()))
-                .avatar(img.getData())
-                .role(UserRole.ADMIN)
-                .build());
-    }
 
     @Override
     public User saveAdminNoAvatar(CreateUserDto newUsuario) throws Exception {
