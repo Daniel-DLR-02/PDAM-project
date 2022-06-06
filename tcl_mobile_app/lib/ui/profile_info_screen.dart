@@ -117,13 +117,18 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 70),
-                      child: Text(user.nick,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.white.withOpacity(.8),
-                            fontWeight: FontWeight.bold,
-                          )),
+                      padding: const EdgeInsets.only(top: 30, left: 40),
+                      child: Container(
+                        width: 190,
+                        child: Text(user.nick,
+                            style: TextStyle(
+                                                                      overflow: TextOverflow.ellipsis,
+
+                              fontSize: 20,
+                              color: Colors.white.withOpacity(.8),
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ),
                     ),
                   ],
                 ),

@@ -28,7 +28,6 @@ class AuthRepositoryImpl extends AuthRepository {
     if (response.statusCode == 200) {
       prefs.setString(
           'token', LoginResponse.fromJson(json.decode(response.body)).token);
-      //LoginResponse.fromJson(json.decode(response.body)).avatar??prefs.setString('avatar',  LoginResponse.fromJson(json.decode(response.body)).avatar!);
       LoginResponse.fromJson(json.decode(response.body)).avatar == ''
           ? prefs.setString('avatar', Constants.defaultUserImage)
           : prefs.setString('avatar',
@@ -71,7 +70,7 @@ class AuthRepositoryImpl extends AuthRepository {
       if (response.statusCode == 201) {
         LoginDto loginDto = LoginDto(
             nickname: registerDto.nickName, password: registerDto.password);
-        login(loginDto);
+        await login(loginDto);
         return RegisterResponse.fromJson(
             jsonDecode(await response.stream.bytesToString()));
       } else {

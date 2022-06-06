@@ -46,7 +46,7 @@ class FilmRepositoryImpl extends FilmRepository {
       return FilmResponse.fromJson(
           json.decode(const Utf8Decoder().convert(response.bodyBytes)));
     } else {
-      throw Exception('Fail to load posts');
+      throw Exception('Fail to load films');
     }
   }
 }
