@@ -98,6 +98,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
       var data = json.encode({
         "nombre": editDto.nombre,
+        "role": "USER",
         "nickName": editDto.nickName,
         "email": editDto.email,
         "fechaNacimiento": editDto.fechaNacimiento,
