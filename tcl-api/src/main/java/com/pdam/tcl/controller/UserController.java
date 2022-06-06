@@ -126,6 +126,7 @@ public class UserController {
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .avatar(user.getAvatar()!=null?user.getAvatar().getLink():"")
+                .role(user.getRole().name())
                 .token(jwt)
                 .build();
     }
