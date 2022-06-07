@@ -1,5 +1,16 @@
 <body class="body-container">
 
+  <div class="row">
+
+    <label for="buscar" class="label-buscar">Título:</label>
+    <input matInput  type="text" name="buscar" class="buscar" [(ngModel)]="filterSearch" (input)="filterMovies()"
+    placeholder="Escriba el título de la película...">
+    <button mat-raised-button class="add-new" (click)="newFilm()">
+      Nueva película
+      <mat-icon>add</mat-icon>
+    </button>
+
+  </div>
   <table class="tabla-peliculas">
     <tr mat-header-row>
       <th>
@@ -28,7 +39,7 @@
     </tr>
 
 
-    <tr *ngFor="let film of ( films| slice:lowValue : highValue)">
+    <tr *ngFor="let film of ( moviesToView| slice:lowValue : highValue)">
       <td>
         {{film.uuid}}
       </td>
@@ -54,13 +65,18 @@
         {{film.expirationDate}}
       </td>
       <td>
-        actions buttons
+        <button mat-icon-button aria-label="Edit button" (click)="editFilm(film)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Delete button" (click)="openDeleteDialog(film.uuid,film.title)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </td>
     </tr>
 
   </table>
-  <div *ngIf="films.length > 0" class="paginator">
-    <mat-paginator [length]="films.length" [pageSize]="5" (page)="getPaginatorData($event)"
+  <div *ngIf="moviesToView.length > 0" class="paginator">
+    <mat-paginator [length]="moviesToView.length" [pageSize]="5" (page)="getPaginatorData($event)"
       showFirstLastButtons [hidePageSize]="true" style="border-radius: 15px;">
     </mat-paginator>
   </div>

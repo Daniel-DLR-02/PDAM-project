@@ -1,7 +1,7 @@
-.body-container{
+.body-container {
   background-color: #78909c80;
   border-radius: 2em;
-  min-width:auto;
+  min-width: auto;
   padding: 3em;
   height: auto;
   display: flex;
@@ -12,12 +12,13 @@
   background-color: white;
 }
 
-table{
+table {
   border-collapse: collapse;
   border-radius: 1em;
 }
 
-th,td {
+th,
+td {
   border-bottom: 1px solid black;
   padding: 1em;
   text-align: center;
@@ -29,18 +30,76 @@ td img {
   border-radius: 2em;
 }
 
-tr:last-child td{
+tr:last-child td {
   border-bottom: 0px solid transparent;
 }
 
-th{
+th {
   border-radius: 2em 2em 0em 0em;
 }
 
-.paginator{
+.paginator {
   display: flex;
   justify-content: center;
   align-items: center;
   padding-top: 1em;
   background-color: transparent;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2em;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.buscar {
+  width: 20%;
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+  border-radius: 0.7em;
+  border: 0px solid transparent;
+  font-size: 1.5em;
+  margin-left: 1em;
+  display: flex;
+  padding-left:1em ;
+}
+
+:host ::ng-deep input.mat-input-element:focus {
+  outline: none !important;
+  border:0px solid transparent;
+  border-bottom: 1px solid white;
+  box-shadow: 0 4px 2px -2px gray;
+}
+
+
+.label-buscar {
+  display: flex;
+  flex-direction: row;
+  height: 2em;
+  border-radius: 0.7em;
+  border: 0px solid transparent;
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+
+}
+
+.add-new {
+  width: 10%;
+  margin-left: 65%;
+  border-radius: 2em;
+  border: 0px solid transparent;
+  color: white;
+  background-color: #263238;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  font-size: 1.1em;
+  height: 3.2em;
 }

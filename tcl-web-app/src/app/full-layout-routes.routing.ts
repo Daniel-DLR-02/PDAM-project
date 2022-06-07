@@ -12,6 +12,7 @@ export const FullLayoutRoutes: Routes = [
   { path: 'home', component: HomeComponent, pathMatch: 'full' },
   { path: 'films', component: FilmsComponent, pathMatch: 'full'},
   { path: 'films/new-film', component:FilmsFormComponent, pathMatch: 'full' },
+  { path: 'films/edit-film', component:FilmsFormComponent, pathMatch: 'full' },
   { path: 'sessions', component: SessionsComponent, pathMatch: 'full' },
   { path: 'halls', component: HallsComponent, pathMatch: 'full' },
   { path: 'admins', component: AdminsComponent, pathMatch: 'full' },

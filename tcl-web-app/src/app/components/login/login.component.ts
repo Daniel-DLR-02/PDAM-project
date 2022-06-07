@@ -60,10 +60,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     );
   }
 
-  showSuccess() {
-    this.toastr.success('You are awesome!', 'Success!');
-  }
-
   ngOnDestroy(): void {
     this.subscriptions.forEach((s) => s.unsubscribe());
   }

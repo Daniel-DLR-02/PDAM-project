@@ -24,7 +24,11 @@ export class FilmsService {
   getFilms() : Observable<FilmsResponse>{
     let requestUrl = `${Constants.baseUrl}/films/`;
     return this.http.get<FilmsResponse>(requestUrl, DEFAULT_HEADERS,);
+  }
 
+  deleteFilm(uuid: String): Observable<{}> {
+    let requestUrl = `${Constants.baseUrl}/films/${uuid}`;
+    return this.http.delete(requestUrl, DEFAULT_HEADERS);
   }
 
 }
