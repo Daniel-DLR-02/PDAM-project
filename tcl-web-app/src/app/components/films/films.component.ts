@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Film } from 'src/app/models/interfaces/films-response';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-films',
@@ -13,7 +14,8 @@ export class FilmsComponent implements OnInit,OnDestroy {
 
   films: Film[] = [];
   subscriptions: Subscription[]=[]
-
+  lowValue = 0;
+  highValue = 5;
 
   constructor(
     private router: Router,
@@ -40,5 +42,11 @@ export class FilmsComponent implements OnInit,OnDestroy {
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 
+
+  public getPaginatorData(event: PageEvent): PageEvent {
+    this.lowValue = event.pageIndex * event.pageSize;
+    this.highValue = this.lowValue + event.pageSize;
+    return event;
+  }
 
 }

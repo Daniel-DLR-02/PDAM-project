@@ -21,11 +21,14 @@
         Fecha de lanzamiento
       </th>
       <th>
+        Fecha de caducidad
+      </th>
+      <th>
       </th>
     </tr>
 
 
-    <tr *ngFor="let film of films">
+    <tr *ngFor="let film of ( films| slice:lowValue : highValue)">
       <td>
         {{film.uuid}}
       </td>
@@ -48,10 +51,18 @@
         {{film.releaseDate}}
       </td>
       <td>
+        {{film.expirationDate}}
+      </td>
+      <td>
         actions buttons
       </td>
     </tr>
 
   </table>
+  <div *ngIf="films.length > 0" class="paginator">
+    <mat-paginator [length]="films.length" [pageSize]="5" (page)="getPaginatorData($event)"
+      showFirstLastButtons [hidePageSize]="true" style="border-radius: 15px;">
+    </mat-paginator>
+  </div>
 
 </body>

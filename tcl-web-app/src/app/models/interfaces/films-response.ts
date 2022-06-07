@@ -20,6 +20,7 @@ export interface Film {
   poster:      string;
   description: string;
   duration:    string;
+  expirationDate: string;
   releaseDate: string;
   genre:       string;
 }

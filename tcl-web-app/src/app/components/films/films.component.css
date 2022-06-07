@@ -2,8 +2,10 @@
   background-color: #78909c80;
   border-radius: 2em;
   min-width:auto;
-  max-height: 90%;
   padding: 3em;
+  height: auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .tabla-peliculas {
@@ -19,6 +21,7 @@ th,td {
   border-bottom: 1px solid black;
   padding: 1em;
   text-align: center;
+
 }
 
 td img {
@@ -34,5 +37,10 @@ th{
   border-radius: 2em 2em 0em 0em;
 }
 
-tr {
+.paginator{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 1em;
+  background-color: transparent;
 }
