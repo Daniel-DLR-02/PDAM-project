@@ -13,17 +13,17 @@ import { animate, style, transition, trigger } from '@angular/animations';
         transition(
           ':enter',
           [
-            style({ width: 60, fontSize: 0 }),
+            style({ width: 60}),
             animate('0.5s ease-out',
-                    style({ width: '*',  fontSize: '*' }))
+                    style({ width: '*'}))
           ]
         ),
         transition(
           ':leave',
           [
-            style({ width: 300,  fontSize: 15  }),
+            style({ width: 300, }),
             animate('0.5s ease-in',
-                    style({ width: 60,  fontSize: 0}))
+                    style({ width: 60 }))
           ]
         )
       ]

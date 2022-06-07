@@ -5,11 +5,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginDto } from '../models/dto/login';
 
-const DEFAULT_HEADERS = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/json'
-  })
-};
+
 
 @Injectable({
   providedIn: 'root'
@@ -20,10 +16,15 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
+  DEFAULT_HEADERS = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   login(loginDto:LoginDto) : Observable<AuthLoginResponse>{
     let requestUrl = `${Constants.baseUrl}/auth/login`;
-    return this.http.post<AuthLoginResponse>(requestUrl, loginDto, DEFAULT_HEADERS,);
+    return this.http.post<AuthLoginResponse>(requestUrl, loginDto, this.DEFAULT_HEADERS,);
 
   }
 }

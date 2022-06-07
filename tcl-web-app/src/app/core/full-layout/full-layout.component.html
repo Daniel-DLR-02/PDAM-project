@@ -7,11 +7,11 @@
   </div>
 
   <div class="profile-banner" (click)="profileOptions.open()">
-    <mat-label class="options-label">
+    <mat-label class="options-label" for="profileOptions">
       <span class="username">{{ nick }}</span>
       <img [src]="img" alt="user profile image">
     </mat-label>
-    <mat-select #profileOptions class="profile-options">
+    <mat-select #profileOptions name="profileOptions" disableOptionCentering class="profile-options">
       <mat-option (click)="logout()">
         Cerrar sesión
       </mat-option>

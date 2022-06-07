@@ -20,7 +20,8 @@
 
 .title-banner {
   height: 100%;
-  width: 20%;
+  min-width: 20%;
+  width: auto;
   display: flex;
   cursor: pointer;
 }
@@ -74,12 +75,6 @@
   justify-content: center;
 }
 
-::ng-deep .cdk-overlay-pane {
-  min-width: 160px !important;
-  font-size: 14px !important;
-  top: 85.6094px !important;
-  left: 1780.48px !important;
-}
 
 .content-body {
   width: 100%;

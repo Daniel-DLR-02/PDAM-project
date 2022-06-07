@@ -7,6 +7,7 @@ import { FilmsService } from 'src/app/services/films.service';
 export interface DialogData {
   filmUuid: String;
   filmTitle: String;
+  borrado: boolean;
 }
 
 @Component({
@@ -35,7 +36,7 @@ export class DeleteFilmDialogComponent implements OnInit{
 
   deleteFilm(): void {
     this.filmService.deleteFilm(this.data.filmUuid).subscribe();
-    this.dialogRef.close();
+    this.dialogRef.close({borrado:true});
   }
 
 }

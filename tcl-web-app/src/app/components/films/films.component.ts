@@ -28,7 +28,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.filterSearch = '';
     this.subscriptions.push(
       this.filmsService.getFilms().subscribe((films) => {
@@ -86,18 +86,21 @@ export class FilmsComponent implements OnInit, OnDestroy {
   }
 
   openDeleteDialog(filmUuid: String, filmTitle: String): void {
+    var borrado: boolean;
     const dialogRef = this.dialog.open(DeleteFilmDialogComponent, {
       width: '450px',
       data: {
         filmUuid: filmUuid,
         filmTitle: filmTitle,
+        borrado: false
       },
     });
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(result => {
       this.delay(700).then(() => {
         this.ngOnInit();
       });
-      this.toastr.success('Película eliminada con éxito');
+      if(result?.borrado)
+        this.toastr.success('Película eliminada con éxito');
     });
   }
 }
