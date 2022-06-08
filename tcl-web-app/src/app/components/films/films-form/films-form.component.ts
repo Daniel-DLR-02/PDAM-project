@@ -105,8 +105,10 @@ export class FilmsFormComponent implements OnInit,OnDestroy {
       this.subscriptions.push(
         this.filmsService.createFilm(newFilm, this.imageFile).subscribe(
           (res: any) => {
-            this.toastr.success('Película creada');
-            this.router.navigate(['/films']);
+            if (res.status === 201) {
+              this.toastr.success('Película creada');
+              this.router.navigate(['/films']);
+            }
           }
         )
       )

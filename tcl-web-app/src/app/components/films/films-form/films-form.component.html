@@ -30,7 +30,7 @@
         <!--<label for="expirationDate">Fecha de caducidad</label>
         <input matInput type="text" class="input-text" name="expirationDate" formControlName="expirationDate">-->
         <mat-label for="expirationDate">Fecha de caducidad</mat-label>
-        <input matInput formControlName="expirationDate" class="input-text" readonly (click)="picker2.open()"
+        <input matInput [disabled]="form.controls['releaseDate'].value==null" formControlName="expirationDate" class="input-text" readonly (click)="picker2.open()"
           [matDatepicker]="picker2">
         <mat-datepicker #picker2></mat-datepicker>
       </div>

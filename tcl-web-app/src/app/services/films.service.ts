@@ -1,39 +1,24 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CreateFilmDto } from '../models/dto/create-film';
 import { Film, FilmsResponse } from '../models/interfaces/films-response';
 import { Constants } from '../utils/constants';
 
-
-
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FilmsService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
- DEFAULT_HEADERS = {
+  DEFAULT_HEADERS = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + localStorage.getItem('tcl-token'),
-    })
+      Authorization: 'Bearer ' + localStorage.getItem('tcl-token'),
+    }),
   };
 
-  CREATE_MOVIE_HEADERS = {
-    headers: new HttpHeaders({
-      'Authorization': 'Bearer ' + localStorage.getItem('tcl-token'),
-      'Content-Type': 'multipart/form-data'
-    })
-  };
-
-
-
-  getFilms() : Observable<FilmsResponse>{
+  getFilms(): Observable<FilmsResponse> {
     let requestUrl = `${Constants.baseUrl}/films/`;
     return this.http.get<FilmsResponse>(requestUrl, this.DEFAULT_HEADERS);
   }
@@ -43,14 +28,21 @@ export class FilmsService {
     return this.http.delete(requestUrl, this.DEFAULT_HEADERS);
   }
 
-  createFilm(film: CreateFilmDto, file:File): Observable<Film>{
+  createFilm(film: CreateFilmDto, file: File): any {
     let requestUrl = `${Constants.baseUrl}/films/`;
-    var fd = new FormData();
-    //console.log(JSON.stringify(film))
-    //fd.append('film', JSON.stringify(film));
-    fd.append('film', new Blob([JSON.stringify(film)], { type: 'application/json' }));
-    fd.append('file', file);
-    return this.http.post<Film>(requestUrl,fd, this.CREATE_MOVIE_HEADERS);
+    const data: FormData = new FormData();
+    data.append(
+      'film',
+      new Blob([JSON.stringify(film)], { type: 'application/json' })
+    );
+    data.append('file', file);
+    const newRequest = new HttpRequest('POST', requestUrl, data, {
+      reportProgress: true,
+      responseType: 'text',
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('tcl-token'),
+      }),
+    });
+    return this.http.request(newRequest);
   }
-
 }
