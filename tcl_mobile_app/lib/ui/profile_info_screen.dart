@@ -108,7 +108,9 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                           placeholder: (context, url) => const Center(
                             child: CircularProgressIndicator(),
                           ),
-                          imageUrl: user.avatar != '' ? user.avatar! : Constants.defaultUserImage,
+                          imageUrl: user.avatar != ''
+                              ? user.avatar!
+                              : Constants.defaultUserImage,
                           httpHeaders: {"Authorization": "Bearer " + token},
                           width: 80,
                           height: 80,
@@ -122,8 +124,7 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
                         width: 190,
                         child: Text(user.nick,
                             style: TextStyle(
-                                                                      overflow: TextOverflow.ellipsis,
-
+                              overflow: TextOverflow.ellipsis,
                               fontSize: 20,
                               color: Colors.white.withOpacity(.8),
                               fontWeight: FontWeight.bold,
@@ -223,9 +224,10 @@ class _ProfileInfoScreenState extends State<ProfileInfoScreen> {
         Padding(
           padding: const EdgeInsets.only(top: 30.0, left: 30),
           child: InkWell(
-            onTap: (){
-            PreferenceUtils.clear();
-            Navigator.pushNamedAndRemoveUntil(context,'/login', (Route<dynamic> route) => false);
+            onTap: () {
+              PreferenceUtils.clear();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/login', (Route<dynamic> route) => false);
             },
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
