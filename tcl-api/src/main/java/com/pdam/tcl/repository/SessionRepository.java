@@ -15,7 +15,7 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
     @Query(value = """ 
                         SELECT new com.pdam.tcl.model.dto.session.GetSessionDto(
-                            s.uuid,f.title,s.sessionDate,h.name,s.active,s.availableSeats
+                            s.uuid,f.uuid,f.title,s.sessionDate,h.uuid,h.name,s.active,s.availableSeats
                         ) 
                         FROM Session s JOIN Film f ON s.film.uuid = f.uuid
                         JOIN Hall h ON s.hall.uuid = h.uuid
@@ -34,7 +34,7 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
     @Query(value = """ 
                         SELECT new com.pdam.tcl.model.dto.session.GetSessionDto(
-                            s.uuid,f.title,s.sessionDate,h.name,s.active,s.availableSeats
+                            s.uuid,f.uuid,f.title,s.sessionDate,h.uuid,h.name,s.active,s.availableSeats
                         ) 
                         FROM Session s JOIN Film f ON s.film.uuid = f.uuid
                         JOIN Hall h ON s.hall.uuid = h.uuid
