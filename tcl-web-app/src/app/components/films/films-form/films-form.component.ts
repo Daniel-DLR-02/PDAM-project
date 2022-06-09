@@ -9,13 +9,12 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { FilmsService } from 'src/app/services/films.service';
 import * as moment from 'moment';
 
-
 @Component({
   selector: 'app-films-form',
   templateUrl: './films-form.component.html',
-  styleUrls: ['./films-form.component.css']
+  styleUrls: ['./films-form.component.css'],
 })
-export class FilmsFormComponent implements OnInit,OnDestroy {
+export class FilmsFormComponent implements OnInit, OnDestroy {
   isEdit: boolean = false;
   film!: Film;
   form!: FormGroup;
@@ -56,19 +55,18 @@ export class FilmsFormComponent implements OnInit,OnDestroy {
     }
   }
 
-  showPreview(file: File) {
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.selectedPreview = reader.result as string;
-    }
-    reader.readAsDataURL(file)
-  }
-
   ngOnInit(): void {
     if (!this.isEdit && this.router.url.includes('edit-film')) {
       this.router.navigate(['/films']);
     }
+  }
+
+  showPreview(file: File) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.selectedPreview = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 
   selectFile() {
@@ -78,7 +76,7 @@ export class FilmsFormComponent implements OnInit,OnDestroy {
   changeImageSelected(event: any) {
     if (event.target.files[0].type.includes('image')) {
       this.imageFile = event.target.files[0];
-      this.showPreview(this.imageFile)
+      this.showPreview(this.imageFile);
       this.imageSelected = true;
     } else {
       this.toastr.error(
@@ -89,86 +87,95 @@ export class FilmsFormComponent implements OnInit,OnDestroy {
   }
 
   editFilm() {
-
-
-    if(this.form.valid && this.imageSelected){
-
+    if (this.form.valid && this.imageSelected) {
       const editFilm: CreateFilmDto = new CreateFilmDto(
         this.form.controls['title'].value,
         this.form.controls['description'].value,
         this.form.controls['duration'].value,
-        moment(this.form.controls['releaseDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        moment(this.form.controls['expirationDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        this.form.controls['genre'].value,
+        moment(
+          this.form.controls['releaseDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        moment(
+          this.form.controls['expirationDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        this.form.controls['genre'].value
       );
 
       this.subscriptions.push(
-        this.filmsService.editFilm(editFilm,this.imageFile,this.film.uuid).subscribe(
-          (res: any) => {
+        this.filmsService
+          .editFilm(editFilm, this.imageFile, this.film.uuid)
+          .subscribe((res: any) => {
             if (res.status === 200) {
               this.toastr.success('Película editada');
               this.router.navigate(['/films']);
             }
-          }
-        )
+          })
       );
-
-    }else if(this.form.valid && !this.imageSelected){
+    } else if (this.form.valid && !this.imageSelected) {
       const editFilm: CreateFilmDto = new CreateFilmDto(
         this.form.controls['title'].value,
         this.form.controls['description'].value,
         this.form.controls['duration'].value,
-        moment(this.form.controls['releaseDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        moment(this.form.controls['expirationDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        this.form.controls['genre'].value,
+        moment(
+          this.form.controls['releaseDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        moment(
+          this.form.controls['expirationDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        this.form.controls['genre'].value
       );
       this.subscriptions.push(
-        this.filmsService.editFilmNoPoster(editFilm,this.film.uuid).subscribe(
-          (res: any) => {
+        this.filmsService
+          .editFilmNoPoster(editFilm, this.film.uuid)
+          .subscribe((res: any) => {
             if (res.status === 200) {
               this.toastr.success('Película editada');
               this.router.navigate(['/films']);
             }
-          }
-        )
-      )
-
-    }
-    else{
+          })
+      );
+    } else {
       this.toastr.error('Por favor, rellene todos los campos', 'Error');
     }
-
   }
 
   createFilm() {
-    if(this.form.valid && this.imageSelected){
-
+    if (this.form.valid && this.imageSelected) {
       const newFilm: CreateFilmDto = new CreateFilmDto(
         this.form.controls['title'].value,
         this.form.controls['description'].value,
         this.form.controls['duration'].value,
-        moment(this.form.controls['releaseDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        moment(this.form.controls['expirationDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
-        this.form.controls['genre'].value,
+        moment(
+          this.form.controls['releaseDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        moment(
+          this.form.controls['expirationDate'].value.toString(),
+          'ddd MMM DD YYYY HH:mm:ss'
+        ).format('YYYY-MM-DD'),
+        this.form.controls['genre'].value
       );
 
       this.subscriptions.push(
-        this.filmsService.createFilm(newFilm, this.imageFile).subscribe(
-          (res: any) => {
+        this.filmsService
+          .createFilm(newFilm, this.imageFile)
+          .subscribe((res: any) => {
             if (res.status === 201) {
               this.toastr.success('Película creada');
               this.router.navigate(['/films']);
             }
-          }
-        )
-      )
-        }else{
-          this.toastr.error('Por favor, rellene todos los campos', 'Error');
-        }
+          })
+      );
+    } else {
+      this.toastr.error('Por favor, rellene todos los campos', 'Error');
+    }
   }
 
   ngOnDestroy(): void {
-    this.subscriptions.forEach(sub => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
-
 }

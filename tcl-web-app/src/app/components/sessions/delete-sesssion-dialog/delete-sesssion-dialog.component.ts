@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface DialogData {
-  sessionUuid: String;
+  filmUuid: String;
   borrado: boolean;
 }
 
@@ -18,7 +18,7 @@ export class DeleteSesssionDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<DeleteSesssionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private sessionsService: SessionsService
+    private SessionsService: SessionsService
   ) { }
 
 
@@ -30,7 +30,7 @@ export class DeleteSesssionDialogComponent implements OnInit {
   }
 
   deleteSession(): void {
-    this.sessionsService.deleteSession(this.data.sessionUuid).subscribe();
+    this.SessionsService.deleteSession(this.data.filmUuid).subscribe();
     this.dialogRef.close({borrado:true});
   }
 
