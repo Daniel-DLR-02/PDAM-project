@@ -28,7 +28,7 @@ export class FilmsComponent implements OnInit, OnDestroy {
     private toastr: ToastrService
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     this.filterSearch = '';
     this.subscriptions.push(
       this.filmsService.getFilms().subscribe((films) => {
