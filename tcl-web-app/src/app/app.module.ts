@@ -22,6 +22,8 @@ import { SessionsComponent } from './components/sessions/sessions.component';
 import { AdminsComponent } from './components/admins/admins.component';
 import { FilmsFormComponent } from './components/films/films-form/films-form.component';
 import { DeleteFilmDialogComponent } from './components/films/delete-film-dialog/delete-film-dialog.component';
+import { DeleteSesssionDialogComponent } from './components/sessions/delete-sesssion-dialog/delete-sesssion-dialog.component';
+import { SessionsFormComponent } from './components/sessions/sessions-form/sessions-form.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { DeleteFilmDialogComponent } from './components/films/delete-film-dialog
     SessionsComponent,
     AdminsComponent,
     FilmsFormComponent,
-    DeleteFilmDialogComponent
+    DeleteFilmDialogComponent,
+    DeleteSesssionDialogComponent,
+    SessionsFormComponent
   ],
   imports: [
     BrowserModule,

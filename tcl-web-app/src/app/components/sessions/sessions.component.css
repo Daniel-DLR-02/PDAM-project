@@ -6,11 +6,22 @@
   height: auto;
   display: flex;
   flex-direction: column;
+  box-shadow: #263238 0px 0px 10px;
+
 }
 
 .tabla-sesiones {
   background-color: white;
 }
+
+.active{
+  color: #46c446;
+}
+
+.inactive{
+  color: #c23c3c;
+}
+
 
 table {
   border-collapse: collapse;
@@ -105,3 +116,5 @@ th {
   font-size: 1.1em;
   height: 3.2em;
 }
+
+

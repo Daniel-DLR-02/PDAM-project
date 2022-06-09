@@ -23,6 +23,11 @@ export class FilmsService {
     return this.http.get<FilmsResponse>(requestUrl, this.DEFAULT_HEADERS);
   }
 
+  getActiveFilms(): Observable<FilmsResponse> {
+    let requestUrl = `${Constants.baseUrl}/films/active`;
+    return this.http.get<FilmsResponse>(requestUrl, this.DEFAULT_HEADERS);
+  }
+
   deleteFilm(uuid: String): Observable<{}> {
     let requestUrl = `${Constants.baseUrl}/films/${uuid}`;
     return this.http.delete(requestUrl, this.DEFAULT_HEADERS);

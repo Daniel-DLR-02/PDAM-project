@@ -41,16 +41,19 @@
         {{session.filmTitle}}
       </td>
       <td>
-        {{session.sessionDate}}
-
+        {{session.sessionDate.split('T')[0]}} {{session.sessionDate.split('T')[1].split(':')[0]}}:{{session.sessionDate.split('T')[1].split(':')[1]}}
       </td>
       <td>
         {{session.hallName}}
 
       </td>
       <td>
-        {{session.active}}
-
+        <div *ngIf="session.active" class="active">
+          Activa
+        </div>
+        <div *ngIf="session.active==false" class="inactive">
+          Inactiva
+        </div>
       </td>
       <td>
         <button mat-icon-button aria-label="Edit button" (click)="editSession(session)">

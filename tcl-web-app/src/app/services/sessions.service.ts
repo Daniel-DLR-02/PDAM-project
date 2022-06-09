@@ -19,12 +19,12 @@ export class SessionsService {
   };
 
   getSessions(): Observable<SessionsResponse> {
-    let requestUrl = `${Constants.baseUrl}/sessions/`;
+    let requestUrl = `${Constants.baseUrl}/session/`;
     return this.http.get<SessionsResponse>(requestUrl, this.DEFAULT_HEADERS);
   }
 
   deleteSession(uuid: String): Observable<{}> {
-    let requestUrl = `${Constants.baseUrl}/sessions/${uuid}`;
+    let requestUrl = `${Constants.baseUrl}/session/${uuid}`;
     return this.http.delete(requestUrl, this.DEFAULT_HEADERS);
   }
 
