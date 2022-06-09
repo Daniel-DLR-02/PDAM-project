@@ -88,7 +88,57 @@ export class FilmsFormComponent implements OnInit,OnDestroy {
     }
   }
 
-  editFilm() {}
+  editFilm() {
+
+
+    if(this.form.valid && this.imageSelected){
+
+      const editFilm: CreateFilmDto = new CreateFilmDto(
+        this.form.controls['title'].value,
+        this.form.controls['description'].value,
+        this.form.controls['duration'].value,
+        moment(this.form.controls['releaseDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
+        moment(this.form.controls['expirationDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
+        this.form.controls['genre'].value,
+      );
+
+      this.subscriptions.push(
+        this.filmsService.editFilm(editFilm,this.imageFile,this.film.uuid).subscribe(
+          (res: any) => {
+            if (res.status === 200) {
+              this.toastr.success('Película editada');
+              this.router.navigate(['/films']);
+            }
+          }
+        )
+      );
+
+    }else if(this.form.valid && !this.imageSelected){
+      const editFilm: CreateFilmDto = new CreateFilmDto(
+        this.form.controls['title'].value,
+        this.form.controls['description'].value,
+        this.form.controls['duration'].value,
+        moment(this.form.controls['releaseDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
+        moment(this.form.controls['expirationDate'].value.toString(),'ddd MMM DD YYYY HH:mm:ss').format('YYYY-MM-DD'),
+        this.form.controls['genre'].value,
+      );
+      this.subscriptions.push(
+        this.filmsService.editFilmNoPoster(editFilm,this.film.uuid).subscribe(
+          (res: any) => {
+            if (res.status === 200) {
+              this.toastr.success('Película editada');
+              this.router.navigate(['/films']);
+            }
+          }
+        )
+      )
+
+    }
+    else{
+      this.toastr.error('Por favor, rellene todos los campos', 'Error');
+    }
+
+  }
 
   createFilm() {
     if(this.form.valid && this.imageSelected){

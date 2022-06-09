@@ -1,0 +1,56 @@
+.body-container {
+  background-color: #78909c80;
+  border-radius: 2em;
+  min-width: auto;
+  padding: 3em;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 80%;
+}
+
+.option{
+  min-width: 20%;
+  min-height: 9em;
+  background-color: white;
+  border-radius: 2em;
+  text-align: center;
+  color: #263238;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: 600;
+  box-shadow: #263238 0px 0px 10px;
+  cursor: pointer;
+}
+
+.option-container{
+  margin-top: 17em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around
+}
+
+.option-icon {
+  font-size: 2em;
+  color: #263238;
+  width: 100%;
+  height: 1em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.option-title {
+  flex-wrap: wrap;
+  width: 100%;
+}
+

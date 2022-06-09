@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             localStorage.setItem('tcl-nick', authState.nickname);
             this.router.navigate(['/home']);
           }else{
-            this.toastr.error("No tiene periso para acceder a esta sección.","Acceso no autorizado");
+            this.toastr.error("No tiene permiso para acceder a esta sección.","Acceso no autorizado");
 
           }
         },(error) => {

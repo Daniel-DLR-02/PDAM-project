@@ -26,7 +26,8 @@ td {
 }
 
 td img {
-  width: 40%;
+  min-width: 4em;
+  max-width: 4em;
   border-radius: 2em;
 }
 
@@ -90,8 +91,9 @@ th {
 }
 
 .add-new {
-  width: 10%;
-  margin-left: 65%;
+  min-width: 6em;
+  width: auto;
+  margin-left: 30em;
   border-radius: 2em;
   border: 0px solid transparent;
   color: white;

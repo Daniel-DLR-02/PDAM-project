@@ -45,4 +45,41 @@ export class FilmsService {
     });
     return this.http.request(newRequest);
   }
+
+  editFilm(film: CreateFilmDto, file: File,id: String): any {
+    let requestUrl = `${Constants.baseUrl}/films/${id}`;
+    const data: FormData = new FormData();
+    data.append(
+      'film',
+      new Blob([JSON.stringify(film)], { type: 'application/json' })
+    );
+    data.append('file', file);
+    const newRequest = new HttpRequest('PUT', requestUrl, data, {
+      reportProgress: true,
+      responseType: 'text',
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('tcl-token'),
+      }),
+    });
+    return this.http.request(newRequest);
+  }
+
+  editFilmNoPoster(film: CreateFilmDto,id: String): any {
+    let requestUrl = `${Constants.baseUrl}/films/${id}`;
+    const data: FormData = new FormData();
+    data.append(
+      'film',
+      new Blob([JSON.stringify(film)], { type: 'application/json' })
+    );
+    //data.append('file', '');
+    const newRequest = new HttpRequest('PUT', requestUrl, data, {
+      reportProgress: true,
+      responseType: 'text',
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('tcl-token'),
+      }),
+    });
+    return this.http.request(newRequest);
+  }
+
 }
