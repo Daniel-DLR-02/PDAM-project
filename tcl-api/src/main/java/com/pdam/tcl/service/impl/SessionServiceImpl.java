@@ -93,6 +93,11 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    public Page<GetSessionDto> getAllSessions(Pageable pageable) {
+        return sessionRepository.findAllSessions(pageable);
+    }
+
+    @Override
     public void deleteAllSessionsByFilmId(UUID filmUuid) {
         sessionRepository.getSessionsByFilmIdList(filmUuid).forEach(session -> deleteById(session.getUuid()));
     }
