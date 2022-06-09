@@ -51,7 +51,12 @@ public class FilmController {
 
     @PutMapping("/{id}")
     public ResponseEntity<GetFilmDto> update(@PathVariable("id") UUID id, @RequestPart("film") CreateFilmDto film, @RequestPart("file") MultipartFile poster) throws Exception {
-        return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.update(id, film,poster)));
+        if(poster==null || poster.isEmpty()) {
+            return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.updateNoAvatar(id, film)));
+        }
+        else{
+            return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.update(id, film, poster)));
+        }
     }
 
     @DeleteMapping("/{id}")

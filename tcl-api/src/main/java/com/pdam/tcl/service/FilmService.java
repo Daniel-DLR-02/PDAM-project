@@ -22,6 +22,8 @@ public interface FilmService {
 
     Film update(UUID id, CreateFilmDto editFilm, MultipartFile file) throws Exception;
 
+    Film updateNoAvatar(UUID id, CreateFilmDto editFilm);
+
     Page<GetFilmDto> getCurrentFilms(Pageable pageable);
 
     Page<GetFilmDto> getAllFilms(Pageable pageable);

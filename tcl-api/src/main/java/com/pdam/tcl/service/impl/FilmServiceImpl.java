@@ -106,6 +106,20 @@ public class FilmServiceImpl implements FilmService {
         return filmRepository.save(film);
     }
 
+    @Override
+    public Film updateNoAvatar(UUID id, CreateFilmDto editFilm) {
+        Film film = filmRepository.findById(id).orElseThrow(()-> new RuntimeException("Film not found"));
+
+        film.setTitle(editFilm.getTitle());
+        film.setDescription(editFilm.getDescription());
+        film.setDuration(editFilm.getDuration());
+        film.setGenre(editFilm.getGenre());
+        film.setExpirationDate(editFilm.getExpirationDate());
+        film.setReleaseDate(editFilm.getReleaseDate());
+
+        return filmRepository.save(film);
+    }
+
 
 
 
