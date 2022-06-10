@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,9 +45,19 @@ public class FilmController {
         return ResponseEntity.ok(service.getCurrentFilms(pageable));
     }
 
+    @GetMapping("/")
+    public ResponseEntity<Page<GetFilmDto>> getAllFilms(@PageableDefault(size = 30) Pageable pageable, HttpServletRequest request) {
+        return ResponseEntity.ok(service.getAllFilms(pageable));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<GetFilmDto> update(@PathVariable("id") UUID id, @RequestPart("film") CreateFilmDto film, @RequestPart("file") MultipartFile poster) throws Exception {
-        return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.update(id, film,poster)));
+    public ResponseEntity<GetFilmDto> update(@PathVariable("id") UUID id, @RequestPart("film") CreateFilmDto film,@Nullable @RequestPart("file") MultipartFile poster) throws Exception {
+        if(poster==null || poster.isEmpty()) {
+            return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.updateNoAvatar(id, film)));
+        }
+        else{
+            return ResponseEntity.ok(filmDtoConverter.filmToGetFilmDto(service.update(id, film, poster)));
+        }
     }
 
     @DeleteMapping("/{id}")

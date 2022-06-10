@@ -45,6 +45,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(saved));
     }
 
+    @PostMapping("/user/new-admin")
+    public ResponseEntity<GetUserDto> registerAdmin(@Nullable @RequestPart("file") MultipartFile file,
+                                                    @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception {
+
+        System.out.println(file==null || file.isEmpty());
+
+        User saved = (file==null || file.isEmpty())?userService.saveAdminNoAvatar(newUsuario):userService.saveAdmin(newUsuario,file);
+
+        if(saved == null)
+            return ResponseEntity.badRequest().build();
+        else
+            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(saved));
+    }
+
     @PostMapping("/auth/login")
     public ResponseEntity<UserLoggedResponse> doLogin(@RequestBody LoginDto loginDto){
         Authentication authentication =
@@ -65,18 +79,6 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(convertUserUserLoggedResponse(user, jwt));
-    }
-
-    @PostMapping("/user/new-admin")
-    public ResponseEntity<GetUserDto> registerAdmin(@Nullable @RequestPart("file") MultipartFile file,
-                                                 @RequestPart("user") @Valid CreateUserDto newUsuario) throws Exception{
-
-        User saved = (file==null || file.isEmpty())?userService.saveAdminNoAvatar(newUsuario):userService.saveAdmin(newUsuario,file);
-
-        if(saved == null)
-            return ResponseEntity.badRequest().build();
-        else
-            return ResponseEntity.status(HttpStatus.CREATED).body(userDtoConverter.userToGetUserDto(saved));
     }
 
     @PutMapping("/user/{id}")
@@ -126,6 +128,7 @@ public class UserController {
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .avatar(user.getAvatar()!=null?user.getAvatar().getLink():"")
+                .role(user.getRole().name())
                 .token(jwt)
                 .build();
     }

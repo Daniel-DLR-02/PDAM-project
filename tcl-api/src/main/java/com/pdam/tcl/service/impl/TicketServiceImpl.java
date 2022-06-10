@@ -97,7 +97,10 @@ public class TicketServiceImpl implements TicketService {
     public void deleteTicket(UUID idTicket) {
         Optional<Ticket> ticket = ticketRepository.findById(idTicket);
 
-        ticket.ifPresent(ticketRepository::delete);
+        if(ticket.isPresent()){
+            ticket.get().getUser().getTickets().remove(ticket.get());
+            ticketRepository.delete(ticket.get());
+        }
     }
 
     @Override

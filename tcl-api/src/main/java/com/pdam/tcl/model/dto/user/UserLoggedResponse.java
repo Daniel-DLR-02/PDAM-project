@@ -13,4 +13,5 @@ public class UserLoggedResponse {
     private String avatar;
     private String token;
     private String email;
+    private String role;
 }

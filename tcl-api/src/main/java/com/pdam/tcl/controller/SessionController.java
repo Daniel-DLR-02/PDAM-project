@@ -59,5 +59,9 @@ public class SessionController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/")
+    public ResponseEntity<Page<GetSessionDto>> getAllSessions(@PageableDefault(size = 20) Pageable pageable, HttpServletRequest request) {
+        return ResponseEntity.ok(sessionService.getAllSessions(pageable));
+    }
 
 }

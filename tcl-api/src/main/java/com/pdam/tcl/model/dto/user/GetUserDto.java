@@ -17,5 +17,6 @@ public class GetUserDto {
     private String nombre;
     private LocalDate fechaDeNacimiento;
     private String email;
+    private String role;
     private String avatar;
 }

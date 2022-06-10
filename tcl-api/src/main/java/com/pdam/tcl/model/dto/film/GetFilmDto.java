@@ -19,5 +19,6 @@ public class GetFilmDto {
     private String description;
     private String duration;
     private LocalDate releaseDate;
+    private LocalDate expirationDate;
     private String genre;
 }

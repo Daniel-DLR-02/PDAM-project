@@ -12,8 +12,10 @@ import java.util.UUID;
 @Setter
 public class GetSessionDto {
     private UUID sessionId;
+    private UUID filmUuid;
     private String filmTitle;
     private LocalDateTime sessionDate;
+    private UUID hallUuid;
     private String hallName;
     private boolean active;
     private String[][] availableSeats;

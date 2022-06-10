@@ -1,5 +1,6 @@
 package com.pdam.tcl.model.dto.user;
 
+import com.pdam.tcl.model.UserRole;
 import lombok.*;
 import org.springframework.validation.annotation.Validated;
 
@@ -17,5 +18,6 @@ public class EditUserDto {
     private String nickName;
     private String email;
     private LocalDate fechaNacimiento;
+    private UserRole role;
 
 }
