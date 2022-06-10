@@ -85,7 +85,7 @@ class _ProfileEditFormState extends State<ProfileEditForm> {
               MaterialPageRoute(
                 builder: (context) => const MenuScreen(initialScreen: 2),
               ),
-              ModalRoute.withName('/'),
+              (r) => false,
             );
           } else if (state is EditErrorState) {
             _showSnackbar(context, state.message);
