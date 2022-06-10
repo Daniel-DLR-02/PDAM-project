@@ -6,7 +6,7 @@ import { SessionsService } from 'src/app/services/sessions.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFilmDialogComponent } from '../films/delete-film-dialog/delete-film-dialog.component';
 import { ToastrService } from 'ngx-toastr';
-import { DeleteSesssionDialogComponent } from './delete-sesssion-dialog/delete-sesssion-dialog.component';
+import { DeleteSessionDialogComponent } from './delete-sesssion-dialog/delete-sesssion-dialog.component';
 import { SessionsFormComponent } from './sessions-form/sessions-form.component';
 
 @Component({
@@ -102,7 +102,7 @@ export class SessionsComponent implements OnInit {
 
 
   openDeleteDialog(sessionUuid: String): void {
-    const dialogRef = this.dialog.open(DeleteSesssionDialogComponent, {
+    const dialogRef = this.dialog.open(DeleteSessionDialogComponent, {
       width: '450px',
       data: {
         sessionUuid: sessionUuid,

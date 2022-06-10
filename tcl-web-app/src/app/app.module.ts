@@ -22,8 +22,10 @@ import { SessionsComponent } from './components/sessions/sessions.component';
 import { AdminsComponent } from './components/admins/admins.component';
 import { FilmsFormComponent } from './components/films/films-form/films-form.component';
 import { DeleteFilmDialogComponent } from './components/films/delete-film-dialog/delete-film-dialog.component';
-import { DeleteSesssionDialogComponent } from './components/sessions/delete-sesssion-dialog/delete-sesssion-dialog.component';
+import { DeleteSessionDialogComponent } from './components/sessions/delete-sesssion-dialog/delete-sesssion-dialog.component';
 import { SessionsFormComponent } from './components/sessions/sessions-form/sessions-form.component';
+import { DeleteHallDialogComponent } from './components/halls/delete-hall-dialog/delete-hall-dialog.component';
+import { HallFormComponent } from './components/halls/hall-form/hall-form.component';
 
 @NgModule({
   declarations: [
@@ -38,8 +40,10 @@ import { SessionsFormComponent } from './components/sessions/sessions-form/sessi
     AdminsComponent,
     FilmsFormComponent,
     DeleteFilmDialogComponent,
-    DeleteSesssionDialogComponent,
-    SessionsFormComponent
+    DeleteSessionDialogComponent,
+    SessionsFormComponent,
+    DeleteHallDialogComponent,
+    HallFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +53,7 @@ import { SessionsFormComponent } from './components/sessions/sessions-form/sessi
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    ToastrModule.forRoot(), // ToastrModule added
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

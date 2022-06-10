@@ -12,11 +12,11 @@ export interface DialogData {
   templateUrl: './delete-sesssion-dialog.component.html',
   styleUrls: ['./delete-sesssion-dialog.component.css']
 })
-export class DeleteSesssionDialogComponent implements OnInit {
+export class DeleteSessionDialogComponent implements OnInit {
 
 
   constructor(
-    public dialogRef: MatDialogRef<DeleteSesssionDialogComponent>,
+    public dialogRef: MatDialogRef<DeleteSessionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private SessionsService: SessionsService
   ) { }

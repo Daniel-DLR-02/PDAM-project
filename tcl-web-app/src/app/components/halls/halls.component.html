@@ -1,1 +1,56 @@
-<p>halls works!</p>
+<div class="body-container">
+
+    <div class="row">
+
+        <label for="buscar" class="label-buscar">Nombre de la sala:</label>
+        <input matInput type="text" name="buscar" class="buscar" [(ngModel)]="filterSearch" (input)="filterHalls()" placeholder="Escriba el nombre de la sala..." #input>
+        <button mat-raised-button class="add-new" (click)="newHall()">
+      Nueva sala
+      <mat-icon>add</mat-icon>
+    </button>
+
+    </div>
+    <table class="tabla-salas">
+        <tr mat-header-row>
+            <th>
+                Id
+            </th>
+            <th>
+                Nombre
+            </th>
+            <th>
+
+            </th>
+
+        </tr>
+
+
+        <tr *ngFor="let hall of ( hallsToView | slice:lowValue : highValue)">
+            <td>
+                {{hall.uuid }}
+            </td>
+            <td>
+                {{hall.name}}
+            </td>
+
+            <td>
+                <button mat-icon-button aria-label="Edit button" (click)="editHall(hall)">
+          <mat-icon>edit</mat-icon>
+        </button>
+                <button mat-icon-button aria-label="Delete button" (click)="openDeleteDialog(hall.uuid)">
+          <mat-icon>delete</mat-icon>
+        </button>
+            </td>
+        </tr>
+
+        <tr *ngIf="hallsToView.length <= 0">
+            <td class="mat-cell" colspan="7">No se han encontrado salas cuyo nombre coincida con "{{input.value}}"</td>
+        </tr>
+
+    </table>
+    <div *ngIf="hallsToView.length > 0" class="paginator">
+        <mat-paginator [length]="hallsToView.length" [pageSize]="5" (page)="getPaginatorData($event)" showFirstLastButtons [hidePageSize]="true" style="border-radius: 15px;">
+        </mat-paginator>
+    </div>
+
+</div>

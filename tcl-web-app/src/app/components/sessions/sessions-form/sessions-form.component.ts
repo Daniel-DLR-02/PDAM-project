@@ -11,6 +11,8 @@ import { HallsService } from 'src/app/services/halls.service';
 import { SessionsService } from 'src/app/services/sessions.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { min } from 'moment';
+import * as moment from 'moment';
 
 export interface DialogData {
   created: boolean,
@@ -72,12 +74,34 @@ export class SessionsFormComponent implements OnInit,OnDestroy {
 
   }
 
+  /*changeMinMaxDate(){
+
+
+    var min= moment(currentFilm.releaseDate).toISOString().slice(0, 16);
+    var max= moment(currentFilm.expirationDate).toISOString().slice(0, 16);
+    const timeInput = document.getElementsByName("timeInput")[0] as HTMLInputElement |undefined;
+    if(timeInput!=null){
+      timeInput.min = min;
+      timeInput.max = max;
+    }
+  }*/
+
   ngOnDestroy(): void {
     this.subscriptions.forEach(s => s.unsubscribe());
   }
 
   createSession() {
-    if (this.form.valid) {
+
+    var currentFilm!:Film;
+
+    this.activeFilms.forEach((f) => {
+      if(f.uuid == this.form.controls["film"].value){
+        currentFilm = f
+      }
+    });
+
+    if (this.form.valid && currentFilm.releaseDate <= this.form.controls["time"].value
+    && currentFilm.expirationDate >= this.form.controls["time"].value) {
       const newSession: CreateSessionDto = new CreateSessionDto(
         this.form.controls['film'].value,
         this.form.controls['time'].value,
@@ -95,7 +119,12 @@ export class SessionsFormComponent implements OnInit,OnDestroy {
             }
           })
       );
-    } else {
+    }
+    else if(currentFilm.releaseDate < this.form.controls["time"].value
+    || currentFilm.expirationDate > this.form.controls["time"].value){
+      this.toastr.error('La fecha de la sesión debe estar entre la fecha de estreno y caducidad de la película', 'Error');
+    }
+    else {
       this.toastr.error('Por favor, rellene todos los campos', 'Error');
     }
   }
@@ -105,7 +134,17 @@ export class SessionsFormComponent implements OnInit,OnDestroy {
   }
 
   editSession() {
-    if (this.form.valid) {
+
+    var currentFilm!:Film;
+
+    this.activeFilms.forEach((f) => {
+      if(f.uuid == this.form.controls["film"].value){
+        currentFilm = f
+      }
+    });
+
+    if (this.form.valid && currentFilm.releaseDate <= this.form.controls["time"].value
+    && currentFilm.expirationDate >= this.form.controls["time"].value) {
       const editSession: CreateSessionDto = new CreateSessionDto(
         this.form.controls['film'].value,
         this.form.controls['time'].value,
@@ -123,7 +162,12 @@ export class SessionsFormComponent implements OnInit,OnDestroy {
             }
           })
       );
-    } else {
+    }
+    else if(currentFilm.releaseDate < this.form.controls["time"].value
+    || currentFilm.expirationDate > this.form.controls["time"].value){
+      this.toastr.error('La fecha de la sesión debe estar entre la fecha de estreno y caducidad de la película', 'Error');
+    }
+    else {
       this.toastr.error('Por favor, rellene todos los campos', 'Error');
     }
   }

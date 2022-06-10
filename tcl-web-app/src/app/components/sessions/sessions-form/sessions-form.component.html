@@ -1,32 +1,32 @@
 <div class="modal-content">
-  <h1 mat-dialog-title *ngIf="isEdit == false">Crear sesion</h1>
-  <h1 mat-dialog-title *ngIf="isEdit">Editar sesion</h1>
-  <mat-divider></mat-divider>
-  <form [formGroup]="form" class="modal-form">
-    <div class="modal-form-field">
-      <label>Película</label>
-      <mat-select formControlName="film" class="text-inputs">
-        <mat-option *ngFor="let film of activeFilms" [value]="film.uuid">
-          {{film.title}}
-        </mat-option>
-      </mat-select>
-    </div>
-    <div class="modal-form-field">
-      <label>Sala</label>
-      <mat-select formControlName="hall" class="text-inputs">
-        <mat-option *ngFor="let hall of halls" [value]="hall.uuid">
-          {{hall.name}}
-        </mat-option>
-      </mat-select>
-    </div>
-    <div class="modal-form-field">
-      <mat-label>Fecha y hora</mat-label>
-      <input type="datetime-local" formControlName="time" class="time-input">
-    </div>
+    <h1 mat-dialog-title *ngIf="isEdit == false">Crear sesion</h1>
+    <h1 mat-dialog-title *ngIf="isEdit">Editar sesion</h1>
+    <mat-divider></mat-divider>
+    <form [formGroup]="form" class="modal-form">
+        <div class="modal-form-field">
+            <label>Película</label>
+            <mat-select formControlName="film" class="text-inputs">
+                <mat-option *ngFor="let film of activeFilms" [value]="film.uuid">
+                    {{film.title}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="modal-form-field">
+            <label>Sala</label>
+            <mat-select formControlName="hall" class="text-inputs">
+                <mat-option *ngFor="let hall of halls" [value]="hall.uuid">
+                    {{hall.name}}
+                </mat-option>
+            </mat-select>
+        </div>
+        <div class="modal-form-field">
+            <mat-label>Fecha y hora</mat-label>
+            <input type="datetime-local" id="timeInput" name="timeInput" [disabled]="form.controls['film'].value != null" formControlName="time" class="time-input">
+        </div>
 
-    <button mat-raised-button class="cancel-but" (click)="closeDialog()">Cancelar</button>
-    <button mat-raised-button *ngIf="isEdit==false" class="submmit-but" (click)="createSession()">Crear sesión</button>
-    <button mat-raised-button *ngIf="isEdit" class="submmit-but" (click)="editSession()">Editar sesión</button>
-  </form>
+        <button mat-raised-button class="cancel-but" (click)="closeDialog()">Cancelar</button>
+        <button mat-raised-button *ngIf="isEdit==false" class="submmit-but" (click)="createSession()">Crear sesión</button>
+        <button mat-raised-button *ngIf="isEdit" class="submmit-but" (click)="editSession()">Editar sesión</button>
+    </form>
 
 </div>
