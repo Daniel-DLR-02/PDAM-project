@@ -1,0 +1,61 @@
+.body {
+  background-color: #263238;
+  height: 100%;
+  width: 20em;
+}
+
+.element {
+  background-color: white;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-radius: 0.5em;
+  font-size: 1.5em;
+  margin-top: 2em;
+  width: 90%;
+  align-items: center;
+  overflow: hidden;
+
+}
+
+.element-selected {
+  background-color: #3f48cc;
+  color: white;
+  height: 2em;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  border-radius: 0.5em;
+  font-size: 1.5em;
+  margin-top: 2em;
+  width: 90%;
+  align-items: center;
+}
+
+.element:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.element-selected:hover{
+  cursor: pointer;
+  background-color: #3f48cc;
+  color: white;
+}
+
+.element-list {
+  padding: 2em;
+
+}
+
+.show-button {
+  font-size:3em;
+  color: white;
+}
+
+.body-collapse{
+  background-color: #263238;
+  height: 100%;
+  width: 4em;
+}

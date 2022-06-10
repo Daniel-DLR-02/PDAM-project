@@ -1,0 +1,54 @@
+<h1 class="titulo-form" *ngIf="isEdit">Editar película</h1>
+<h1 class="titulo-form" *ngIf="!isEdit">Crear película</h1>
+<div class="form-container">
+
+  <form [formGroup]="form" class="text-inputs">
+    <div class="form-row">
+      <div class="field">
+        <label for="title">Título</label>
+        <input matInput type="text" class="input-text" name="title" formControlName="title">
+      </div>
+      <div class="field">
+        <label for="genre">Género</label>
+        <input matInput type="text" class="input-text" name="genre" formControlName="genre">
+      </div>
+      <div class="field">
+        <label for="title">Duración</label>
+        <input matInput type="text" class="input-text" name="duracion" formControlName="duration">
+      </div>
+    </div>
+    <div class="form-date-row">
+      <div class="field">
+        <!--<label for="releaseDate">Fecha de lanzamiento</label>
+        <input matInput type="text" class="input-text" name="releaseDate" formControlName="releaseDate">-->
+        <mat-label for="releaseDate">Fecha de lanzamiento</mat-label>
+        <input matInput formControlName="releaseDate" class="input-text" readonly (click)="picker1.open()"
+          [matDatepicker]="picker1">
+        <mat-datepicker #picker1></mat-datepicker>
+      </div>
+      <div class="field">
+        <!--<label for="expirationDate">Fecha de caducidad</label>
+        <input matInput type="text" class="input-text" name="expirationDate" formControlName="expirationDate">-->
+        <mat-label for="expirationDate">Fecha de caducidad</mat-label>
+        <input matInput [disabled]="form.controls['releaseDate'].value==null" formControlName="expirationDate" class="input-text" [min]="form.controls['releaseDate'].value" readonly (click)="picker2.open()"
+          [matDatepicker]="picker2">
+        <mat-datepicker #picker2></mat-datepicker>
+      </div>
+
+    </div>
+    <label for="description">Descripción</label>
+    <textarea matInput formControlName="description" class="input-text" for="description" matInput cdkTextareaAutosize
+      cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+    <button mat-raised-button color="primary" class="boton" *ngIf="!isEdit" (click)="createFilm()">Crear
+      película</button>
+    <button mat-raised-button color="primary" class="boton" *ngIf="isEdit" (click)="editFilm()">Editar película</button>
+
+
+  </form>
+  <div class="file-container" (click)="selectFile()">
+    <input type="file" id="fileSelector" class="fileSelector" (input)="changeImageSelected($event)">
+    <img *ngIf="!imageSelected && isEdit" [src]="film.poster" alt="Poster de la película.">
+    <img *ngIf="imageSelected" [src]="selectedPreview" alt="Preview del archivo seleccionado.">
+  </div>
+
+</div>

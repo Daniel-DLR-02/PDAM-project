@@ -1,0 +1,31 @@
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.cancel-button {
+    background-color: rgb(202, 62, 62);
+    color: white;
+}
+
+.accept-button {
+    background-color: rgb(73, 204, 73);
+    color: white;
+}
+
+::ng-deep .mat-dialog-container {
+    border-radius: 2em !important;
+}

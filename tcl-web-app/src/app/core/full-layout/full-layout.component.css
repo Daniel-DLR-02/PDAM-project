@@ -1,0 +1,94 @@
+.topbar {
+  min-width: 100%;
+  width: auto;
+  height: 9%;
+  background-color: #263238;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  margin-left: 1%;
+  height: 100%;
+  width: 50%;
+  background: url(../../../assets/img/logo.png) no-repeat center;
+  background-size: contain;
+}
+
+.title-banner {
+  height: 100%;
+  min-width: 20%;
+  width: auto;
+  display: flex;
+  cursor: pointer;
+}
+
+.logo-container img {
+  width: 100%;
+}
+
+.title {
+  font-size: 1.5em;
+  font-weight: 500;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile-banner {
+  height: 70%;
+  margin-right: 2%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile-banner img {
+  height: 4em;
+  width: 4em;
+  margin-left: 2em;
+  border-radius: 5em;
+}
+
+.username {
+  font-size: 1.5em;
+  font-weight: 500;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.profile-options {
+  margin-left: 5%;
+}
+
+.options-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.content-body {
+  width: 100%;
+  min-height: 100%;
+  height: auto ;
+  display: flex;
+  flex-direction: row;
+}
+
+.components{
+  max-width: 93%;
+  width: 100%;
+  height: auto;
+  margin: 2%;
+}

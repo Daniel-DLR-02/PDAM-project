@@ -1,0 +1,15 @@
+<div class="modal-content">
+    <h1 mat-dialog-title *ngIf="isEdit == false">Crear sala</h1>
+    <h1 mat-dialog-title *ngIf="isEdit">Editar sala</h1>
+    <mat-divider></mat-divider>
+    <form [formGroup]="form" class="modal-form">
+        <div class="modal-form-field">
+            <label>Nombre de la sala</label>
+            <input type="text" formControlName="name" class="text-inputs">
+        </div>
+        <button mat-raised-button class="cancel-but" (click)="closeDialog()">Cancelar</button>
+        <button mat-raised-button *ngIf="isEdit==false" class="submmit-but" (click)="createHall()">Crear sala</button>
+        <button mat-raised-button *ngIf="isEdit" class="submmit-but" (click)="editHall()">Editar sala</button>
+    </form>
+
+</div>
