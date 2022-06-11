@@ -20,12 +20,10 @@ import java.time.LocalDate;
 public class EditUserDto {
 
     private String nombre;
-    @UniqueNickname
     @NotNull
     @NotBlank(message = "El campo de nickname debe estar relleno obligatoriamente.")
     private String nickName;
     @Email
-    @UniqueEmail
     private String email;
     private LocalDate fechaNacimiento;
     private UserRole role;
