@@ -196,7 +196,7 @@ Widget _createPublicViewItem(
               ),
               const Divider(color: Colors.white54, height: 0),
               Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: [
                     Text(
