@@ -60,7 +60,7 @@ public class TicketServiceImpl implements TicketService {
         Optional<Session> session = sessionRepository.findById(ticket.getSessionUuid());
         if(userService.existsById(user.getUuid())) {
             if (session.isPresent()) {
-                if(sessionService.isOccupied(session.get().getUuid(),ticket.getRow(),ticket.getColumn())){
+                if(!sessionService.isOccupied(session.get().getUuid(),ticket.getRow(),ticket.getColumn())){
                     Ticket newTicket = Ticket.builder()
                             .session(session.get())
                             .hallColumn(ticket.getColumn())
