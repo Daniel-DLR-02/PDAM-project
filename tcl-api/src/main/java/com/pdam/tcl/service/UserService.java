@@ -29,4 +29,9 @@ public interface UserService {
     User editUserNoAvatar(UUID id, EditUserDto userDto);
 
     void deleteUser(UUID id) throws IOException;
+
+    boolean existsByNickname(String nick);
+
+    boolean existsByEmail(String email);
+
 }

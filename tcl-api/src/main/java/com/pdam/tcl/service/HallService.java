@@ -21,4 +21,5 @@ public interface HallService {
 
     Hall edit(UUID id, CreateHallDto createHallDto);
 
+    boolean existsByName(String name);
 }

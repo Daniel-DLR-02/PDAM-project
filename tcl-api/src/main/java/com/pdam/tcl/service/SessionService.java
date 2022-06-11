@@ -27,4 +27,6 @@ public interface SessionService {
     Page<GetSessionDto> getAllSessions(Pageable pageable);
 
     void deleteAllSessionsByFilmId(UUID filmUuid);
+
+    boolean isOccupied(UUID sessionUuid,int row,int column);
 }

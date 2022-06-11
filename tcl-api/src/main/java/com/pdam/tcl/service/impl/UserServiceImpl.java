@@ -152,6 +152,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     }
 
+    @Override
+    public boolean existsByNickname(String nick) {
+        return userRepository.existsByNickname(nick);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
 
     @Override
     public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {

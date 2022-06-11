@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@RequestPart("user") EditUserDto userDto,@Nullable @RequestPart("file") MultipartFile file) throws Exception{
+    public ResponseEntity<GetUserDto> updateUser(@PathVariable("id") UUID id,@Valid @RequestPart("user") EditUserDto userDto,@Nullable @RequestPart("file") MultipartFile file) throws Exception{
         if(file==null || file.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(id, userDto)));
         }else{
@@ -91,7 +91,7 @@ public class UserController {
     }
 
     @PutMapping("/user")
-    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@RequestPart("user") EditUserDto userDto, @Nullable @RequestPart("file") MultipartFile file) throws Exception{
+    public ResponseEntity<GetUserDto> editCurrentUser(@AuthenticationPrincipal User currentUser,@Valid @RequestPart("user") EditUserDto userDto, @Nullable @RequestPart("file") MultipartFile file) throws Exception{
         if(file==null || file.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(userDtoConverter.userToGetUserDto(userService.editUserNoAvatar(currentUser.getUuid(), userDto)));
         }else{

@@ -1,7 +1,9 @@
 package com.pdam.tcl.model.dto.ticket;
 
 
+import com.pdam.tcl.validation.multiple.anotations.UniqueTicketForSession;
 import lombok.*;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.UUID;
 
@@ -10,8 +12,9 @@ import java.util.UUID;
 @Builder
 @Getter
 @Setter
+@Validated
 public class CreateTicketDto {
-    public UUID sessionUuid;
+    private UUID sessionUuid;
     private int row;
     private int column;
 }

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
@@ -41,12 +42,12 @@ public class HallController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Hall> update(@PathVariable UUID id, @RequestBody CreateHallDto createHallDto) {
+    public ResponseEntity<Hall> update(@PathVariable UUID id, @Valid @RequestBody CreateHallDto createHallDto) {
         return ResponseEntity.ok(hallService.edit(id, createHallDto));
     }
 
     @PostMapping("/")
-    public ResponseEntity<Hall> create(@RequestBody CreateHallDto hall) {
+    public ResponseEntity<Hall> create(@Valid @RequestBody CreateHallDto hall) {
         return ResponseEntity.status(HttpStatus.CREATED).body(hallService.save(hall));
     }
 }
