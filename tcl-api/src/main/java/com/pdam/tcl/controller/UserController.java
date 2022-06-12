@@ -8,6 +8,9 @@ import com.pdam.tcl.service.TicketService;
 import com.pdam.tcl.service.UserService;
 import com.pdam.tcl.utils.converters.UserDtoConverter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -121,6 +124,10 @@ public class UserController {
             throw new UsernameNotFoundException("Resquested user not found");
     }
 
+    @GetMapping("/user/admin")
+    public ResponseEntity<Page<GetUserDto>> getUserAdmin(@PageableDefault(size = 30) Pageable pageable){
+        return ResponseEntity.ok(userService.getAllAdmins(pageable));
+    }
 
 
     private UserLoggedResponse convertUserUserLoggedResponse(User user, String jwt) {
