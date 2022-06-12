@@ -1,5 +1,6 @@
 package com.pdam.tcl.service.impl;
 
+import com.pdam.tcl.errors.exception.SeatOccupiedException;
 import com.pdam.tcl.errors.exception.SessionNotFoundException;
 import com.pdam.tcl.errors.exception.TicketNotFound;
 import com.pdam.tcl.errors.exception.UserNotFoundException;
@@ -32,6 +33,7 @@ public class TicketServiceImpl implements TicketService {
     private final TicketDtoConverter ticketDtoConverter;
     private final UserRepository userRepository;
     private final SessionRepository sessionRepository;
+    private final SessionService sessionService;
     private final UserService userService;
 
     @Override
@@ -58,20 +60,24 @@ public class TicketServiceImpl implements TicketService {
         Optional<Session> session = sessionRepository.findById(ticket.getSessionUuid());
         if(userService.existsById(user.getUuid())) {
             if (session.isPresent()) {
+                if(!sessionService.isOccupied(session.get().getUuid(),ticket.getRow(),ticket.getColumn())){
+                    Ticket newTicket = Ticket.builder()
+                            .session(session.get())
+                            .hallColumn(ticket.getColumn())
+                            .hallRow(ticket.getRow())
+                            .build();
 
-                Ticket newTicket = Ticket.builder()
-                        .session(session.get())
-                        .hallColumn(ticket.getColumn())
-                        .hallRow(ticket.getRow())
-                        .build();
+                    user.addTicket(newTicket);
+                    Ticket savedTicket = ticketRepository.save(newTicket);
+                    userRepository.save(user);
 
-                user.addTicket(newTicket);
-                Ticket savedTicket = ticketRepository.save(newTicket);
-                userRepository.save(user);
-
-                session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
-                sessionRepository.save(session.get());
-                return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
+                    session.get().getAvailableSeats()[ticket.getRow()][ticket.getColumn()] = "O";
+                    sessionRepository.save(session.get());
+                    return ticketDtoConverter.ticketDtoToGetDtoConverter(savedTicket);
+                }
+                else{
+                    throw new SeatOccupiedException("This seat is already occupied.");
+                }
             } else {
                 throw new SessionNotFoundException("Session not found");
             }

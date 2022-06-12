@@ -2,6 +2,7 @@ package com.pdam.tcl.service.impl;
 
 import com.pdam.tcl.errors.exception.FilmNotFoundException;
 import com.pdam.tcl.errors.exception.HallNotFoundException;
+import com.pdam.tcl.errors.exception.SessionNotFoundException;
 import com.pdam.tcl.model.Film;
 import com.pdam.tcl.model.Hall;
 import com.pdam.tcl.model.Session;
@@ -100,6 +101,20 @@ public class SessionServiceImpl implements SessionService {
     @Override
     public void deleteAllSessionsByFilmId(UUID filmUuid) {
         sessionRepository.getSessionsByFilmIdList(filmUuid).forEach(session -> deleteById(session.getUuid()));
+    }
+
+    @Override
+    public boolean isOccupied(UUID sessionUuid, int row, int column) {
+        Optional<Session> sessionBuscada = sessionRepository.findById(sessionUuid);
+        if(sessionBuscada.isPresent()){
+            if(sessionBuscada.get().getAvailableSeats()[row][column].equals("O"))
+                return true;
+            else
+                return false;
+        }
+        else{
+            throw new SessionNotFoundException("Sesión no encontrada.");
+        }
     }
 
 

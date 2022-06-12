@@ -2,8 +2,10 @@ package com.pdam.tcl.service.impl;
 
 import com.pdam.tcl.model.User;
 import com.pdam.tcl.model.UserRole;
+import com.pdam.tcl.model.dto.film.GetFilmDto;
 import com.pdam.tcl.model.dto.user.CreateUserDto;
 import com.pdam.tcl.model.dto.user.EditUserDto;
+import com.pdam.tcl.model.dto.user.GetUserDto;
 import com.pdam.tcl.model.img.ImgResponse;
 import com.pdam.tcl.model.img.ImgurImg;
 import com.pdam.tcl.repository.UserRepository;
@@ -11,6 +13,8 @@ import com.pdam.tcl.service.ImgServiceStorage;
 import com.pdam.tcl.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -150,6 +154,31 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         userRepository.deleteById(id);
 
+    }
+
+    @Override
+    public boolean existsByNickname(String nick) {
+        return userRepository.existsByNickname(nick);
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Page<GetUserDto> getAllAdmins(Pageable pageable) {
+        Page<GetUserDto> pageDto = userRepository.getAllAdmins(pageable).map((u)-> GetUserDto.builder()
+                .uuid(u.getUuid())
+                .nick(u.getNickname())
+                .nombre(u.getNombre())
+                .fechaDeNacimiento(u.getFechaNacimiento())
+                .email(u.getEmail())
+                .role(u.getRole().name())
+                .avatar(u.getAvatar().getLink())
+                .build());
+
+        return pageDto;
     }
 
 

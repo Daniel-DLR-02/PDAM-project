@@ -70,4 +70,9 @@ public class HallServiceImpl implements HallService {
 
         return hallRepository.save(hall);
     }
+
+    @Override
+    public boolean existsByName(String name) {
+        return hallRepository.existsByName(name);
+    }
 }

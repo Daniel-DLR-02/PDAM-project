@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface HallRepository extends JpaRepository<Hall, UUID> {
 
     Page<Hall> findAll(Pageable pageable);
+
+    boolean existsByName(String name);
 }
