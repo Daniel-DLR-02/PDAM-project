@@ -38,7 +38,6 @@ export class SessionsService {
   editSession(session: CreateSessionDto,id: String): Observable<Session> {
     let requestUrl = `${Constants.baseUrl}/session/${id}`;
     return this.http.put<Session>(requestUrl, session, this.DEFAULT_HEADERS,);
-
   }
 
 }

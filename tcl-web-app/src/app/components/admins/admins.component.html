@@ -1,13 +1,12 @@
-<p>admins works!</p>
 <div class="body-container">
 
   <div class="row">
 
-    <label for="buscar" class="label-buscar">Título:</label>
-    <input matInput  type="text" name="buscar" class="buscar" [(ngModel)]="filterSearch" (input)="filterMovies()"
-    placeholder="Escriba el título de la película..." #input>
-    <button mat-raised-button class="add-new" (click)="newFilm()">
-      Nueva película
+    <label for="buscar" class="label-buscar">Nickname:</label>
+    <input matInput  type="text" name="buscar" class="buscar" [(ngModel)]="filterSearch" (input)="filterUsers()"
+    placeholder="Buscar..." #input>
+    <button mat-raised-button class="add-new" (click)="newUser()">
+      Nueva administrador
       <mat-icon>add</mat-icon>
     </button>
 
@@ -18,70 +17,69 @@
         Id
       </th>
       <th>
-        Póster
+        Avatar
       </th>
       <th>
-        Título
+        Nick
       </th>
       <th>
-        Descripción
+        Nombre
       </th>
       <th>
-        Duración
+        Fecha de nacimiento
       </th>
       <th>
-        Fecha de lanzamiento
+        Email
       </th>
       <th>
-        Fecha de caducidad
+        Rol
       </th>
       <th>
       </th>
     </tr>
 
 
-    <tr *ngFor="let film of ( moviesToView| slice:lowValue : highValue)">
+    <tr *ngFor="let user of ( usersToView| slice:lowValue : highValue)">
       <td>
-        {{film.uuid}}
+        {{user.uuid}}
       </td>
       <td>
-        <img [src]="film.poster" alt="">
+        <img [src]="user.avatar" alt="">
       </td>
       <td>
-        {{film.title}}
+        {{user.nick}}
+      </td>
+      <td>
+        {{user.nombre}}
+      </td>
+      <td>
+        {{user.fechaDeNacimiento}}
 
       </td>
       <td>
-        {{film.description}}
+        {{user.email}}
 
       </td>
       <td>
-        {{film.duration}}
-
+        {{user.role}}
       </td>
       <td>
-        {{film.releaseDate}}
-      </td>
-      <td>
-        {{film.expirationDate}}
-      </td>
-      <td>
-        <button mat-icon-button aria-label="Edit button" (click)="editFilm(film)">
+        <button mat-icon-button aria-label="Edit button" (click)="editUser(user)">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button aria-label="Delete button" (click)="openDeleteDialog(film.uuid,film.title)">
+        <button mat-icon-button aria-label="Delete button" (click)="openDeleteDialog(user.uuid,user.nick)">
           <mat-icon>delete</mat-icon>
         </button>
       </td>
     </tr>
 
-    <tr *ngIf="moviesToView.length <= 0" >
-      <td class="mat-cell" colspan="7">No se han encontrado películas cuyo título coincida con "{{input.value}}"</td>
+    <tr *ngIf="usersToView.length <= 0" >
+      <td class="mat-cell" colspan="7">No se han encontrado usuarios cuyos criterios de búsqueda coincidan con "{{input.value}}"</td>
     </tr>
 
   </table>
-  <div *ngIf="moviesToView.length > 0" class="paginator">
-    <mat-paginator [length]="moviesToView.length" [pageSize]="5" (page)="getPaginatorData($event)"
+  <div *ngIf="usersToView.length > 0" class="paginator">
+    <mat-paginator [length]="usersToView.length" [pageSize]="5" (page)="getPaginatorData($event)"
       showFirstLastButtons [hidePageSize]="true" style="border-radius: 15px;">
     </mat-paginator>
   </div>

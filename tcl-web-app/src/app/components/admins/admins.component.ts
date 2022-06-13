@@ -5,6 +5,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from 'src/app/services/user.service';
+import { User } from 'src/app/models/interfaces/user-response';
 
 @Component({
   selector: 'app-admins',
@@ -17,11 +19,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
   lowValue = 0;
   highValue = 5;
   filterSearch!: String;
-  moviesToView: any[] = [];
+  usersToView: any[] = [];
 
   constructor(
     private router: Router,
-    private usersService: UsersService,
+    private usersService: UserService,
     public dialog: MatDialog,
     private toastr: ToastrService
   ) {}
@@ -31,7 +33,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.usersService.getUsers().subscribe((users) => {
         this.users = users.content;
-        this.moviesToView = this.users;
+        this.usersToView = this.users;
       })
     );
   }
@@ -59,23 +61,23 @@ export class AdminsComponent implements OnInit, OnDestroy {
     return event;
   }
 
-  filterUser() {
-    this.moviesToView = [];
+  filterUsers() {
+    this.usersToView = [];
 
     if (!(this.filterSearch == '')) {
       this.users.forEach((f) => {
         if (
-          f['nickname'].toLowerCase().includes(this.filterSearch.toLowerCase()) &&
-          !this.moviesToView.includes(f)
+          f['nick'].toLowerCase().includes(this.filterSearch.toLowerCase()) &&
+          !this.usersToView.includes(f)
         ) {
-          this.moviesToView.push(f);
+          this.usersToView.push(f);
         }
       });
     } else if (
       this.filterSearch === '' ||
       this.filterSearch === '<empty string>'
     ) {
-      this.moviesToView = this.users;
+      this.usersToView = this.users;
     }
   }
 
@@ -83,13 +85,13 @@ export class AdminsComponent implements OnInit, OnDestroy {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  openDeleteDialog(userUuid: String, userTitle: String): void {
+  openDeleteDialog(userUuid: String, userNick: String): void {
     var borrado: boolean;
     const dialogRef = this.dialog.open(DeleteUserDialogComponent, {
       width: '450px',
       data: {
         userUuid: userUuid,
-        userTitle: userTitle,
+        userNick: userNick,
         borrado: false
       },
     });
@@ -98,7 +100,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.ngOnInit();
       });
       if(result?.borrado)
-        this.toastr.success('Película eliminada con éxito');
+        this.toastr.success('Usuario eliminado con éxito');
     });
   }
 }
