@@ -73,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/user/{id}").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/user/{id}").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/user/admin").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/user").hasAuthority("ADMIN")
                 .antMatchers("/h2-console/**").permitAll()
                 .antMatchers("/api-docs").permitAll()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
