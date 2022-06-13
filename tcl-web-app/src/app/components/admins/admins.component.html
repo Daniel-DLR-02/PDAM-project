@@ -1,1 +1,89 @@
 <p>admins works!</p>
+<div class="body-container">
+
+  <div class="row">
+
+    <label for="buscar" class="label-buscar">Título:</label>
+    <input matInput  type="text" name="buscar" class="buscar" [(ngModel)]="filterSearch" (input)="filterMovies()"
+    placeholder="Escriba el título de la película..." #input>
+    <button mat-raised-button class="add-new" (click)="newFilm()">
+      Nueva película
+      <mat-icon>add</mat-icon>
+    </button>
+
+  </div>
+  <table class="tabla-user">
+    <tr mat-header-row>
+      <th>
+        Id
+      </th>
+      <th>
+        Póster
+      </th>
+      <th>
+        Título
+      </th>
+      <th>
+        Descripción
+      </th>
+      <th>
+        Duración
+      </th>
+      <th>
+        Fecha de lanzamiento
+      </th>
+      <th>
+        Fecha de caducidad
+      </th>
+      <th>
+      </th>
+    </tr>
+
+
+    <tr *ngFor="let film of ( moviesToView| slice:lowValue : highValue)">
+      <td>
+        {{film.uuid}}
+      </td>
+      <td>
+        <img [src]="film.poster" alt="">
+      </td>
+      <td>
+        {{film.title}}
+
+      </td>
+      <td>
+        {{film.description}}
+
+      </td>
+      <td>
+        {{film.duration}}
+
+      </td>
+      <td>
+        {{film.releaseDate}}
+      </td>
+      <td>
+        {{film.expirationDate}}
+      </td>
+      <td>
+        <button mat-icon-button aria-label="Edit button" (click)="editFilm(film)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button aria-label="Delete button" (click)="openDeleteDialog(film.uuid,film.title)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </tr>
+
+    <tr *ngIf="moviesToView.length <= 0" >
+      <td class="mat-cell" colspan="7">No se han encontrado películas cuyo título coincida con "{{input.value}}"</td>
+    </tr>
+
+  </table>
+  <div *ngIf="moviesToView.length > 0" class="paginator">
+    <mat-paginator [length]="moviesToView.length" [pageSize]="5" (page)="getPaginatorData($event)"
+      showFirstLastButtons [hidePageSize]="true" style="border-radius: 15px;">
+    </mat-paginator>
+  </div>
+
+</div>

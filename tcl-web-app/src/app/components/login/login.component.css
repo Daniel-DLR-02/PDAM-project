@@ -1,7 +1,8 @@
 .login-admin {
     display: flex;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     background: url("../../../assets/img/login-background.jpg") no-repeat center fixed;
     background-size: cover;
     align-content: center;
@@ -26,7 +27,7 @@
 
 .form-container {
     background: #263238;
-    width: 30%;
+    width: 40%;
     border-radius: 2em;
     box-sizing: border-box;
     padding: 30px 30px;
@@ -139,6 +140,10 @@
     box-shadow: 0 4px 2px -2px gray;
 }
 
+textarea:focus, input:focus{
+  outline: none;
+}
+
 :host ::ng-deep .mat-icon-button,
 :host ::ng-deep .user-icon {
     padding: 0;
@@ -163,7 +168,7 @@
 }
 
 :host ::placeholder {
-    color: rgba(255, 255, 255, 0.466);
+    color: #263238;
 }
 
 .info-container {
