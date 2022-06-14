@@ -50,18 +50,25 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.isEdit) {
+
+      this.form.addControl(
+        'role',
+        this.formBuilder.control(null, [Validators.required])
+      );
+
       this.form.patchValue({
         nombre: this.user.nombre,
         nickName: this.user.nick,
         email: this.user.email,
         fechaDeNacimiento: this.user.fechaDeNacimiento,
+        role: this.user.role
       });
     }
   }
 
   ngOnInit(): void {
     if (!this.isEdit && this.router.url.includes('edit-user')) {
-      this.router.navigate(['/users']);
+      this.router.navigate(['/admins']);
     }
   }
 
@@ -90,6 +97,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  today() {
+    return moment().format('YYYY-MM-DD');
+  }
+
   editUser() {
     if (this.form.valid && this.imageSelected) {
       const editUser: EditUserDto = new EditUserDto(
@@ -99,7 +110,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
         moment(
           this.form.controls['fechaDeNacimiento'].value.toString(),
           'ddd MMM DD YYYY HH:mm:ss'
-        ).format('YYYY-MM-DD')
+        ).format('YYYY-MM-DD'),
+        this.form.controls['role'].value
       );
 
       this.subscriptions.push(
@@ -108,7 +120,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
           .subscribe((res: any) => {
             if (res.status === 200) {
               this.toastr.success('Usuario editado');
-              this.router.navigate(['/users']);
+              this.router.navigate(['/admins']);
             }
           })
       );
@@ -120,15 +132,16 @@ export class UserFormComponent implements OnInit, OnDestroy {
         moment(
           this.form.controls['fechaDeNacimiento'].value.toString(),
           'ddd MMM DD YYYY HH:mm:ss'
-        ).format('YYYY-MM-DD')
+        ).format('YYYY-MM-DD'),
+        this.form.controls['role'].value
       );
       this.subscriptions.push(
         this.userService
           .editUserNoPoster(editUser, this.user.uuid)
           .subscribe((res: any) => {
             if (res.status === 200) {
-              this.toastr.success('Película editada');
-              this.router.navigate(['/users']);
+              this.toastr.success('Usuario editado');
+              this.router.navigate(['/admins']);
             }
           })
       );
@@ -155,8 +168,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
           .createUserAdmin(newUser, this.imageFile)
           .subscribe((res: any) => {
             if (res.status === 201) {
-              this.toastr.success('Película creada');
-              this.router.navigate(['/users']);
+              this.toastr.success('Usuario creado');
+              this.router.navigate(['/admins']);
             }
           })
       );

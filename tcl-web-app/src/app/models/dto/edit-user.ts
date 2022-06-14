@@ -2,12 +2,14 @@ export class EditUserDto {
   nombre: string;
   nickName: string;
   email: string;
-  fechaDeNacimiento: string;
+  fechaNacimiento: string;
+  role: string;
 
-  constructor(nombre:string, nickName:string,email:string, fechaDeNacimiento:string) {
+  constructor(nombre:string, nickName:string,email:string, fechaNacimiento:string, role :string) {
       this.nombre = nombre;
       this.nickName = nickName;
       this.email = email;
-      this.fechaDeNacimiento=fechaDeNacimiento;
+      this.fechaNacimiento=fechaNacimiento;
+      this.role = role;
   }
 }

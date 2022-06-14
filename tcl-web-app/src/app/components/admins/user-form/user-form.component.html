@@ -29,13 +29,25 @@
       <div>
         <mat-label for="fechaDeNacimiento">Fecha de nacimiento</mat-label>
         <input matInput formControlName="fechaDeNacimiento" class="input-text" readonly (click)="picker1.open()"
-          [matDatepicker]="picker1">
+          [matDatepicker]="picker1" [max]="today()">
         <mat-datepicker #picker1></mat-datepicker>
       </div>
-      <div *ngIf="!isEdit">
+      <div *ngIf="!isEdit" class="option-div">
         <label for="contrasenia">Contraseña</label>
         <input matInput formControlName="password" class="input-text">
       </div>
+      <div *ngIf="isEdit" class="option-div">
+        <label>Rol</label>
+        <mat-select formControlName="role" class="input-text">
+            <mat-option value="USER">
+                USER
+            </mat-option>
+            <mat-option value="ADMIN">
+              ADMIN
+          </mat-option>
+        </mat-select>
+      </div>
+
     </div>
 
 
