@@ -7,8 +7,9 @@
   display: flex;
   flex-direction: column;
   min-height: 80%;
-  box-shadow: #263238 0px 0px 10px;
-
+  box-shadow: #263238 0 0 10px;
+  align-content: center;
+  justify-content: center;
 }
 
 .option{
@@ -30,7 +31,6 @@
 }
 
 .option-container{
-  margin-top: 17em;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

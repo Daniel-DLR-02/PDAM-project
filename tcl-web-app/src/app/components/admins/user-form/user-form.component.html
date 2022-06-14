@@ -1,0 +1,61 @@
+<h1 class="titulo-form" *ngIf="isEdit">Editar usuario</h1>
+<h1 class="titulo-form" *ngIf="!isEdit">Crear administrador</h1>
+<div class="form-container">
+
+  <div class="file-row">
+    <div class="file-container" (click)="selectFile()">
+      <input type="file" id="fileSelector" class="fileSelector" (input)="changeImageSelected($event)">
+      <img *ngIf="!imageSelected && isEdit" [src]="user.avatar" alt="Avatar del usuario.">
+      <img *ngIf="imageSelected" [src]="selectedPreview" alt="Preview del archivo seleccionado.">
+    </div>
+  </div>
+
+  <form [formGroup]="form" class="text-inputs">
+    <div class="form-row">
+      <div>
+        <label for="nombre">Nombre</label>
+        <input matInput type="text" class="input-text" name="nombre" formControlName="nombre">
+      </div>
+      <div>
+        <label for="nick">Nickname</label>
+        <input matInput type="text" class="input-text" name="nick" formControlName="nickName">
+      </div>
+      <div>
+        <label for="title">Email</label>
+        <input matInput type="text" class="input-text" name="email" formControlName="email">
+      </div>
+    </div>
+    <div class="second-row">
+      <div>
+        <mat-label for="fechaDeNacimiento">Fecha de nacimiento</mat-label>
+        <input matInput formControlName="fechaDeNacimiento" class="input-text" readonly (click)="picker1.open()"
+          [matDatepicker]="picker1" [max]="today()">
+        <mat-datepicker #picker1></mat-datepicker>
+      </div>
+      <div *ngIf="!isEdit" class="option-div">
+        <label for="contrasenia">Contraseña</label>
+        <input matInput formControlName="password" class="input-text">
+      </div>
+      <div *ngIf="isEdit" class="option-div">
+        <label>Rol</label>
+        <mat-select formControlName="role" class="input-text">
+            <mat-option value="USER">
+                USER
+            </mat-option>
+            <mat-option value="ADMIN">
+              ADMIN
+          </mat-option>
+        </mat-select>
+      </div>
+
+    </div>
+
+
+    <button mat-raised-button color="primary" class="boton" *ngIf="!isEdit" (click)="createUser()">Crear
+      usuario</button>
+    <button mat-raised-button color="primary" class="boton" *ngIf="isEdit" (click)="editUser()">Editar usuario</button>
+
+
+  </form>
+
+</div>

@@ -1,32 +1,34 @@
 .login-admin {
+    display: flex;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     background: url("../../../assets/img/login-background.jpg") no-repeat center fixed;
     background-size: cover;
-
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .info-logo {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+}
 
+.info-banner {
+    width: 50%;
 }
 
 .info-logo img {
-  width: 40%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .form-container {
-    width: 55%;
-    height: 80%;
     background: #263238;
+    width: 40%;
     border-radius: 2em;
-    position: absolute;
-    top: 50%;
-    left: 67%;
-    transform: translate(-50%, -50%);
     box-sizing: border-box;
     padding: 30px 30px;
     color: #fff;
@@ -35,46 +37,72 @@
     align-items: center;
 }
 
+.text-input-field {
+    background-color: white;
+    color: #263238;
+    height: 3em;
+    width: 100%;
+    border-radius: 1em;
+    border: 0px solid transparent;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0em 1em;
+}
+
+.text-input {
+    border: 0px solid transparent;
+    width: 100%;
+    height: 2em;
+    border-radius: 1em;
+}
+
 .login-title {
     margin: 0;
-    padding-top: 1em;
     font-size: 3em;
-    font-weight:500;
+    font-weight: 500;
     color: #fff;
+    line-height: 1em;
 }
 
 :host hr {
-  width: 100%;
-  height: 1px;
-  color: white;
-  border-radius: 1em;
-  background-color: white;
-  margin-top: 2em;
+    width: 100%;
+    height: 1px;
+    color: white;
+    border-radius: 1em;
+    background-color: white;
+    margin-top: 2em;
 }
 
 .username-field {
-
-  padding-top: 7%;
-  width: 50%;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    padding-top: 7%;
+    width: 50%;
+    color: white;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    align-items: center;
 }
 
 .password-field {
-
-  padding-top: 7%;
-  width: 50%;
-  color: white;
-  background-color: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    padding-top: 7%;
+    width: 50%;
+    color: white;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    align-items: center;
 }
 
 .username-label {
-  color: white;
+    color: white;
 }
 
 .login-form {
@@ -88,76 +116,83 @@
 }
 
 .form-input {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
 }
 
 :host ::ng-deep input.mat-input-element {
-  margin-top: -0.0625em;
-  width: 90%;
-  background-color: transparent;
-  border: 0px solid transparent;
-  height: 3em;
-  color: white;
-  border-radius: 0.2em;
-  border-bottom: 1px solid white;
+    margin-top: -0.0625em;
+    width: 90%;
+    background-color: transparent;
+    border: 0px solid transparent;
+    height: 3em;
+    color: white;
+    border-radius: 0.2em;
+    border-bottom: 1px solid white;
 }
 
 :host ::ng-deep input.mat-input-element:focus {
-  outline: none !important;
-  border:0px solid transparent;
-  border-bottom: 1px solid white;
-  box-shadow: 0 4px 2px -2px gray;
+    outline: none !important;
+    border: 0px solid transparent;
+    border-bottom: 1px solid white;
+    box-shadow: 0 4px 2px -2px gray;
 }
 
-:host ::ng-deep .mat-icon-button, :host ::ng-deep .user-icon {
-  padding: 0;
-  min-width: 0;
-  width: 8%;
-  height: 40px;
-  flex-shrink: 0;
-  line-height: 40px;
-  border-radius: 50%;
+textarea:focus, input:focus{
+  outline: none;
+}
+
+:host ::ng-deep .mat-icon-button,
+:host ::ng-deep .user-icon {
+    padding: 0;
+    min-width: 0;
+    width: 8%;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    color: #1d1d1d;
 }
 
 .sign-in-button {
-  background-color: #1d1d1d;
-  color: white;
-  width: 90%;
+    background-color: white;
+    color: #1d1d1d;
+    width: 100%;
 }
 
 .button-container {
-  padding-top: 5em;
-  width: 50%;
+    padding-top: 5em;
+    width: 50%;
 }
 
 :host ::placeholder {
-  color: rgba(255, 255, 255, 0.466);
+    color: #263238;
 }
 
 .info-container {
-  position: absolute;
-  top: 50%;
-  left: 20%;
-  transform: translate(-50%, -50%);
-  box-sizing: border-box;
-  padding: 0px 30px;
-  height: 80%;
-  padding-top: 2em;
-  width: 30%;
-  background-color: rgba(0, 0, 0, 0.793);
-  border-radius: 2em;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+    box-sizing: border-box;
+    padding: 0px 30px;
+    height: 80%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.793);
+    border-radius: 2em;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    margin-bottom: 1.5em;
 }
 
 .info {
-  font-size:1.7em;
-  justify-content: center;
-  align-items: center;
-  padding-top:4em;
+    font-size: 1em;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2em;
 }

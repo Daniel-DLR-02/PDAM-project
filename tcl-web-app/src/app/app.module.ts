@@ -26,6 +26,8 @@ import { DeleteSessionDialogComponent } from './components/sessions/delete-sesss
 import { SessionsFormComponent } from './components/sessions/sessions-form/sessions-form.component';
 import { DeleteHallDialogComponent } from './components/halls/delete-hall-dialog/delete-hall-dialog.component';
 import { HallFormComponent } from './components/halls/hall-form/hall-form.component';
+import { DeleteUserDialogComponent } from './components/admins/delete-user-dialog/delete-user-dialog.component';
+import { UserFormComponent } from './components/admins/user-form/user-form.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +46,8 @@ import { HallFormComponent } from './components/halls/hall-form/hall-form.compon
     SessionsFormComponent,
     DeleteHallDialogComponent,
     HallFormComponent,
+    DeleteUserDialogComponent,
+    UserFormComponent,
   ],
   imports: [
     BrowserModule,
