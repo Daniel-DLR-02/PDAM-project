@@ -175,7 +175,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .fechaDeNacimiento(u.getFechaNacimiento())
                 .email(u.getEmail())
                 .role(u.getRole().name())
-                .avatar(u.getAvatar().getLink())
+                .avatar(u.getAvatar()!=null?u.getAvatar().getLink():null)
                 .build());
 
         return pageDto;
@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .fechaDeNacimiento(u.getFechaNacimiento())
                 .email(u.getEmail())
                 .role(u.getRole().name())
-                .avatar(u.getAvatar().getLink())
+                .avatar(u.getAvatar()!=null?u.getAvatar().getLink():null)
                 .build());
 
         return pageDto;
