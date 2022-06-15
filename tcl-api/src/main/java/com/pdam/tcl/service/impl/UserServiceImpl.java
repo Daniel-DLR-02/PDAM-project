@@ -175,7 +175,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .fechaDeNacimiento(u.getFechaNacimiento())
                 .email(u.getEmail())
                 .role(u.getRole().name())
-                .avatar(u.getAvatar().getLink())
+                .avatar(u.getAvatar()!=null?u.getAvatar().getLink():null)
+                .build());
+
+        return pageDto;
+    }
+
+    @Override
+    public Page<GetUserDto> getAllUsers(Pageable pageable) {
+        Page<GetUserDto> pageDto = userRepository.getAllUsers(pageable).map((u)-> GetUserDto.builder()
+                .uuid(u.getUuid())
+                .nick(u.getNickname())
+                .nombre(u.getNombre())
+                .fechaDeNacimiento(u.getFechaNacimiento())
+                .email(u.getEmail())
+                .role(u.getRole().name())
+                .avatar(u.getAvatar()!=null?u.getAvatar().getLink():null)
                 .build());
 
         return pageDto;

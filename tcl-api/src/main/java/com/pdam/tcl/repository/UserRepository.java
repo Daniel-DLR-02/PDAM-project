@@ -24,4 +24,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
                     """)
     Page<User> getAllAdmins(Pageable pageable);
 
+    @Query(value = """ 
+                        SELECT u
+                        FROM User u
+                    """)
+    Page<User> getAllUsers(Pageable pageable);
+
+
 }

@@ -39,4 +39,5 @@ public interface UserService {
 
     Page<GetUserDto> getAllAdmins(Pageable pageable);
 
+    Page<GetUserDto> getAllUsers(Pageable pageable);
 }

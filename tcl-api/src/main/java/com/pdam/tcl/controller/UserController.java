@@ -253,6 +253,24 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllAdmins(pageable));
     }
 
+    @Operation(summary = "Obtiene los datos de todos los usuarios.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se muestran los datos de los usuario correctamente.",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = GetUserDto.class))}),
+            @ApiResponse(responseCode = "401",
+                    description = "Falta autorización.",
+                    content = @Content),
+            @ApiResponse(responseCode = "403",
+                    description = "Faltan permisos necesarios.",
+                    content = @Content),
+    })
+    @GetMapping("/user")
+    public ResponseEntity<Page<GetUserDto>> getUsers(@PageableDefault(size = 30) Pageable pageable){
+        return ResponseEntity.ok(userService.getAllUsers(pageable));
+    }
+
 
     private UserLoggedResponse convertUserUserLoggedResponse(User user, String jwt) {
         return UserLoggedResponse.builder()
